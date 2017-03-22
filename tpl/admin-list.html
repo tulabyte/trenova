@@ -1,0 +1,44 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.admin-edit"><i class="fa fa-plus"></i>New Admin</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="AdminController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      System Admins
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="20%">Name</th>
+            <th width="20%">Email</th>
+            <th width="15%">Type</th>
+            <th width="15%">Created</th>
+            <th width="15%">Last Login</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="admin in admins">
+            <td> {{admin.ad_name}} </td>
+            <td> {{admin.ad_email}} </td>
+            <td> {{admin.ad_type}} </td>
+            <td> {{admin.ad_time_reg | dateToISO | date }} </td>
+            <td> <span am-time-ago="admin.ad_last_login"></span> </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.admin-edit({id:admin.ad_id})" tooltip="Edit Admin" ng-if="(admin.ad_type != 'SUPER' && trenova_user.ad_type == 'ADMIN') || trenova_user.ad_type == 'SUPER'"><i class="fa fa-edit" ></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteAdmin(admin.ad_id)" tooltip="Delete Admin" ng-if="trenova_user.ad_type == 'SUPER'"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

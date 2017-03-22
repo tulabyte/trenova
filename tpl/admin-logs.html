@@ -1,0 +1,38 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.admin-edit"><i class="fa fa-plus"></i>New Admin</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="AdminController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      System Admin Logs
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="20%">Name</th>
+            <th width="20%">Time</th>
+            <th width="50%">Activity</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="log in logs">
+            <td> {{log.log_admin_name}} </td>
+            <td> {{log.log_time | dateToISO | date:'medium' }} </td>
+            <td> {{log.log_details}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteAdmin(admin.ad_id)" ng-show="fta_type == 'SUPERADMIN'" tooltip="Delete log entry" ><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

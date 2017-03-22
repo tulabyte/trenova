@@ -1,0 +1,48 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.user-edit" ng-if="false"><i class="fa fa-plus"></i>New User</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="UserController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Registered Users
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="20%">Name</th>
+            <th width="15%">Email</th>
+            <th width="10%">Phone</th>
+            <th width="10%">Subscriptions</th>
+            <th width="10%">Registered</th>
+            <th width="15%">Last Login</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users">
+            <td> {{user.user_fullname}} </td>
+            <td> {{user.user_email}} </td>
+            <td> {{user.user_phone}} </td>
+            <td> {{user.sub_count }} </td>
+            <td> {{user.user_time_reg | date }} </td>
+            <td align="center"> <span am-time-ago="user.user_last_login"></span> </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-primary" ui-sref="app.user-details({id:user.user_id})" tooltip="User Details"><i class="fa fa-info"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.user-edit({id:user.user_id})" tooltip="Edit User"><i class="fa fa-edit"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteUser(user.user_id)" tooltip="Delete User"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

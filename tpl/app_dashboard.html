@@ -1,0 +1,248 @@
+<!-- Dashboard View -->
+<!-- Controller:  -->
+
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="DashboardController" ng-init="
+    app.settings.asideFolded = false; 
+    app.settings.asideDock = false;
+  "
+  >
+  <!-- main -->
+  <div class="col">
+    <!-- main header -->
+    <div class="bg-light lter b-b wrapper-md">
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <h1 class="m-n font-thin h3 text-black">Admin Dashboard</h1>
+          <small class="text-muted">Statistics and Reporting for {{app.name}}</small>
+        </div>
+        
+      </div>
+    </div>
+    <!-- / main header -->
+    <div class="wrapper-md">
+      <!-- stats -->
+      <div class="row row-sm text-center">
+        
+          
+            <div class="col-md-3">
+              <div class="panel padder-v item">
+                <a ui-sref="app.user-list">
+                  <div class="h1 text-info font-thin h1">{{box_stats.user_count}}</div>
+                  <span class="text-muted text-xs">Users</span>
+                  <span class="bottom text-right w-full">
+                    <i class="fa fa-user text-muted m-r-sm"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <a ui-sref="app.sub-list({type:'ACTIVE'})" class="block panel padder-v bg-success item">
+                <span class="text-white font-thin h1 block">{{box_stats.sub_count}}</span>
+                <span class="text-muted text-xs">Active Subscriptions </span>
+                <span class="bottom text-right w-full">
+                  <i class="fa fa-book text-muted m-r-sm"></i>
+                </span>
+              </a>
+            </div>
+            <div class="col-md-3">
+              <a ui-sref="app.course-list" class="block panel padder-v bg-info item">
+                <span class="text-white font-thin h1 block">{{box_stats.course_count}}</span>
+                <span class="text-muted text-xs">Courses</span>
+                <span class="bottom text-right w-full">
+                  <i class="fa fa-briefcase text-muted m-r-sm"></i>
+                </span>
+              </a>
+            </div>
+            
+            <div class="col-md-3">
+              <div class="r bg-light dker item hbox no-border">
+                
+                <div class="col dk padder-v r-r">
+                  <div class="text-primary-dk font-thin h1"><span>N{{box_stats.total_revenue | number:2}}</span></div>
+                  <span class="text-muted text-xs">Revenue</span>
+                  <span class="bottom text-right w-full">
+                  <i class="fa fa-money text-muted m-r-sm"></i>
+                </span>
+                </div>
+              </div>
+            </div>
+          
+        
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel wrapper">
+            <label class="i-switch bg-warning pull-right" ng-init="showSpline=true">
+              <input type="checkbox" ng-model="showSpline">
+              <i></i>
+            </label>
+            <h4 class="font-thin m-t-none m-b text-muted">Last 7 Days 
+              <span style="font-size:14px !important; font-weight: bold !important;">({{period.start_date | amDateFormat:'dddd, MMMM Do YYYY'}} - {{period.end_date | amDateFormat:'dddd, MMMM Do YYYY'}})</span>
+            </h4>
+            <canvas id="line" class="chart chart-line" chart-data="line_data"
+              chart-labels="date_labels" chart-series="line_series"
+              chart-click="" chart-legend="true" >
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <!-- / stats -->
+
+      <!-- tasks -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="panel panel-success no-border">
+            <div class="panel-heading wrapper b-b b-light">
+              <h4 class="font-thin m-t-none m-b-none text-muted">Latest Subscriptions</h4>              
+            </div>
+            <ul class="list-group alt">
+          <li class="list-group-item" ng-repeat="sub in latest_subs">
+            <div class="media">
+              <span class="pull-left thumb-sm"><img src="img/a1.jpg" alt="..." class="img-circle"></span>
+              
+              <div class="media-body">
+                <div><a href ui-sref="app.user-details({id:user.user_id})"><em>{{sub.user_fullname}} : {{sub.user_email}} </em> - <strong>{{sub.course_title}}</strong></a></div>
+                <small class="text-muted" am-time-ago="sub.sub_date_started"></small>
+              </div>
+            </div>
+          </li>
+          
+        </ul>
+            <div class="panel-footer" ng-if="false">
+              <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
+              <button class="btn btn-addon btn-sm">All Subscriptions</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="panel panel-warning no-border">
+            <div class="panel-heading wrapper b-b b-light">
+              <h4 class="font-thin m-t-none m-b-none text-muted">Top 5 Users</h4>              
+            </div>
+            <ul class="list-group alt">
+              <li class="list-group-item" ng-repeat="user in top_users track by $index">
+                <div class="media">
+                  <span class="pull-left thumb-sm"><img src="img/a1.jpg" alt="..." class="img-circle"></span>
+                  <span class="pull-right badge badge-bg m-t-xs">{{$index+1}}</span>
+                  <div class="media-body">
+                    <div><a href  ui-sref="app.user-details({id:user.user_id})">{{user.user_fullname}} : {{user.user_email}}</a></div>
+                    <small class="text-muted">{{user.sub_count}} subscription(s)</small>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="panel-footer" ng-if="false">
+              <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
+              <button class="btn btn-addon btn-sm">Full User Ranking</button>
+            </div>
+          </div>
+        </div>
+
+        </div>
+        <div class="row">
+
+        <div class="col-md-6">
+          <div class="panel panel-danger no-border">
+            <div class="panel-heading wrapper b-b b-light">
+              <h4 class="font-thin m-t-none m-b-none text-muted">Top 5 Courses</h4>              
+            </div>
+            <ul class="list-group alt">
+              <li class="list-group-item" ng-repeat="course in top_courses track by $index">
+                <div class="media">
+                  <span class="pull-left thumb-sm"><img src="img/book-icon.png" alt="..." class="img-circle"></span>
+                  <span class="pull-right badge badge-bg m-t-xs">{{$index+1}}</span>
+                  <div class="media-body">
+                    <div><a ui-sref="app.course-details({id:course.course_id})">{{course.course_title}}</a></div>
+                    <small class="text-muted">{{course.sub_count}} subscription(s)</small>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="panel-footer" ng-if="false">
+              <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
+              <button class="btn btn-addon btn-sm">Full Course Ranking</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="panel panel-danger no-border">
+            <div class="panel-heading wrapper b-b b-light">
+              <h4 class="font-thin m-t-none m-b-none text-muted">Top 5 Courses</h4>              
+            </div>
+            <ul class="list-group alt">
+              <li class="list-group-item" ng-repeat="course in top_courses track by $index">
+                <div class="media">
+                  <span class="pull-left thumb-sm"><img src="img/book-icon.png" alt="..." class="img-circle"></span>
+                  <span class="pull-right badge badge-bg m-t-xs">{{$index+1}}</span>
+                  <div class="media-body">
+                    <div><a ui-sref="app.course-details({id:course.course_id})">{{course.course_title}}</a></div>
+                    <small class="text-muted">{{course.sub_count}} subscription(s)</small>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="panel-footer" ng-if="false">
+              <!-- <span class="pull-right badge badge-bg m-t-xs">32</span> -->
+              <button class="btn btn-addon btn-sm">Full Course Ranking</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <!-- / tasks -->
+    </div>
+  </div>
+  <!-- / main -->
+  <!-- right col -->
+  <div class="col w-md bg-white-only b-l bg-auto no-border-xs">
+    <tabset class="nav-tabs-alt" justified="true">
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-user text-md text-muted wrapper-sm"></i>
+        </tab-heading>
+        <div class="wrapper-md">
+          <div class="m-b-sm text-md">Newest Users</div>
+          <ul class="list-group no-bg no-borders pull-in">
+            <li class="list-group-item" ng-repeat="user in new_users">
+              <a href class="pull-left thumb-sm avatar m-r">
+                <img src="img/a4.jpg" alt="..." class="img-circle">
+                <i class="b-white bottom" ng-class="{'on': user.user_reg_status == 'VERIFIED', 'away': user.user_reg_status == 'PENDING', 'busy': user.user_reg_status == 'DISABLED' }"></i>
+              </a>
+              <div class="clear">
+                <div><a href ui-sref="app.user-details({id:user.user_id})">{{user.user_fullname}} : {{user.user_email}}</a></div>
+                <small class="text-muted"><span am-time-ago="user.user_date_created"></span></small>
+              </div>
+            </li>
+          </ul>
+          <div class="text-center">
+            <a href class="btn btn-sm btn-warning padder-md m-b" ui-sref="app.user-list">All Users</a>
+          </div>
+        </div>
+      </tab>
+      
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-transfer text-md text-muted wrapper-sm"></i>
+        </tab-heading>
+        <div class="wrapper-md">
+          <div class="m-b-sm text-md">Latest Payments</div>
+          <ul class="list-group list-group-sm list-group-sp list-group-alt auto m-t">
+            <li class="list-group-item" ng-repeat="payment in new_payments">
+              <span class="text-muted">{{payment.user_fullname}} : {{payment.user_email}} at {{payment.pay_time_completed | dateToISO | date:'medium'}}</span>
+              <span class="block text-md text-success">N {{payment.pay_amount | number:2}}</span>
+            </li>
+          </ul>
+
+          <div class="text-center">
+            <a href class="btn btn-sm btn-warning padder-md m-b" ui-sref="app.payment-list">All Payments</a>
+          </div>
+        </div>
+      </tab>      
+    </tabset>
+    
+  </div>
+  <!-- / right col -->
+</div>

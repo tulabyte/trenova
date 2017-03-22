@@ -1,0 +1,45 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="ResellerController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Commissions
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+                <th width="13%">Reseller</th>
+                <th width="13%">User</th>
+                <th width="13%">Date</th>
+                <th width="25%">Course</th>
+                <th width="13%">Purchase Total</th>
+                <th width="13%">Commision</th>
+                <th width="10%">Status</th>
+                <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="reseller in resellers track by $index">
+            <td> {{reseller.ad_name}} </td>
+            <td> {{reseller.user_fullname}} </td>
+            <td> {{reseller.order_time_created | dateToISO | date }} </td>
+            <td> {{reseller.course_title}} </td>
+            <td> {{reseller.order_total}} </td>
+            <td> {{reseller.rc_commission}} </td>
+            <td><span class="label" ng-class="{'bg-success': reseller.rc_status == 'PAID', 'bg-warning' : reseller.rc_status == 'PENDING' }">{{reseller.rc_status}}</span></td>
+            <td>
+           <button class="btn btn-icon btn-sm btn-info" tooltip="Commision Already Paid" ng-if="reseller.rc_status == 'PAID' && (trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER')"><i class="fa fa-info"></i></i></button>
+            
+            <button class="btn btn-icon btn-sm btn-danger" ng-click = "payResellerCommission(reseller.rc_id)" tooltip="Mark as Paid" ng-if="reseller.rc_status == 'PENDING' && (trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER')"><i class="fa fa-check"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

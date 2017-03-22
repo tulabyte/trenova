@@ -1,0 +1,38 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.class-edit"><i class="fa fa-plus"></i>New Class</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="ClassController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Classes
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="40%">Class Name</th>
+            <th width="40%">School</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="class in classes">
+            <td> {{class.class_name}} </td>
+            <td> {{class.sch_name}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.class-edit({id:class.class_id})" tooltip="Edit Class"><i class="fa fa-edit"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteClass(class.class_id)" tooltip="Delete Class"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

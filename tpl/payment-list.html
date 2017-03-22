@@ -1,0 +1,44 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <!-- <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.course-edit"><i class="fa fa-plus"></i>New Course</button>
+  </div> -->
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="PaymentController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      List of {{$stateParams.type ? $stateParams.type + ' ' : '' }}Payments
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="20%">User</th>
+            <th width="10%">Method</th>
+            <th width="20%">Amount(N)</th>
+            <th width="20%">Initiated</th>
+            <th width="20%">Completed</th>
+            <th width="10%">Status</th>
+            <!-- <th></th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="payment in payments | filter:{pay_method:$stateParams.type} as filteredList">
+            <td> {{payment.user_firstname? payment.user_firstname + ' ' + payment.user_surname : payment.user_email}} </td>
+            <td> {{payment.pay_method}} </td>
+            <td> {{payment.pay_amount | number:2}} </td>
+            <td> {{payment.pay_time_initiated | dateToISO | date:'medium' }} </td>
+            <td> {{ (payment.pay_time_completed == undefined ) ? 'NIL' : (payment.pay_time_completed | dateToISO | date:'medium')}} </td>
+            <td> <span class="label" ng-class="{'bg-success': payment.pay_status == 'SUCCESSFUL', 'bg-warning': payment.pay_status == 'PROCESSING', 'bg-danger': payment.pay_status == 'FAILED', 'bg-info' : payment.pay_status == 'PENDING' }">{{payment.pay_status}}</span> </td>
+            <!-- <td>
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="pauseSubscription(payment.sub_id)" tooltip="Pause Subscription" ng-if="payment.sub_status != 'PAUSED'" ><i class="fa fa-pause"></i></button>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

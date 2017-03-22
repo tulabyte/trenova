@@ -1,0 +1,37 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+</div>
+<div class="wrapper-md" ng-controller="ClassController">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">Class Details</div>
+        <div class="panel-body">
+          <form role="form" name="form">
+            
+            <div class="form-group">
+              <label>Class Name</label>
+              <input type="text" class="form-control" placeholder="Enter class name" required ng-model="class.class_name">
+            </div>
+
+            <div class="form-group">
+              <label>School</label>
+              <select class="form-control" ng-model="class.class_school_id" required>
+                <option value="">- select school -</option>
+                <option ng-repeat="sch in schs" value="{{sch.sch_id}}" ng-selected="sch.sch_id == class.class_school_id">{{sch.sch_name}}</option>
+              </select>
+            </div>
+            
+            <button type="submit" class="btn btn-success" ng-click="editClass(class)" ng-disabled='form.$invalid'> {{class.class_id ? 'Save' : 'Submit' }} </button>            
+
+            <button type="button" class="btn btn-default" ui-sref="app.class-list">Back to List</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+</div>

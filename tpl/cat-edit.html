@@ -1,0 +1,38 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+</div>
+<div class="wrapper-md" ng-controller="CategoryController">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">Category Details</div>
+        <div class="panel-body">
+          <form role="form" name="form">
+            <div class="form-group">
+              <label>Category Name</label>
+              <input type="text" class="form-control" placeholder="Enter category name" required ng-model="category.cat_name">
+            </div>
+
+            <div class="form-group">
+              <label>Parent</label>
+              <select class="form-control" ng-model="category.cat_parent_id">
+                <option value="">- Select Parent Category -</option>
+                <option ng-repeat="pcat in categories" value="{{pcat.cat_id}}">{{pcat.cat_name}}</option>
+              </select>
+            </div>
+            
+            <button type="submit" class="btn btn-success" ng-click="editCategory(category)" ng-disabled='form.$invalid'> {{category.cat_id ? 'Save' : 'Submit' }} </button>            
+
+            <button type="button" class="btn btn-default" ui-sref="app.cat-list">Back to List</button>
+
+            <button type="button" class="btn btn-danger" ng-show="category.cat_id" ng-click="deleteCategory(category.cat_id)" >Delete</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+</div>

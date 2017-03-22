@@ -1,0 +1,50 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.agent-edit"><i class="fa fa-plus"></i>New Agent</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="AgentController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Agents
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="15%">Name</th>
+            <th width="15%">Email</th>
+            <th width="15%">Phone</th>
+            <th width="15%">Created</th>
+            <th width="10%">Status</th>
+            <th width="15%">Last Login</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="agent in agents track by $index">
+            <td> {{agent.ad_name}} </td>
+            <td> {{agent.ad_email}} </td>
+            <td> {{agent.ad_phone}} </td>
+            <td> {{agent.ad_time_reg | dateToISO | date }} </td>
+            <td> <span class="label" ng-class="{'bg-success': agent.ad_reg_status == 'VERIFIED', 'bg-warning': agent.ad_reg_status == 'PENDING'}">{{agent.ad_reg_status}}</span> </td>
+            <td> <span am-time-ago="agent.ad_last_login"></span> </td>
+            <td>
+            <button class="btn btn-icon btn-sm btn-info" ui-sref="app.agent-details({id:agent.ad_id})" tooltip="View Agent Details" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></i></button>
+
+              <button class="btn btn-icon btn-sm btn-success" ng-click="verifyAgent(agent, $index)" tooltip="Verify Agent" ng-if="agent.ad_reg_status == 'PENDING' && (trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER')"><i class="fa fa-check"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.agent-edit({id:agent.ad_id})" tooltip="Edit Agent" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-edit" ></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteAgent(agent.ad_id)" tooltip="Delete Agent" ng-if="trenova_user.ad_type == 'SUPER'"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

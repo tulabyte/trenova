@@ -1,0 +1,40 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+</div>
+<div class="wrapper-md" ng-controller="AdminController">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">Your Details</div>
+        <div class="panel-body">
+          <form role="form" name="form">
+            <div class="form-group">
+              <label>Email address</label>
+              <input type="email" class="form-control" placeholder="Enter email" required ng-model="admin.ad_email" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" class="form-control" required ng-model="profile.ad_name">
+            </div>
+
+            <div class="form-group">
+              <label>Profile Photo</label>
+              <input type="text" class="form-control" required ng-model="profile.ad_name">
+            </div>
+            
+            <button type="submit" class="btn btn-success" ng-click="editAdmin(admin)" ng-disabled='form.$invalid'> {{admin.ad_id ? 'Save' : 'Submit' }} </button>            
+
+            <button type="button" class="btn btn-default" ui-sref="app.admin-list">Back to List</button>
+
+            <button type="button" class="btn btn-danger" ng-show="admin.ad_id" ng-click="deleteAdmin(admin.ad_id)" >Delete</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+</div>

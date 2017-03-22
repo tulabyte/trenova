@@ -1,0 +1,38 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.subject-edit"><i class="fa fa-plus"></i>New Subject</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="SubjectController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Subjects
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="30%">Subject Title</th>
+            <th width="50%">Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="subject in subjects">
+            <td> {{subject.sb_title}} </td>
+            <td> {{subject.sb_description}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.subject-edit({id:subject.sb_id})" tooltip="Edit Subject"><i class="fa fa-edit"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteSubject(subject.sb_id)" tooltip="Delete Subject"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

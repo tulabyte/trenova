@@ -1,0 +1,38 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.cat-edit"><i class="fa fa-plus"></i>New Category</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="CategoryController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Course Categories
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="40%">Category Name</th>
+            <th width="10%">Number of Courses</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="category in categories">
+            <td> {{category.cat_name}} </td>
+            <td> {{category.cat_course_count}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.cat-edit({id:category.cat_id})" tooltip="Edit Category"><i class="fa fa-edit"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteCategory(category.cat_id)" tooltip="Delete Category"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

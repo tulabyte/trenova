@@ -1,0 +1,151 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="ResellerController">
+   <div class="col">
+       <div class="wrapper-lg bg-white-opacity">
+       <!-- begining of row -->
+        <div class="row m-t">
+           <!-- begining og 1st column -->
+           <div class="col-sm-7">
+                        <a href class="thumb-lg pull-left m-r">
+                          <img src="img/a0.jpg" class="img-circle">
+                        </a>
+                 <div class="clear m-b">
+                     <div class="m-b m-t-sm">
+                          <span class="h3 text-black">{{reseller.ad_name}}</span><br /><br />
+                          <span class="h5 text-black">{{reseller.ad_email}}</span><br />
+                          <span class="h5 text-black">{{reseller.ad_phone}}</span><br />
+                          <span class="h5 text-black">{{reseller.ad_address}}</span>
+                     </div>
+                 </div>
+                 <h4 ng-show ="reseller.commission.length > 0 ">Total Commision Earned #{{reseller.commission | number : 2}}</h4>
+           </div>
+                      <!-- end of column 7 --> 
+                      <!-- 2nd column -->    
+             <div class="col-sm-5">
+                   <div class="pull-right pull-none-xs text-center">
+                     <a href class="m-b-md inline m">
+                       <span class="h3 block font-bold">{{reseller.ad_reseller_code}}</span>
+                       <small>Reseller Code</small>
+                     </a>
+                     </div>
+              </div>
+                <!-- end of column -->  
+         </div>
+<!--       end of row -->
+      </div>
+<!--       end of wrapper -->
+   <!-- beginning of tab -->
+    <div class="wrapper bg-white b-b">
+
+    <tabset class="nav-tabs-alt" justified="true">
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-user text-md text-muted wrapper-sm"></i> Referals
+        </tab-heading>
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show="reseller_referral.length > 0 ">Users Refered by {{reseller.ad_name}}</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide="reseller_referral.length > 0 ">No User Refered</div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show="reseller_referral.length > 0">
+              <thead>
+                <tr>
+                <th width="50%">Name </th>
+                <th width="40%">Sign-up Date</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="reseller_user in reseller_referral">
+                <td>{{reseller_user.user_fullname}}</td>
+                <td>{{reseller_user.user_time_reg}}</td>
+                <td><button class="btn btn-icon btn-sm btn-info" ui-sref="app.user-details({id:reseller_user.user_id})" tooltip="View User Details" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></i></button>
+                </td>
+                </tr>
+              </tbody>
+                
+              </table>
+            </div>
+      </tab>
+
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-envelope text-md text-muted wrapper-sm"></i>Unpaid Commissions
+        </tab-heading>
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-hide = "reseller_com.length > 0 ">No Unpaid Commisions</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-show="reseller_com.length > 0 ">List of Unpaid Commissions</div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show="reseller_com.length > 0 ">
+              <thead>
+                <tr>
+                <th width="15%">User</th>
+                <th width="20%">Date</th>
+                <th width="25%">Course</th>
+                <th width="20%">Purchase Total</th>
+                <th width="15%">Commision</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="reseller_c in reseller_com">
+                <td>{{reseller_c.user_fullname}}</td>
+                <td>{{reseller_c.order_time_created | dateToISO | date }}</td>
+                <td>{{reseller_c.course_title}}</td>
+                <td>{{reseller_c.order_total}}</td>
+                <td>{{reseller_c.rc_commission}}</td>
+                <td><button class="btn btn-icon btn-sm btn-danger" ng-click = "payResellerCommission(reseller_c.rc_id)" tooltip="Mark as Paid" ng-if="reseller_c.rc_status == 'PENDING' && (trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER')"><i class="fa fa-check"></i></button>
+                </td>
+                </tr>
+              </tbody>                
+              </table>
+            </div>
+        </tab>      
+      
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-transfer text-md text-muted wrapper-sm"></i>Paid Commisions
+        </tab-heading>
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show="reseller_pay.length > 0 ">List of Paid Commisions </div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide="reseller_pay.length > 0 ">No Payment Made </div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show="reseller_pay.length > 0">
+              <thead>
+                <tr>
+                <th width="15%">User</th>
+                <th width="20%">Order Date</th>
+                <th width="20%">Date Paid</th>
+                <th width="25%">Course</th>
+                <th width="15%">Purchase Total</th>
+                <th width="15%">Commision</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="reseller_p in reseller_pay">
+                <td>{{reseller_p.user_fullname}}</td>
+                <td>{{reseller_p.order_time_created | date}}</td>
+                <td>{{reseller_p.rc_date_paid}}</td>
+                <td>{{reseller_p.course_title}}</td>
+                <td>{{reseller_p.order_total}}</td>
+                <td>{{reseller_p.rc_commission}}</td>
+                <td> <span class="label" ng-class="{'bg-success': reseller_p.rc_status == 'PAID', 'bg-warning' : reseller_p.rc_status == 'PENDING' }">{{reseller_p.rc_status}}</span>
+                </td>
+                </tr>
+              </tbody>
+                
+              </table>
+            </div>
+      </tab>      
+    </tabset>
+ <!--    end of tab -->
+      </div>
+    </div>
+    </div>
+

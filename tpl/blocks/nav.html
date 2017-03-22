@@ -1,0 +1,456 @@
+<!-- list -->
+<ul class="nav">
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span>Reporting & Statistics</span>
+  </li>
+<!--agent dashboard-->
+  <li  ng-if="trenova_user.ad_type == 'AGENT' ">
+    <a class="auto"  ui-sref="app.agent-dashboard">      
+      <i class="glyphicon glyphicon-stats icon text-warning"></i>
+      <span class="font-bold">Dashboard</span>
+    </a>
+  </li><br />
+<li ng-if="trenova_user.ad_type == 'AGENT' ">
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-money icon text-success"></i>
+      <span class="font-bold">Purchased</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li ui-sref-active="active">
+        <a ui-sref="app.agent-used-list" >
+          <span>Used</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.agent-unused-list" >
+          <span>Unused</span>
+        </a>
+      </li>
+      </ul>
+  </li><br />
+  <li ng-if="trenova_user.ad_type == 'AGENT' ">
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-money icon text-success"></i>
+      <span class="font-bold">Orders</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li ui-sref-active="active">
+        <a ui-sref="app.agent-order-list" >
+          <span>Order List</span>
+        </a>
+      </li>
+      </ul>
+  </li><br />
+  <li ng-if="trenova_user.ad_type == 'AGENT' ">
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-money icon text-success"></i>
+      <span class="font-bold">Courses</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li ui-sref-active="active">
+        <a ui-sref="app.agent-course-list" >
+          <span>List Of Courses</span>
+        </a>
+      </li>
+      </ul>
+  </li>
+
+
+<!--reseller dashboard-->
+  <li  ng-if="trenova_user.ad_type == 'RESELLER' ">
+    <a class="auto"  ui-sref="app.re-dashboard">      
+      <i class="glyphicon glyphicon-stats icon text-warning"></i>
+      <span class="font-bold">Dashboard</span>
+    </a>
+  </li>
+
+<li ng-if="trenova_user.ad_type == 'RESELLER' ">
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-money icon text-success"></i>
+      <span class="font-bold">Commissions</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li ui-sref-active="active">
+        <a ui-sref="app.re-dash-list({type:'ACTIVE'})" >
+          <span>Unpaid</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.re-dash-paid({type:'EXPIRED'})" >
+          <span>Paid</span>
+        </a>
+      </li>
+      </ul>
+  </li>
+
+<!--end reseller dashboard-->
+
+  <li ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
+    <a class="auto" href="#/app/dashboard" ui-sref="app.dashboard">      
+      <i class="glyphicon glyphicon-stats icon text-warning"></i>
+      <span class="font-bold">Dashboard</span>
+    </a>
+  </li>
+
+
+  <li ng-if-start="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-book icon text-success"></i>
+      <span class="font-bold">Subscriptions</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        
+        <a ui-sref="app.sub-list({type:''})">
+          <span>All</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.sub-list({type:'ACTIVE'})" >
+          <span>Active</span>
+        </a>
+      </li>
+      <!-- <li ui-sref-active="active">
+        <a ui-sref="app.sub-list">
+          <span>Expiring</span>
+        </a>
+      </li> -->
+      <li ui-sref-active="active">
+        <a ui-sref="app.sub-list({type:'EXPIRED'})" >
+          <span>Expired</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.sub-list({type:'PENDING'})" >
+          <span>Pending</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.sub-list({type:'PAUSED'})" >
+          <span>Paused</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  
+  
+  <li>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-money icon text-danger"></i>
+      <span class="font-bold">Payments</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li ui-sref-active="active">
+        <a ui-sref="app.bank-waiting-list">
+          <span><em><strong>Awaiting Confirmation</strong></em></span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.payment-list({type:'ONLINE'})">
+          <span>Online</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.payment-list({type:'BANK'})">
+          <span>Bank</span>
+        </a>
+      </li>
+
+    </ul>
+  </li>
+
+  <li ng-if-end>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-shopping-cart icon text-primary"></i>
+      <span class="font-bold">Orders</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li ui-sref-active="active">
+        <a ui-sref="app.order-list">
+          <span><em><strong>Order List</strong></em></span>
+        </a>
+      </li>
+
+    </ul>
+  </li>
+
+  <li class="line dk" ng-if-start="trenova_user.ad_type == 'TEACHER' || trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"></li>
+
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span >App Content</span>
+  </li>
+  <li>
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-briefcase"></i>
+      <span>Courses</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.course-edit">
+          <span>New Course</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.course-list">
+          <span>Course List</span>
+        </a>
+      </li>      
+    </ul>
+  </li>
+
+  <li ng-class="{active:$state.includes('app.subject-edit') || $state.includes('app.subject-list')}">
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-graduation-cap icon"></i>
+      <span>Subjects</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.subject-edit">
+          <span>New Subject</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.subject-list">
+          <span>Subject List</span>
+        </a>
+      </li>      
+    </ul>
+  </li>
+
+  <li ng-class="{active:$state.includes('app.class-edit') || $state.includes('app.class-list')}">
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-home icon"></i>
+      <span>Classes</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.class-edit">
+          <span>New Class</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.class-list">
+          <span>Class List</span>
+        </a>
+      </li>      
+    </ul>
+  </li>
+
+  <li ng-if-end ng-class="{active:$state.includes('app.school-edit') || $state.includes('app.school-list')}">
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="fa fa-home icon"></i>
+      <span>Schools</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.school-edit">
+          <span>New School</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.school-list">
+          <span>School List</span>
+        </a>
+      </li>      
+    </ul>
+  </li>
+
+
+  <li class="line dk" ng-if-start="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"></li>
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span >System Users</span>
+  </li>
+  
+  <li>
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-user"></i>
+      <span>End Users</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active" ng-if="false">
+        <a ui-sref="app.user-edit">
+          <span>New User</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.user-list">
+          <span>User List</span>
+        </a>
+      </li>      
+    </ul>
+  </li>
+
+  <li ng-class="{active:$state.includes('app.agent-edit') || $state.includes('app.agent-list') || $state.includes('app.agent-list-pending')}">
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-user"></i>
+      <span>Agents</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.agent-list-pending">
+          <span><em>Awaiting Verification</em></span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.agent-edit">
+          <span>New Agent</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.agent-list">
+          <span>Agent List</span>
+        </a>
+      </li>      
+    </ul>
+  </li>
+
+  <li ng-class="{active:$state.includes('app.reseller-edit') || $state.includes('app.reseller-list') || $state.includes('app.reseller-list-pending')}">
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-user"></i>
+      <span>Resellers</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.reseller-list-pending">
+          <span><em>Awaiting Verification</em></span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.reseller-edit">
+          <span>New Reseller</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.reseller-list">
+          <span>Reseller List</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.reseller-list-commission">
+          <span>Commission List</span>
+        </a>
+      </li>      
+    </ul>
+  </li>
+
+  <li ng-class="{active:$state.includes('app.admin-edit') || $state.includes('app.admin-list') || $state.includes('app.admin-logs')}" ng-if-end>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-lock"></i>
+      <span >Admins</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.admin-edit">
+          <span >New Admin</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.admin-list">
+          <span >Admin List</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.admin-logs">
+          <span >Admin Activity Logs</span>
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+
+  <li class="line dk hidden-folded"></li>
+
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">          
+    <span>Your Stuff</span>
+  </li>
+  <li>
+    <a ui-sref="app.profile-edit">
+      <i class="icon-envelope icon text-info-lter"></i>
+      <span>Messages <b class="badge bg-info pull-right">9</b></span>
+    </a>
+  </li>
+  <li>
+    <a ui-sref="app.profile-edit">
+      <i class="icon-user icon text-success-lter"></i>
+      <span>Profile</span>
+    </a>
+  </li>
+  <li>
+    <a ng-click="logout()">
+      <i class="icon-power icon text-danger-lter"></i>
+      <span>Logout</span>
+    </a>
+  </li>
+  
+</ul>
+<!-- / list -->

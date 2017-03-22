@@ -1,0 +1,45 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <!-- <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.order-edit" ng-if="false"><i class="fa fa-plus"></i>New order</button>
+  </div> -->
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="OrderController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Order List
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="30%">Name</th>
+            <th width="10%">Order ID</th>
+            <th width="20%">Date</th>
+            <th width="10%">Amount</th>
+            <th width="10%">Status</th>
+           <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="order in orders">
+            <td> {{order.user_fullname}}</td>
+            <td> {{order.order_id}} </td>
+            <td> {{order.order_time_created | date }} </td>
+            <td> {{order.order_total }} </td>
+            <td> {{order.order_status }} </td>
+            <td align="center"> <span am-time-ago="order.order_last_login"></span> </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-primary" ui-sref="app.order-details({id:order.order_id})" tooltip="order Details" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteOrder(order.order_id)" tooltip="Delete order"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

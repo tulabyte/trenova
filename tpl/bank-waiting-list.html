@@ -1,0 +1,44 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <!-- <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.course-edit"><i class="fa fa-plus"></i>New Course</button>
+  </div> -->
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="PaymentController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      List of Bank Payments AWAITING CONFIRMATION
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="20%">User</th>
+            <th width="20%">Amount Paid(N)</th>
+            <th width="10%">Date of Payment</th>
+            <th width="20%">Date Submitted</th>
+            <th width="20%">Teller/Transaction Number</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="payment in payments">
+            <td> {{payment.user_firstname? payment.user_firstname + ' ' + payment.user_surname : payment.user_email}} </td>
+            <td> {{payment.pay_amount | number:2}} </td>
+            <td> {{payment.pay_bank_date | date:'dd/MM/yyyy' }} </td>
+            <td> {{payment.pay_time_completed | date:'dd/MM/yyyy @ h:mma'}} </td>
+            <td> {{payment.pay_bank_ref}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-success" ng-click="confirmPayment(payment)" tooltip="Confirm Payment"><i class="fa fa-check"></i></button>
+              &nbsp;&nbsp;
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="denyPayment(payment)" tooltip="Deny Payment"><i class="fa fa-times"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

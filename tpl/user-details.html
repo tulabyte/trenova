@@ -1,0 +1,167 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="UserController">
+   <div class="col">
+       <div class="wrapper-lg bg-white-opacity">
+       <!-- begining of row -->
+        <div class="row m-t">
+           <!-- begining og 1st column -->
+           <div class="col-sm-7">
+                        <a href class="thumb-lg pull-left m-r">
+                          <img src="img/a0.jpg" class="img-circle">
+                        </a>
+                 <div class="clear m-b">
+                     <div class="m-b m-t-sm">
+                          <span class="h3 text-black">{{user.user_fullname}}</span><br /><br />
+                          <span class="h5 text-black">{{user.user_email}}</span><br />
+                          <span class="h5 text-black">{{user.user_phone}}</span>
+                        <span class="h5 text-black">{{user.user_reg_status}}</span>
+                     </div>
+                 </div>
+                     <span class="h5 text-black">{{user.ad_address}}</span>
+           </div>
+                      <!-- end of column 7 --> 
+                      <!-- 2nd column -->    
+             <div class="col-sm-5">
+                   <div class="pull-right pull-none-xs text-center">
+                     <a href class="m-b-md inline m">
+                       <span class="h3 block font-bold">{{user_sub.length}}</span>
+                       <small>Active Subscriptions</small>
+                     </a>
+                   </div>
+              </div>
+                <!-- end of column -->  
+         </div>
+<!--       end of row -->
+      </div>
+<!--       end of wrapper -->
+   <!-- beginning of tab -->
+    <div class="wrapper bg-white b-b">
+
+    <tabset class="nav-tabs-alt" justified="true">
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-user text-md text-muted wrapper-sm"></i> Subscriptions
+        </tab-heading>
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show ="user_sub.length > 0 || user_sub.length > 0">Total Subscriptions {{user_sub.length + user_esub.length}}</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide ="user_sub.length > 0 || user_sub.length > 0" >{{user.user_fullname}} Has No Subscriptions {{user_sub.length + user_esub.length}}</div>
+
+              <!-- Table  Active subs-->
+              <table class="table table-striped m-b-none" ng-show ="user_sub.length > 0 ">
+              <h4 style="text-align: center;">Active Subs</h4><hr>
+              <thead>
+                <tr>
+                <th width="50%">Course </th>
+                <th width="25%">Date Started</th>
+                <th width="25%">Expiring</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user_sb in user_sub">
+                <td>{{user_sb.course_title}}</td>
+                <td>{{user_sb.sub_date_started}}</td>
+                <td>{{user_sb.expiring}}</td>
+                </tr>
+              </tbody>                
+              </table><br /> <hr>
+			<!-- expired tab -->
+            <table class="table table-striped m-b-none" ng-show ="user_esub.length > 0">
+              <h4 style="text-align: center;" ng-show ="user_esub.length > 0">Expired Subs <hr></h4>
+              <thead>
+                <tr>
+                <th width="50%">Course </th>
+                <th width="25%">Date Started</th>
+                <th width="25%">Expired</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user_user in user_users">
+                <tr ng-repeat="user_esb in user_esub">
+                <td>{{user_esb.course_title}}</td>
+                <td>{{user_esb.sub_date_started}}</td>
+                <td>{{user_esb.expiring}}</td>
+                </tr>
+              </tbody>
+                
+              </table>
+            </div>
+      </tab>
+   <!--Payment tab-->
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-envelope text-md text-muted wrapper-sm"></i> Payments
+        </tab-heading>
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show ="user_pmt.length > 0">Total Payments {{user_pymt.pay_amount}}</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide ="user_pmt.length > 0">No Payments Have Been Made </div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show ="user_pmt.length > 0">
+              <thead>
+                <tr>
+                <th width="20%">Method</th>
+                <th width="20%">Amount</th>
+                <th width="20%">Date Init</th>
+                <th width="20%">Completed</th>
+                <th width="20%">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user_py in user_pmt">
+                <td>{{user_py.pay_method}}</td>
+                <td>{{user_py.pay_amount}}</td>
+                <td>{{user_py.pay_time_initiated}}</td>
+                <td>{{user_py.pay_time_completed}}</td>
+                <td><button class="btn btn-icon btn-sm btn-info" tooltip="Payment Status" style="width: 60%">{{user_py.pay_status}}</button>
+                </td>
+                </tr>
+              </tbody>                
+              </table>
+            </div>
+        </tab>      
+
+<!--Orders tab-->      
+            <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-envelope text-md text-muted wrapper-sm"></i> Orders
+        </tab-heading>
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show ="user_ord.length > 0">Total Orders {{user_ord.length}}</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide ="user_ord.length > 0 " >No Orders Made {{user_ord.length}}</div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show ="user_ord.length > 0">
+              <thead>
+                <tr>
+                <th width="20%">Order Id</th>
+                <th width="30%">Date</th>
+                <th width="20%">Total Amount</th>
+                <th width="20%">Status</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user_ordr in user_ord">
+                <td>{{user_ordr.order_id}}</td>
+                <td>{{user_ordr.order_time_created}}</td>
+                <td>{{user_ordr.order_total}}</td>
+                <td>{{user_ordr.order_status}}</td>
+                <td>
+                </td>
+                </tr>
+              </tbody>
+                
+              </table>
+            </div>
+        </tab>
+
+    </tabset>
+ <!--    end of tab -->
+      </div>
+    </div>
+    </div>

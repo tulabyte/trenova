@@ -1,0 +1,29 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+</div>
+<div class="wrapper-md" ng-controller="SchoolController">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">School Details</div>
+        <div class="panel-body">
+          <form role="form" name="form">
+            
+            <div class="form-group">
+              <label>School Name</label>
+              <input type="text" class="form-control" placeholder="Enter school name" required ng-model="school.sch_name">
+            </div>
+            
+            <button type="submit" class="btn btn-success" ng-click="editSchool(school)" ng-disabled='form.$invalid'> {{school.sch_id ? 'Save' : 'Submit' }} </button>            
+
+            <button type="button" class="btn btn-default" ui-sref="app.school-list">Back to List</button>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+</div>

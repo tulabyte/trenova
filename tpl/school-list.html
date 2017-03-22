@@ -1,0 +1,36 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.school-edit"><i class="fa fa-plus"></i>New School</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="SchoolController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Schools
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="80%">School Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="school in schools">
+            <td> {{school.sch_name}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.school-edit({id:school.sch_id})" tooltip="Edit School"><i class="fa fa-edit"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteSchool(school.sch_id)" tooltip="Delete School"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

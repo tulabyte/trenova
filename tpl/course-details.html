@@ -1,0 +1,101 @@
+<div ng-controller="CourseController"><div class="bg-light lter b-b wrapper-md">
+  <button class="btn btn-rounded btn-danger pull-right" ng-click="deleteCourse(course.course_id)" tooltip="Delete Course">Delete Course</button>
+
+  <button class="btn btn-info btn-rounded pull-right" ui-sref="app.course-edit({id:course.course_id})" tooltip="Edit Course">Edit Course</button>
+
+  <button class="btn btn-rounded pull-right" ui-sref="app.course-list" tooltip="List of Courses">Back to Course List</button>
+
+  <h1 class="m-n font-thin h3">{{$state.current.data.pageTitle}}</h1>
+</div>
+<div class="wrapper-md">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="blog-post">                   
+        <div class="panel">
+          <div>
+            <img src="img/course-images/{{course.course_image}}" class="img-full">
+          </div>
+          <div class="wrapper-lg">
+            <h2 class="m-t-none"><a href> {{course.course_title}}</a></h2>
+            <div>
+              <div class="well">{{course.course_summary}}</div>
+
+              <div ng-bind-html="course.course_description"></div>
+
+            </div>
+            
+            <div class="line line-lg b-b b-light"></div>
+            <div class="text-muted">
+              <i class="fa fa-clock-o text-muted"></i> {{course.course_date_created | date}}
+              <i class="fa fa-eye text-muted"></i> {{course.course_view_count}} views
+              <span ng-><i class="fa fa-star text-muted"></i> Featured</span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    <div class="col-sm-6">
+      <h5 class="font-bold">Course Price</h5>
+        <ul ui-jq="sortable" class="list-group gutter list-group-lg list-group-sp">
+          <li class="list-group-item">
+            <div class="clear">
+              <h2 class="font-bold">N{{course.course_price}}</h2>
+            </div>
+          </li>
+      </ul>
+      <h5 class="font-bold">Course Modules</h5>
+      <button class="btn btn-success btn-sm" ng-click="openModal()"><i class="fa fa-plus"></i> Add Module</button><br><br>
+
+      <script type="text/ng-template" id="myModalContent.html">
+      <div class="modal-body wrapper-lg">
+        <div class="row">
+          <h3 class="m-t-none m-b font-thin">{{module.mod_id ? 'Edit' : 'Create'}} Module</h3>
+          <p><strong>{{module.mod_id ? 'Edit module in' : 'Create new module for'}} <u>{{course.course_title}}</u></strong></p>
+          <form role="form">
+            <div class="alert alert-danger" ng-hide="!error">{{error}}</div>
+            <div class="form-group">
+              <label>Module Title</label>
+              <input type="text" class="form-control" placeholder="Enter title" ng-model="module.mod_title" required>
+            </div>
+            <div class="form-group">
+              <label>Module Content</label>
+              <textarea required class="form-control" placeholder="Enter module description here" ng-model="module.mod_content"></textarea>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Position/Priority</label>
+              <input type="number" class="form-control" ng-model="module.mod_position">
+            </div>
+
+            <div class="checkbox m-t-lg">
+              <button type="button" class="btn btn-success pull-right text-uc m-t-n-xs" ng-click="editModule(module)"><strong>Save</strong></button>
+
+              <button type="button" class="btn pull-right text-uc m-t-n-xs" ng-click="cancel()"><strong>Cancel</strong></button>              
+            </div>
+          </form>
+        </div>
+      </div>
+      </script>      
+
+      <div class="alert alert-danger" ng-hide="modules.length > 0">No Modules found!</div>
+
+      <ul ui-jq="sortable" class="list-group gutter list-group-lg list-group-sp" ng-show="modules.length > 0" >
+        
+        <li class="list-group-item" ng-repeat="module in modules">
+
+          <span class="pull-right" >
+            <a href ng-click="openModal(module)"><i class="fa fa-pencil fa-fw m-r-xs"></i></a>
+            <a href ng-click="deleteModule(module.mod_id)"><i class="fa fa-times fa-fw"></i></a>                  
+          </span>
+          <span class="pull-left">{{$index+1}} - &nbsp; </span>
+          <div class="clear">
+            <strong> {{module.mod_title}} </strong>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+</div>

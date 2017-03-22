@@ -1,0 +1,142 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller = "ResellerController">
+   <div class="col">
+       <div class="wrapper-lg bg-white-opacity">
+       <!-- begining of row -->
+        <div class="row m-t">
+           <!-- begining og 1st column -->
+           <div class="col-sm-7">
+                        <a href class="thumb-lg pull-left m-r">
+                          <img src="img/a0.jpg" class="img-circle">
+                        </a>
+                 <div class="clear m-b">
+                     <div class="m-b m-t-sm">   
+                          <span class="h3 text-black">{{reseller.ad_name}}</span><br /><br />
+                          <span class="h5 text-black">{{reseller.ad_email}}</span><br />
+                          <span class="h5 text-black">{{reseller.ad_phone}}</span>
+                     </div>
+                 </div>
+                     <span class="h5 text-black">{{user.ad_address}}</span>
+           </div>
+                      <!-- end of column 7 --> 
+                      <!-- 2nd column -->    
+             <div class="col-sm-5">
+                   <div class="pull-right pull-none-xs text-center">
+                     <a href class="m-b-md inline m">
+                       <span class="h3 text-black">{{reseller.ad_reseller_code}}</span>
+                       <p><small>Your Code</small></p>
+                     </a>
+                   </div>
+              </div>
+                <!-- end of column -->  
+         </div>
+<!--       end of row -->
+      </div>
+<!--       end of wrapper -->
+
+      <div class="row row-sm text-center">
+        
+          
+            <div class="col-md-4">
+              <div class="panel padder-v item">
+                  <div class="h1 text-info font-thin h1" ng-hide="reseller_referral.length > 0" >0</div>
+                  <div class="h1 text-info font-thin h1" ng-show="reseller_referral.length > 0">{{reseller_referral.length}}</div>
+                  <span class="text-muted text-xs">Refered Users</span>
+                  <span class="bottom text-right w-full">
+                    <i class="fa fa-user text-muted m-r-sm"></i>
+                  </span>
+              </div>
+            </div>
+            <div class="col-md-4 block panel padder-v bg-success item">
+                <span class="text-white font-thin h1 block">#{{reseller.paid.paid | number : 2}}</span>
+                <span class="text-muted text-xs">Paid Commission </span>
+                <span class="bottom text-right w-full">
+                  <i class="fa fa-book text-muted m-r-sm"></i>
+                </span>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="r bg-light dker item hbox no-border">
+                
+                <div class="col dk padder-v r-r">
+                  <div class="text-primary-dk font-thin h1"><span>#{{reseller.commission}}</span></div>
+                  <span class="text-muted text-xs">Total Commission</span>
+                  <span class="bottom text-right w-full">
+                  <i class="fa fa-money text-muted m-r-sm"></i>
+                </span>
+                </div>
+              </div>
+            </div>
+            </div>
+
+<!--end of stats -->
+   <!-- beginning of tab -->
+    <div class="wrapper bg-white b-b">
+
+    <tabset class="nav-tabs-alt" justified="true">
+      <tab>
+        <tab-heading>
+          <i class="glyphicon glyphicon-user text-md text-muted wrapper-sm"></i>Latest Referals
+        </tab-heading>
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show="reseller_referral.length > 0 ">Users Refered by You</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide="reseller_referral.length > 0 ">No User Refered</div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show="reseller_referral.length > 0">
+              <thead>
+                <tr>
+                <th width="50%">Name </th>
+                <th width="40%">Sign-up Date</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="reseller_user in reseller_referral">
+                <td>{{reseller_user.user_fullname}}</td>
+                <td>{{reseller_user.user_time_reg}}</td>
+                <td><button class="btn btn-icon btn-sm btn-info" ui-sref="app.user-details({id:reseller_user.user_id})" tooltip="View User Details" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></i></button>
+                </td>
+                </tr>
+              </tbody>
+                
+              </table>
+            </div>
+      </tab>
+   <!--Payment tab-->
+            <tab>
+        <tab-heading>
+          <i class="fa fa-money text-md text-muted wrapper-sm"></i>Latest Commisions
+        </tab-heading>
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show="reseller_pay.length > 0 ">Total Commissions #{{reseller.commission}}</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide="reseller_pay.length > 0 ">No Commission Earned </div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show="reseller_pay.length > 0">
+              <thead>
+                <tr>
+                <th width="50%">Date</th>
+                <th width="40%">Amount Paid</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="reseller_p in reseller_pay">
+                <td>{{reseller_p.rc_date}}</td>
+                <td>{{reseller_p.rc_commission}}</td>
+                <td> <span class="label" ng-class="{'bg-success': reseller_p.rc_status == 'PAID', 'bg-warning' : reseller_p.rc_status == 'PENDING' }">{{reseller_p.rc_status}}</span> </td>
+
+                </tr>
+              </tbody>
+                
+              </table>
+            </div>
+      </tab>      
+ 
+    </tabset>
+ <!--    end of tab -->
+      </div>
+    </div>
+    </div>

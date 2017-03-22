@@ -1,0 +1,41 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="AgentController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Course List
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+                <th width="20%">Course </th>
+                <th width="20%">Subject</th>
+                <th width="15%">Class</th>
+                <th width="15%">School</th>
+                <th width="10%">Term</th>
+                <th width="10%">Price</th>
+                <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="agent_p in agent_pur">
+            <td>{{agent_p.course_title}}</td>
+            <td>{{agent_p.sb_title}}</td>
+            <td>{{agent_p.class_name}}</td>
+            <td>{{agent_p.sch_name}}</td>
+            <td>{{agent_p.course_term}}</td>
+            <td>{{agent_p.course_price}}</td>
+            <td>
+            <button style="width: 100%" class="btn btn-icon btn-sm btn-info"  ui-sref="app.buy-course({id:agent_p.course_id})" tooltip="Buy Course">BUY NOW</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

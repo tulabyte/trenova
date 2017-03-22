@@ -1,0 +1,35 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="AgentController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Order Details
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+                <th width="40%">Name </th>
+                <th width="15%">Quantity</th>
+                <th width="15%">Amount</th>
+                <th width="15%">Status</th>
+                <th width="15%">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="agent_p in agent_pur">
+            <td>{{agent_p.course_title}}</td>
+            <td>{{agent_p.ao_qty}}</td>
+            <td>{{agent_p.ao_amount}}</td>
+            <td>{{agent_p.ao_status}}</td>
+            <td>{{agent_p.ao_date}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

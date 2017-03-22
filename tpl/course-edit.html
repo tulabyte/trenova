@@ -1,0 +1,112 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+</div>
+<div class="wrapper-md" ng-controller="CourseController">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">Course Details</div>
+        <div class="panel-body">
+          <form role="form" name="form">
+            <div class="form-group">
+              <label>Course Title</label>
+              <input type="text" class="form-control" placeholder="Enter course title" required ng-model="course.course_title">
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <label>Class/Stage</label>
+              <ui-select ng-model="selected_class" theme="bootstrap" on-select="selectClass($item, $model)" required>
+                <ui-select-match placeholder="Select or search a class in the list...">{{$select.selected.class_name}}</ui-select-match>
+                <ui-select-choices repeat="class in classes | filter: $select.search">
+                  <div ng-bind-html="class.class_name | highlight: $select.search"></div>
+                  <small ng-bind-html="class.sch_name | highlight: $select.search"></small>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <label>Subject</label>
+              <select class="form-control" ng-options="subject.sb_id as subject.sb_title for subject in subjects" ng-model="course.course_subject_id" required>
+                
+                <!-- <option ng-repeat="category in categories">{{category.cat_name}}</option> -->
+              </select>
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <label>Course Summary</label>
+              <textarea class="form-control" ng-model="course.course_summary" placeholder="Enter course summary here (the summary gives a very brief description of the course)" rows="2" required=""></textarea>
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Term/Section</label>
+                  <input type="number" class="form-control" placeholder="Enter 1,2 or 3." required ng-model="course.course_term" max="3" min="1" />
+                </div>
+                <div class="col-md-6">
+                  <label>Course Price</label>
+                  <input type="number" class="form-control" placeholder="Enter course price" required ng-model="course.course_price" />
+                </div>
+              </div>
+              
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <label>Course Image</label>
+              
+              <div ng-show="course.course_image != undefined">
+                <br>
+                <img ng-src="img/course-images/{{course.course_image}}" width="80%" ng-show="course.course_image != undefined">
+                <br><br>
+                <label><input type="checkbox" ng-model="course.changeImage" ng-show="course.course_image != undefined"> Change this Image</label>
+              </div>
+
+              <input type="file" name="file" ng-show="course.changeImage || !course.course_image" file-model="myFile" ng-required="!course.course_image" />
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <label>Full Course Description</label>
+              <div lazy-load="textAngular">
+                <div text-angular ng-model="course.course_description" class="btn-groups"></div>
+              </div>
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <label class="col-sm-2">Featured Course?</label>
+              <label class="i-switch i-switch-md bg-info">
+                <input type="checkbox" ng-model="course.course_is_featured" ng-selected="course.course_is_featured">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            
+            <button type="submit" class="btn btn-success" ng-click="editCourse(course, myFile)" ng-disabled='form.$invalid' > {{course.course_id ? 'Save' : 'Submit' }} </button>            
+
+            <button type="button" class="btn btn-default" ui-sref="app.course-list">Back to List</button>
+
+            <button type="button" class="btn btn-danger" ng-show="course.course_id" ng-click="deleteCourse(course.course_id)" >Delete</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+</div>

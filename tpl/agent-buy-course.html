@@ -1,0 +1,73 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="AgentController">
+<div class="row">
+<div class="col-md-8">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 style="text-align: center;">{{agent_cr_pur.course_title}} : #{{agent_cr_pur.course_price | number:2}}</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped m-b-none">
+        <tbody>
+          <tr ng-repeat="agent_p in agent_pur">
+            <td width="60%">Lesson {{agent_p.less_number}}</td>
+            <td><strong>{{agent_p.less_title}}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 style="text-align: center;">Discount Formula</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped m-b-none">
+      <thead>
+      	<th style="text-align: center;">Quantity</th>
+      	<th style="text-align: center;">Discount</th>
+      </thead>
+	 <tbody>
+	   <tr ng-repeat="agent_u in agent_usg track by $index">
+	      <td style="text-align: center;"><strong>{{agent_u.df_min}}<span ng-show="$index < agent_usg.length-1"> - {{agent_usg[$index+1].df_min - 1}}</span><span ng-show="$index == agent_usg.length-1">+</span></strong></td>
+	      <td style="text-align: center;"><strong>{{agent_u.df_discounts}}%</strong></td>
+	   </tr>
+	 </tbody>
+       </table>
+    </div>
+  </div>
+  </div>
+  <div class="col-md-4">
+        <div class="panel panel-default">
+        <div class="panel-heading font-bold">Purchase Details</div>
+        <div class="panel-body">
+          <form role="form" name="form">
+            
+            <div class="form-group">
+              <label>Quantity</label>
+              <input type="number" class="form-control" placeholder="Enter Quantity Details" required ng-model="agent.order_quantity" ng-change="calcDiscountedTotal()">
+            </div>
+            <div class="form-group" ng-if="agent.order_quantity">
+              <label>Discount Earned</label>
+              {{getDiscount(agent.order_quantity)}}%
+            </div>
+            <div class="form-group">
+              <label>Total</label>
+              <output type="number" class="form-control" ng-model="agent.order_total">{{agent.order_total | number:2}}</output>
+            </div>
+            
+            <button type="submit" class="btn btn-success" ng-click="buyCourse(agent)" ng-disabled='form.$invalid'> {{agent_cr_pur.course_id ? 'BUY NOW' : 'Submit' }} </button>            
+
+            <button type="button" class="btn btn-default" ui-sref="app.agent-course-list">Back to List</button>
+            
+          </form>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
