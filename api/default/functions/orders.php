@@ -7,10 +7,13 @@ $app->get('/getOrder', function() use ($app) {
     $db = new DbHandler();
     $ord_id = $db->purify($app->request->get('id'));
     
-    $order = $db->getOneRecord("SELECT order_id, order_time_created, order_total, order_status, user_fullname, course_title, item_qty FROM user_order LEFT JOIN user ON order_user_id = user_id LEFT JOIN user_order_item ON order_id = item_order_id LEFT JOIN course ON item_course_id = course_id  WHERE order_id = '$ord_id' ");
+    $order = $db->getOneRecord("SELECT order_id, order_time_created, order_total, order_status, user_fullname FROM user_order LEFT JOIN user ON order_user_id = user_id WHERE order_id = '$ord_id' ");
+
+    $order_item = $db->getRecordset("SELECT course_title, item_qty, course_price FROM user_order_item LEFT JOIN course ON item_course_id = course_id  WHERE item_order_id = '$ord_id' ");
 
     if($order) {
         //found order, return success result
+        $response['order_item'] = $order_item;
         $response['order'] = $order;
         $response['status'] = "success";
         $response["message"] = "Order Details Loaded!";
@@ -61,7 +64,7 @@ $app->post('/createOrder', function() use ($app) {
 
     // get logged in user session details
     $session = $db->getSession(); 
-    $user_id = $session['trv_id'];
+    $user_id = $session['fta_id'];
 
     // generate other necessary values
     $ord_date_init = date("Y-m-d h:i:s");

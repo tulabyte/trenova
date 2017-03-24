@@ -29,6 +29,7 @@ app.controller('OrderController', ['$scope', '$rootScope', 'FTAFunctions', '$sta
          console.log(results);
         if(results.status == "success") {
           $scope.order = results.order;
+          $scope.order_item = results.order_item;
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);

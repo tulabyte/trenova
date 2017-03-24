@@ -7,30 +7,31 @@
 <div class="wrapper-md" ng-controller="OrderController">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3>{{order.user_fullname}} <span style="float: right;">Order ID : {{order.order_id}}</span></h3>
+    <div class="row">
+      <div class="col-sm-4"><h3>Order ID : {{order.order_id}} </h3>
+      <p>Status : <strong>{{order.order_status }}</strong> </p></div>
+      <div class="col-sm-4"><h3>{{order.user_fullname}}</h3></div>
+      <div class="col-sm-4"><h3>Date : {{order.order_time_created | date }}</h3></div>
+    </div>
     </div>
     <div class="table-responsive">
       <table class="table table-striped m-b-none">
+          <thead>
+                <tr>
+                <th width="60%">Name</th>
+                <th width="20%">Qty</th>
+                <th width="20%">Amount</th>                
+                </tr>
+          </thead>
         <tbody>
-          <tr>
-            <td width="60%"><strong>Course Title </strong></td>
-            <td><strong>{{order.course_title}}</strong></td>
+          <tr ng-repeat="orders in order_item">
+            <td><strong>{{orders.course_title}}</strong></td>
+            <td><strong>{{orders.item_qty}}</strong></td>
+            <td><strong>N {{orders.course_price * orders.item_qty}}</strong></td>
           </tr>
           <tr>
-            <td width="60%"><strong>Quantity</strong></td>
-            <td><strong>{{order.item_qty}}</strong></td>
-          </tr>
-          <tr>
-          <td width="60%"><strong> Date</strong></td>
-            <td><strong> {{order.order_time_created | date }}</strong> </td>
-          </tr>
-          <tr>
-          <td width="60%"><strong> Status</strong> </td>
-            <td style="border-bottom: 2px"> <strong>{{order.order_status }}</strong> </td>
-          </tr>
-          <tr>
-          	<td width="60%"><strong><span style="float: right;">Total</span> </strong> </td>
-            <td><span style="float: left;"> <strong>#{{order.order_total }}</strong></span> </td>
+          	<td colspan="2"><strong><span style="float: right;">Total</span> </strong> </td>
+            <td><span style="float: left;"> <strong>N{{order.order_total }}</strong></span> </td>
           </tr>
         </tbody>
       </table>
