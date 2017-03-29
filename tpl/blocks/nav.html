@@ -310,7 +310,7 @@
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
     <span >System Users</span>
   </li>
-  
+
   <li>
     <a href class="auto">      
       <span class="pull-right text-muted">
@@ -433,11 +433,33 @@
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">          
     <span>Your Stuff</span>
   </li>
-  <li>
-    <a ui-sref="app.profile-edit">
-      <i class="icon-envelope icon text-info-lter"></i>
-      <span>Messages <b class="badge bg-info pull-right">9</b></span>
+    <li>
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-envelope"></i>
+      <span>Messages</span>
     </a>
+    <ul class="nav nav-sub dk">
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.feedback-list">
+          <span>Feedback</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.broadcast-message">
+          <span>New BC</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.broadcast-list">
+          <span>BC List</span>
+        </a>
+      </li>      
+    </ul>
   </li>
   <li>
     <a ui-sref="app.profile-edit">

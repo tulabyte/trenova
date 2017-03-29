@@ -21,7 +21,87 @@ app.controller('UserController', ['$scope', '$rootScope', 'FTAFunctions', '$stat
         }
       });
     }
-      
+
+     //feedback-list
+    if($state.current.name == 'app.feedback-list') {
+      //get the selected user
+      FTAFunctions.getFeedbackList().then(function(results) {
+         console.log(results);
+        if(results.status == "success") {
+          $scope.feedback = results.feedback;
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          $rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    }
+
+         //bc-list
+    if($state.current.name == 'app.broadcast-list') {
+      //get the selected user
+      FTAFunctions.getFeedbackList().then(function(results) {
+         console.log(results);
+        if(results.status == "success") {
+          $scope.broadcast = results.broadcast;
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          //$rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    }
+
+
+      //bc-message
+      $scope.newBroadcast = function(broadcast) {
+
+          Data.post('createBroadCast', {
+            broadcast: broadcast
+        }).then(function (results) {
+            console.log(results);
+            if(results.status == "success") {
+              //broadcast successful. Show message
+                $state.go('app.dashboard');
+                $rootScope.toasterPop('success','Action Successful!',results.message);
+              } else {
+                //problemo. show error
+                $rootScope.toasterPop('error','Oops!',results.message);
+              }
+          });
+    };
+
+
+
+      //broadcast and feedback-details
+    if($state.current.name == 'app.feedback-details') {
+       //get the feedback details
+       console.log('feedback details');
+       FTAFunctions.getFeedbackDetails($stateParams.id).then(function(results) {
+        console.log(results);
+        if(results.status == "success") {
+          $scope.feedback = results.feedback;
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          $rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    }
+     
+           //broadcast details
+    if($state.current.name == 'app.broadcast-message') {
+       //get the feedback details
+       console.log('feedback details');
+       FTAFunctions.getFeedbackDetails($stateParams.id).then(function(results) {
+        console.log(results);
+        if(results.status == "success") {
+          $scope.broadcast = results.broadcast;
+          console.log($stateParams.id);
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          //$rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    }
+
       //user-details
     if($state.current.name == 'app.user-details') {
        //get the user details

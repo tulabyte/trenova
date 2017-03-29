@@ -26,6 +26,10 @@ app.service('FTAFunctions', function (Data, $state) {
 		return Data.get('getAdminLogs');
 	};
 
+	this.getProfile = function () {
+	return Data.get('getProfile');
+	};
+
 	// deleted selected admin
 	this.deleteAdmin = function (id) {
 		return Data.get('deleteAdmin?id='+id);
@@ -45,6 +49,16 @@ app.service('FTAFunctions', function (Data, $state) {
 	// get list of users
 	this.getUserList = function () {
 		return Data.get('getUserList');
+	};
+
+	// get list of feedbacks
+	this.getFeedbackList = function () {
+		return Data.get('getFeedbackList');
+	};
+
+	// get selected user
+	this.getFeedbackDetails = function (id) {
+		return Data.get('getFeedbackDetails?id='+id);
 	};
 
 	// deleted selected user

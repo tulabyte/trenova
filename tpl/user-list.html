@@ -36,7 +36,9 @@
             <td>
               <button class="btn btn-icon btn-sm btn-primary" ui-sref="app.user-details({id:user.user_id})" tooltip="User Details"><i class="fa fa-info"></i></button>
 
-              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.user-edit({id:user.user_id})" tooltip="Edit User"><i class="fa fa-edit"></i></button>
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.user-edit({id:user.user_id})" tooltip="Send a message"><i class="fa fa-message"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-warning" ui-sref="app.user-edit({id:user.user_id})" tooltip="Edit User"><i class="fa fa-edit"></i></button>
 
               <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteUser(user.user_id)" tooltip="Delete User"><i class="fa fa-trash"></i></button>
             </td>

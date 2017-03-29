@@ -1,0 +1,39 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.reseller-edit"><i class="fa fa-plus"></i>New Reseller</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="UserController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Feedback
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="25%">Name</th>
+            <th width="50%">Topic</th>
+            <th width="15%">Date</th>
+
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="feed in feedback track by $index">
+            <td> {{feed.user_fullname}} </td>
+            <td>{{feed.fd_topic}} </td>
+            <td>{{feed.fd_date}} </td>
+            <td>
+           <button class="btn btn-icon btn-sm btn-info" ui-sref="app.feedback-details({id:feed.fd_id})" tooltip="View Feedback Message" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

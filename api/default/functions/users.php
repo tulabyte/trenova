@@ -1,4 +1,5 @@
 <?php
+//BC messages and Feedbacks were written here
 
 $app->post('/createUser', function() use ($app) {
     
@@ -111,7 +112,7 @@ $app->post('/editUser', function() use ($app) {
 
 // update user profile
 $app->post('/updateUserProfile', function() use ($app) {
-
+    
     $response = array();
 
     $r = json_decode($app->request->getBody());
@@ -121,7 +122,7 @@ $app->post('/updateUserProfile', function() use ($app) {
     $user_id = $db->purify($r->user->user_id);
     $user_fullname = $db->purify($r->user->user_fullname);
     $user_phone = $db->purify($r->user->user_phone);
-
+    
     $isUserExists = $db->getOneRecord("SELECT 1 FROM user WHERE user_id='$user_id'");
     if($isUserExists){
         //$r->user->password = passwordHash::hash($password);
@@ -272,3 +273,128 @@ $app->get('/addToFavourites', function() use ($app) {
     
 });
 
+
+// get Feedback list
+$app->get('/getFeedbackList', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();    
+    $feedback = $db->getRecordset("SELECT fd_id, fd_topic, fd_date, fd_status, user_fullname FROM feedback LEFT JOIN user ON fd_user_id = user_id");
+
+    $broadcast = $db->getRecordset("SELECT bc_id, bc_topic, bc_date, ad_name FROM broadcast LEFT JOIN admin ON bc_ad_id = ad_id");
+    
+    if($feedback || $broadcast) {
+        //feedback found\
+        $broadcast_count = count($broadcast);
+        $feedback_count = count($feedback);
+
+        $response['feedback'] = $feedback;
+        $response['broadcast'] = $broadcast;
+        $response['status'] = "success";
+        $response["message"] = "$feedback_count feedback Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No feedback found!";
+        echoResponse(201, $response);
+    }
+});
+
+// get feedback details
+$app->get('/getFeedbackDetails', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $fd_id = $db->purify($app->request->get('id'));
+
+    
+    $feedback = $db->getOneRecord("SELECT fd_id, fd_message, fd_topic, fd_date, fd_status, user_fullname FROM feedback LEFT JOIN user ON fd_user_id = user_id WHERE fd_id = '$fd_id'");
+
+    $broadcast = $db->getOneRecord("SELECT bc_id, bc_message, bc_topic, bc_date, ad_name FROM broadcast LEFT JOIN admin ON bc_ad_id = ad_id WHERE bc_id = '$fd_id'");
+
+
+    if($feedback || $broadcast) {
+        //found feedback, return success result
+        $response['feedback'] = $feedback;
+        $response['broadcast'] = $broadcast;
+        $response['status'] = "success";
+        $response["message"] = "Feedback Message Loaded!";
+        echoResponse(200, $response);
+     
+        // update Pending to checked
+        $fd_status ="SEEN" ;
+        $table_to_update = "feedback";
+        $columns_to_update = ['fd_status'=>$fd_status];
+        $where_clause = ['fd_id'=>$fd_id];
+
+        $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+    //end of update
+
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error loading feedback!";
+        echoResponse(201, $response);
+    }
+});
+
+$app->post('/createBroadCast', function() use ($app) {
+    
+    $db = new DbHandler();
+    $session = $db->getSession();
+
+    // get id of currently logged in admin
+    $ad_id = $session['trenova_user']['ad_id'];
+    
+    $response = array();
+
+    $r = json_decode($app->request->getBody());
+    verifyRequiredParams(['bc_topic','bc_message'],$r->broadcast);
+    $db = new DbHandler();
+    $bc_topic = $db->purify($r->broadcast->bc_topic);
+    $bc_message = $db->purify($r->broadcast->bc_message);
+    $bc_date = date('Y-m-d');
+
+    $isAdminExists = $db->getOneRecord("SELECT 1 FROM admin WHERE ad_id='$ad_id'");
+    if($isAdminExists){
+        $table_name = "broadcast";
+        $column_names = ['bc_topic', 'bc_message', 'bc_date', 'bc_ad_id'];
+        $values = [$bc_topic,$bc_message, $bc_date, $ad_id];
+
+        $result = $db->insertToTable($values, $column_names, $table_name);
+
+        if ($result > 0) {
+            //log action
+            $log_details = "Created Broadcast: $bc_topic  (ID: $ad_id)";
+            $db->logAction($log_details);
+
+            $response["status"] = "success";
+            $response["message"] = "Broadcast created successfully";
+            echoResponse(200, $response);
+
+            //send broadcast to all users
+            $users = $db->getRecordset("SELECT user_email, user_fullname FROM user ");
+            foreach ($users as $user) {
+                $swiftmailer = new mySwiftMailer();
+                $subject = $bc_topic;
+                $user_email = $user[user_email];
+                $body = "<p>Dear $user[user_fullname],</p>
+                <p>$bc_message</p>
+                <p>Thank you for using Lenova Training.</p>
+                <p>NOTE: please DO NOT REPLY to this email.</p>
+                <p><br><strong>Lenova Training App</strong></p>";
+                $swiftmailer->sendmail('info@tulabyte.net', 'Lenova Training', [$user_email], $subject, $body);
+            }
+
+
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Failed to craete Broadcast. Please try again";
+            echoResponse(201, $response);
+        }            
+    }else{
+        $response["status"] = "error";
+        //$response['message'] = $r->module;
+        $response["message"] = "ERROR: Admin does not exist!";
+        echoResponse(201, $response);
+    }
+});
