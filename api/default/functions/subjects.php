@@ -133,10 +133,10 @@ $app->get('/deleteSubject', function() use ($app) {
 $app->get('/getSubjectList', function() use ($app) {
     $response = array();
 
-
     $db = new DbHandler();
     
-    $subjects = $db->getRecordset("SELECT * FROM subject ORDER BY sb_title");
+    $query = "SELECT * FROM subject ORDER BY sb_title";
+    $subjects = $db->getRecordset($query);
     if($subjects) {
         //subject found
         $subject_count = count($subjects);
