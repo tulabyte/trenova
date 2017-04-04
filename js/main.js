@@ -87,14 +87,24 @@ angular.module('app')
 
   }]) 
 
-  .controller('HeaderCtrl', ['$scope', 'Data', '$rootScope', 'toaster', '$moment',
-    function($scope,   Data, $rootScope , toaster, $moment) {
+  .controller('HeaderCtrl', ['$scope', 'Data', '$rootScope', 'FTAFunctions', '$state', '$stateParams' , 'toaster', '$moment',
+    function($scope, Data, $rootScope, FTAFunctions, $state, $stateParams , toaster, $moment) {
       $scope.payments = [];
-      //bank waiting -list
-      Data.get('getBankWaitingList').then(function(results) {
+      //feedback message and bank awaiting list
+      $scope.FeedMessageList = function(index, id){
+        var i = parseInt(index);
+        var j = parseInt(id);
+        console.log(i , j);
+        $scope.not_feed.splice(i, 1);
+        $state.go('app.feedback-details',{id : id} );
+      };
+
+      Data.get('getLatestNotifications').then(function(results) {
         console.log(results);
         if(results.status == "success") {
-          $scope.payments = results.payments;
+          $scope.not_list = results.not_list;
+          $scope.not_feed = results.not_feed;
+          $scope.not_count = parseInt(results.not_count);
         }
       });
     }]);

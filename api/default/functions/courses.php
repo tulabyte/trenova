@@ -59,49 +59,49 @@ $app->post('/createModule', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(['mod_title', 'mod_content', 'mod_course_id'],$r->module);
+    verifyRequiredParams(['less_title', 'less_content', 'less_course_id'],$r->module);
     $db = new DbHandler();
-    $mod_title = $db->purify($r->module->mod_title);
-    $mod_content = $db->purify($r->module->mod_content);
-    $mod_position = $db->purify($r->module->mod_position);
-    $mod_course_id = $db->purify($r->module->mod_course_id);
+    $mod_title = $db->purify($r->module->less_title);
+    $mod_content = $db->purify($r->module->less_content);
+    $mod_position = $db->purify($r->module->less_position);
+    $mod_course_id = $db->purify($r->module->less_course_id);
     
     //check if module already exists with same title for same course
-    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_module WHERE mod_title='$mod_title' AND mod_course_id = '$mod_course_id'");
+    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_title='$mod_title' AND less_course_id = '$mod_course_id'");
     if(!$isModuleExists){
         //the title has not yet been used
 
         //if position is empty, derive new position
         if ($mod_position == '') {
-            $maxPos = $db->getOneRecord("SELECT MAX(mod_position) AS max_pos FROM course_module WHERE mod_course_id = '$mod_course_id'");
+            $maxPos = $db->getOneRecord("SELECT MAX(less_number) AS max_pos FROM course_lesson WHERE less_course_id = '$mod_course_id'");
             $mod_position = $maxPos['max_pos'] + 1;
         }
 
-        $table_name = "course_module";
-        $column_names = ['mod_title', 'mod_course_id', 'mod_content', 'mod_position'];
+        $table_name = "course_lesson";
+        $column_names = ['less_title', 'less_course_id', 'less_content', 'less_number'];
         $values = [$mod_title, $mod_course_id, $mod_content, $mod_position];
 
         $result = $db->insertToTable($values, $column_names, $table_name);
 
         if ($result != NULL) {
             $response["status"] = "success";
-            $response["message"] = "Module created successfully";
+            $response["message"] = "Lesson created successfully";
             $response["mod_id"] = $result;
 
             //log action
-            $log_details = "Created New Module: $mod_title (ID: $result)";
+            $log_details = "Created New Lesson: $mod_title (ID: $result)";
             $db->logAction($log_details);            
 
             echoResponse(200, $response);
         } else {
             $response["status"] = "error";
-            $response["message"] = "Failed to create module. Please try again";
+            $response["message"] = "Failed to create lesson. Please try again";
             echoResponse(201, $response);
         }            
     }else{
         $response["status"] = "error";
         //$response['message'] = $r->module;
-        $response["message"] = "Module with the provided title already exists for this course, please try another!";
+        $response["message"] = "Lesson with the provided title already exists for this course, please try another!";
         echoResponse(201, $response);
     }
 });
@@ -154,23 +154,22 @@ $app->post('/editCourse', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(['course_id', 'course_title', 'course_category_id', 'course_price',  'course_summary', 'course_image', 'course_description'],$r->course);
+    verifyRequiredParams(['course_id', 'course_title', 'course_price',  'course_summary', 'course_image', 'course_description'],$r->course);
     //require_once 'passwordHash.php';
     $db = new DbHandler();
     $course_id = $db->purify($r->course->course_id);
     $course_title = $db->purify($r->course->course_title);
-    $course_category_id = $db->purify($r->course->course_category_id);
     $course_price = $db->purify($r->course->course_price);
     $course_summary = $db->purify($r->course->course_summary);
     $course_image = $db->purify($r->course->course_image);
     $course_description = $db->purify($r->course->course_description);
-    $course_is_featured = ($r->course->course_is_featured) ? '1':'';
+    $course_is_featured = ($r->course->course_is_featured) ? 1:0;
 
     $isCourseExists = $db->getOneRecord("SELECT 1 FROM course WHERE course_id='$course_id'");
     if($isCourseExists){
         //$r->course->password = passwordHash::hash($password);
         $table_to_update = "course";
-        $columns_to_update = ['course_title'=>$course_title,'course_category_id'=>$course_category_id, 'course_price'=>$course_price, 'course_summary'=>$course_summary, 'course_image'=>$course_image, 'course_description'=>$course_description, 'course_is_featured'=>$course_is_featured];
+        $columns_to_update = ['course_title'=>$course_title,'course_price'=>$course_price, 'course_summary'=>$course_summary, 'course_image'=>$course_image, 'course_description'=>$course_description, 'course_is_featured'=>$course_is_featured];
         $where_clause = ['course_id'=>$course_id];
 
         $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
@@ -202,38 +201,190 @@ $app->post('/editModule', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(['mod_id', 'mod_title', 'mod_content', 'mod_position'],$r->module);
+    verifyRequiredParams(['less_id', 'less_title', 'less_content', 'less_number'],$r->module);
     $db = new DbHandler();
-    $mod_id = $db->purify($r->module->mod_id);
-    $mod_title = $db->purify($r->module->mod_title);
-    $mod_content = $db->purify($r->module->mod_content);
-    $mod_position = $db->purify($r->module->mod_position);
+    $mod_id = $db->purify($r->module->less_id);
+    $mod_title = $db->purify($r->module->less_title);
+    $mod_content = $db->purify($r->module->less_content);
+    $mod_position = $db->purify($r->module->less_number);
 
-    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_module WHERE mod_id='$mod_id'");
+    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_id='$mod_id'");
     if($isModuleExists){
-        $table_to_update = "course_module";
-        $columns_to_update = ['mod_title'=>$mod_title,'mod_content'=>$mod_content, 'mod_position'=>$mod_position];
-        $where_clause = ['mod_id'=>$mod_id];
+        $table_to_update = "course_lesson";
+        $columns_to_update = ['less_title'=>$mod_title,'less_content'=>$mod_content, 'less_number'=>$mod_position];
+        $where_clause = ['less_id'=>$mod_id];
 
         $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
 
         if ($result > 0) {
             //log action
-            $log_details = "Edited Module: $mod_title (ID: $mod_id)";
+            $log_details = "Edited Lesson: $mod_title (ID: $mod_id)";
             $db->logAction($log_details);
 
             $response["status"] = "success";
-            $response["message"] = "Module updated successfully";
+            $response["message"] = "Lesson updated successfully";
             echoResponse(200, $response);
         } else {
             $response["status"] = "error";
-            $response["message"] = "Failed to update module. Please try again";
+            $response["message"] = "Failed to update lesson. Please try again";
             echoResponse(201, $response);
         }            
     }else{
         $response["status"] = "error";
         //$response['message'] = $r->module;
-        $response["message"] = "ERROR: Module does not exist!";
+        $response["message"] = "ERROR: Lesson does not exist!";
+        echoResponse(201, $response);
+    }
+});
+
+// create question
+$app->post('/createQuestionModule', function() use ($app) {
+    
+    $response = array();
+
+    $r = json_decode($app->request->getBody());
+    verifyRequiredParams(['q_id', 'optiona', 'optionb' , 'optionc', 'optiond', 'option'],$r->question);
+    $db = new DbHandler();
+    $q_id = $db->purify($r->question->q_id);
+    $question = $db->purify($r->question->q_question);
+    $optiona = $db->purify($r->question->optiona);
+    $optionb = $db->purify($r->question->optionb);
+    $optionc = $db->purify($r->question->optionc);
+    $optiond = $db->purify($r->question->optiond);
+    $correct_option = $db->purify($r->question->option);
+    $q_number = $db->purify($r->question->question_number);
+    $q_type = "COURSE";
+    
+    //check if module already exists with same title for same course
+    $isQuestionExists = $db->getOneRecord("SELECT 1 FROM question WHERE q_id = '$q_id'");
+    if(!$isQuestionExists){
+
+        //if position is empty, derive new position
+        if ($q_number == '') {
+            $maxPos = $db->getOneRecord("SELECT MAX(q_number) AS max_pos FROM question WHERE q_course_id = '$course_id'");
+            $q_number = $maxPos['max_pos'] + 1;
+        }
+
+    $table_to_update = "question";
+    $columns_to_update = ['q_question' => $question, 'q_type' => $q_type, 'q_number' => $q_number];
+    $where_clause = ['q_id' => $q_id];
+
+        $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+        if ($result != NULL) {
+            //create question options
+            $qo_option = array($optiona, $optionb, $optionc, $optiond);
+            
+                foreach ($qo_option as $q_option) {
+                    if ($q_option == $correct_option) {
+
+                        $table_name = "question_option";
+                        $qo_is_correct = 1 ;
+                        $column_names = ['qo_question_id', 'qo_option', 'qo_is_correct'];
+                        $values = [$result, $q_option, $qo_is_correct];
+                        $option_result = $db->insertToTable($values, $column_names, $table_name);    
+
+                    } else{
+                        
+                            $table_name = "question_option";
+                            $column_names = ['qo_question_id', 'qo_option'];
+                            $values = [$result, $q_option];
+                            $option_result = $db->insertToTable($values, $column_names, $table_name);  
+                        }
+                }
+                if ($option_result != NULL) {
+                    $response["status"] = "success";
+                    $response["message"] = "Question And Options created successfully";
+                    $response["mod_id"] = $result;
+                    echoResponse(200, $response);
+                }else{
+                    $response["status"] = "error";
+                    $response["message"] = "Failed to create Question Options. Please try again";
+                    echoResponse(201, $response);
+                }
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Failed to create question. Please try again";
+            echoResponse(201, $response);
+        }            
+    }else{
+        $response["status"] = "error";
+        //$response['message'] = $r->module;
+        $response["message"] = "This course does not exist for this course!";
+        echoResponse(201, $response);
+    }
+});
+
+//edit question Module
+
+$app->post('/editQuestionModule', function() use ($app) {
+    
+    $response = array();
+
+    $r = json_decode($app->request->getBody());
+    verifyRequiredParams(['less_id', 'optiona', 'optionb' , 'optionc', 'optiond', 'less_number'],$r->question);
+    $db = new DbHandler();
+    $lesson_id = $db->purify($r->question->less_id);
+    $question = $db->purify($r->question->q_question);
+    $optiona = $db->purify($r->question->optiona);
+    $optionb = $db->purify($r->question->optionb);
+    $optionc = $db->purify($r->question->optionc);
+    $optiond = $db->purify($r->question->optiond);
+    $correct_option = $db->purify($r->question->option); 
+    $q_type = ' COURSE';
+
+    $isQuestionExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_id='$mod_id'");
+    if($isQuestionExists){
+        $table_to_update = "question";
+        $columns_to_update = ['q_question'=>$question,'q_type'=>$q_type, 'q_lesson_id'=>$lesson_id];
+        $where_clause = ['q_id'=>$q_id];
+
+        $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+        if ($result > 0) {
+            //log action
+            $log_details = "Edited Question: $question (ID: $q_id)";
+            $db->logAction($log_details);
+
+                //update options
+             $qo_option = array($optiona, $optionb, $optionc, $optiond);
+            
+                foreach ($qo_option as $q_option) {
+                    if ($q_option == $correct_option) {
+
+                        $table_to_update = "question_option";
+                        $qo_is_correct = 1 ;
+                        $columns_to_update = ['qo_question_id' => $result, 'qo_option' => $q_option, 'qo_is_correct' =>$qo_is_correct];
+                        $where_clause = ['qo_id' => $qo_id];
+                        $option_result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);    
+
+                    } else{
+                        
+                            $table_to_update = "question_option";
+                            $columns_to_update = ['qo_question_id', 'qo_option'];
+                            $where_clause = [$result, $q_option];
+                            $option_result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+                        }
+                }
+                if ($option_result != NULL) {
+                    $response["status"] = "success";
+                    $response["message"] = "Question And Options updated successfully";
+                    $response["mod_id"] = $result;
+                    echoResponse(200, $response);
+                }else{
+                    $response["status"] = "error";
+                    $response["message"] = "Failed to update Question Options. Please try again";
+                    echoResponse(201, $response);
+                }
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Failed to update lesson. Please try again";
+            echoResponse(201, $response);
+        }            
+    }else{
+        $response["status"] = "error";
+        //$response['message'] = $r->module;
+        $response["message"] = "ERROR: Lesson does not exist!";
         echoResponse(201, $response);
     }
 });
@@ -372,18 +523,22 @@ $app->get('/getModuleList', function() use ($app) {
     $db = new DbHandler();
     $course_id = $db->purify($app->request->get('course_id'));
     
-    $modules = $db->getRecordset("SELECT * FROM course_module WHERE mod_course_id = '$course_id' ORDER BY mod_position, mod_title");
-    if($modules) {
-        //categories found
-        $count = count($modules);
+    $lesson = $db->getRecordset("SELECT * FROM course_lesson WHERE less_course_id = '$course_id' ORDER BY less_title");
 
-        $response['modules'] = $modules;
+    $question = $db->getRecordset("SELECT * FROM question WHERE q_course_id = '$course_id' ORDER BY q_number ASC");
+
+    if(!empty($lesson) || !empty($question)) {
+        //categories found
+        $count = count($lesson);
+
+        $response['lessons'] = $lesson;
+        $response['questions'] = $question;
         $response['status'] = "success";
-        $response["message"] = "$count Modules Found!";
+        $response["message"] = "$count Lesson Found!";
         echoResponse(200, $response);
     } else {
         $response['status'] = "error";
-        $response["message"] = "No module found for this course!";
+        $response["message"] = "No lesson found for this course!";
         echoResponse(201, $response);
     }
 });
@@ -433,28 +588,60 @@ $app->get('/deleteModule', function() use ($app) {
     $mod_id = $db->purify($app->request->get('id'));
 
     //get module details
-    $module = $db->getOneRecord("SELECT * FROM course_module WHERE mod_id='$mod_id'");
+    $module = $db->getOneRecord("SELECT * FROM course_lesson WHERE less_id='$mod_id'");
 
-    $table_name = 'course_module';
-    $col_name = 'mod_id';
+    $table_name = 'course_lesson';
+    $col_name = 'less_id';
     $result = $db->deleteFromTable($table_name, $col_name, $mod_id);
 
     if($result > 0) {
         //module deleted
 
         //log action
-        $log_details = "Deleted Module: ".$module['mod_title']." ($mod_id)";
+        $log_details = "Deleted Module: ".$module['less_title']." ($mod_id)";
         $db->logAction($log_details);
 
         $response['status'] = "success";
-        $response["message"] = "Module Deleted successfully!";
+        $response["message"] = "Lesson Deleted successfully!";
         echoResponse(200, $response);
     } else {
         $response['status'] = "error";
-        $response["message"] = "Error deleting module!";
+        $response["message"] = "Error deleting lesson!";
         echoResponse(201, $response);
     }
 });
+
+// delete question
+$app->get('/deleteQuestionModule', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $q_id = $db->purify($app->request->get('id'));
+
+    //get module details
+    $question = $db->getOneRecord("SELECT * FROM question WHERE q_id='$q_id'");
+
+    $table_name = 'question';
+    $col_name = 'q_id';
+    $result = $db->deleteFromTable($table_name, $col_name, $q_id);
+
+    if($result > 0) {
+        //module deleted
+
+        //log action
+        $log_details = "Deleted Question: ".$question['q_question']." ($q_id)";
+        $db->logAction($log_details);
+
+        $response['status'] = "success";
+        $response["message"] = "Question Deleted successfully!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error deleting question!";
+        echoResponse(201, $response);
+    }
+});
+
 
 // get featured course list
 $app->get('/getFeaturedCourseList', function() use ($app) {
@@ -564,9 +751,9 @@ $app->get('/getCourseDetails', function() use ($app) {
 
         $response['course_details'] = $course_details;
 
-        // get course modules for selected course
-        $course_modules = $db->getRecordset("SELECT * FROM course_module WHERE mod_course_id = '$course_id' ORDER BY mod_position ASC");
-        $response['course_modules'] = $course_modules;
+        // get course lessons for selected course
+        $course_lessons = $db->getRecordset("SELECT * FROM course_lesson WHERE less_course_id = '$course_id' ORDER BY mod_position ASC");
+        $response['course_lessons'] = $course_lessons;
 
         // count number of subscriptions for selected course
         $course_sub_count = $db->getOneRecord("SELECT COUNT(*) AS sub_count FROM subscription WHERE sub_course_id='$course_id'");

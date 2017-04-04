@@ -6,7 +6,8 @@
            <!-- begining og 1st column -->
            <div class="col-sm-7">
                         <a href class="thumb-lg pull-left m-r">
-                          <img src="img/a0.jpg" class="img-circle">
+                          <img src="img/a0.jpg" class="img-circle" ng-if ="trenova_user.ad_photo == null">
+                          <img src="img/admin-images/{{trenova_user.ad_photo}}" class="img-circle" ng-if ="trenova_user.ad_photo != null">
                         </a>
                  <div class="clear m-b">
                      <div class="m-b m-t-sm">   

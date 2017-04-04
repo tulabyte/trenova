@@ -19,13 +19,8 @@
             </div>
 
             <div class="form-group">
-              <label>First Name</label>
-              <input type="text" class="form-control" placeholder="Enter first name" required ng-model="user.user_firstname">
-            </div>
-
-            <div class="form-group">
-              <label>Surname</label>
-              <input type="text" class="form-control" placeholder="Enter surname" required ng-model="user.user_surname">
+              <label>FullName</label>
+              <input type="text" class="form-control" placeholder="Enter first name" required ng-model="user.user_fullname">
             </div>
             
             <button type="submit" class="btn btn-success" ng-click="editUser(user)" ng-disabled='form.$invalid'> {{user.user_id ? 'Save' : 'Submit' }} </button>            

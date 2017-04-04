@@ -8,7 +8,8 @@
       <div class="dropdown wrapper" dropdown>
         <a ui-sref="app.profile-edit">
           <span class="thumb-lg w-auto-folded avatar m-t-sm">
-            <img src="img/a0.jpg" class="img-full" alt="...">
+            <img src="img/admin-images/{{trenova_user.ad_photo}}" class="img-full" alt="..." ng-if ="trenova_user.ad_photo != null">
+            <img src="img/a0.jpg" class="img-full" alt="..." ng-if ="trenova_user.ad_photo == null">
           </span>
         </a>
         <a href class="dropdown-toggle hidden-folded" dropdown-toggle>

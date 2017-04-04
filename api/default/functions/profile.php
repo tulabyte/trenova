@@ -56,7 +56,7 @@ $app->get('/getProfile', function() use ($app) {
     // get id of currently logged in admin
     $ad_id = $session['trenova_user']['ad_id'];
     
-    $profile = $db->getOneRecord("SELECT ad_email, ad_name, ad_phone, ad_address FROM admin WHERE ad_id='$ad_id'");
+    $profile = $db->getOneRecord("SELECT ad_email, ad_name, ad_phone, ad_address, ad_photo FROM admin WHERE ad_id='$ad_id'");
     if($profile) {
         //found course, return success result
 
@@ -69,4 +69,28 @@ $app->get('/getProfile', function() use ($app) {
         $response["message"] = "Error loading profile!";
         echoResponse(201, $response);
     }
+});
+
+//delete profile
+$app->get('/deleteProfile', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $filename = $db->purify($app->request->get('filename'));
+    
+    unlink('../../img/admin-images/'.$filename);
+
+    if(!file_exists('../../img/course-images/'.$filename)) {
+        //user deleted
+        $response['status'] = "success";
+        $response["message"] = "File Deleted successfully!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error deleting file!";
+        echoResponse(201, $response);
+    }
+
+    // $response["user_id"] = $user_id;
+    // echoResponse(200, $response);
 });

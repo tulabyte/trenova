@@ -21,7 +21,7 @@ app.controller('ProfileController', ['$scope', '$rootScope', 'FTAFunctions', '$s
     
     //initialize stuff
 
-    var uploadUrl = 'api/default/uploadFile.php';
+    var uploadUrl = 'api/default/uploadProfile.php';
 
     // Edit Category
     $scope.changePassword = function(password) {
@@ -45,38 +45,62 @@ app.controller('ProfileController', ['$scope', '$rootScope', 'FTAFunctions', '$s
     };
 
 $scope.editProfile = function(profile, ad_photo) {
-       var fd = new FormData();
-        fd.append('file', ad_photo);
-        $http.post(uploadUrl, fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        }).then(function(results) {
-           console.log(results);
-          // create the photo
-          profile.ad_photo = ad_photo.name; //take only the file name
-      //editing profile
+     if (profile.changeImage) {
+      //upload new file if changeImage is set
+          var fd = new FormData();
+          fd.append('file', ad_photo);
+          $http.post(uploadUrl, fd, {
+              transformRequest: angular.identity,
+              headers: {'Content-Type': undefined}
+          }).then(function(results) { 
+            //delete old file
+            FTAFunctions.deleteFile(profile.ad_photo).then(function(results) {
+              profile.ad_photo = ad_photo.name;
+              $scope.$broadcast('fileReady');
+            })
+          })  
+    } else {
+          $scope.$broadcast('fileReady');
+        } 
+      $scope.$on('fileReady', function(event){
           Data.post('editProfile', {
             profile: profile
         }).then(function (results) {
             console.log(results);
             if(results.status == "success") {
               //profile edited. Show message
-                $state.go('app.dashboard');
+              $rootScope.trenova_user.ad_photo = $scope.profile.ad_photo;
                 $rootScope.toasterPop('success','Action Successful!',results.message);
               } else {
                 //problemo. show error
                 $rootScope.toasterPop('error','Oops!',results.message);
               }
           });
+        });
+//if admin isnt changing image
+          if (!profile.changeImage) {
+      
+          Data.post('editProfile', {
+            profile: profile
+        }).then(function (results) {
+            console.log(results);
+            if(results.status == "success") {
+              //profile edited. Show message
+/*                $state.go('app.dashboard');*/
+                $rootScope.trenova_user.ad_photo = $scope.profile.ad_photo;
+                $rootScope.toasterPop('success','Action Successful!',results.message);
+              } else {
+                //problemo. show error
+                $rootScope.toasterPop('error','Oops!',results.message);
+              };
         }, function(error){
           // console.log(error);
           // upload problem
-          $rootScope.toasterPop('error','Oops!','There was a problem uploading the file!');
+          //$rootScope.toasterPop('error','Oops!','There was a problem uploading the file!');
         });
-      
-    };
-        
+      };
 
+}
 
 if($state.current.name == 'app.profile-edit') {
       //get profile details

@@ -66,27 +66,28 @@
             <a href class="dropdown-toggle" dropdown-toggle>
               <i class="icon-envelope fa-fw"></i>
               <span class="visible-xs-inline">Unread Messages</span>
-              <span class="badge badge-sm up bg-info pull-right-xs">{{payments.length}}</span>
+              <span class="badge badge-sm up bg-info pull-right-xs">{{not_feed.length}}</span>
             </a>
             <!-- dropdown -->
-            <div class="dropdown-menu w-xl animated fadeInUp" ng-show="payments.length > 0">
+            <div class="dropdown-menu w-xl animated fadeInUp" ng-show="not_feed.length > 0">
               <div class="panel bg-white">
                 <div class="panel-heading b-light bg-light">
-                  <strong>You have <span>{{payments.length}}</span> unread messages(s)</strong>
+                  <strong>You have <span>{{not_feed.length}}</span> unread feedback message(s)</strong>
                 </div>
                 <div class="list-group">
-                  
-                  <a href class="media list-group-item" ng-repeat="payment in payments">
-                    <span class="media-body block m-b-none">
-                      {{payment.user_fullname? payment.user_firstname + ' ' + payment.user_surname : payment.user_email}} ({{payment.pay_amount | number:2}})<br>
-                      <small class="text-muted"><span am-time-ago="payment.pay_time_completed"></span></small>
+                  <h5 ng-repeat="feedback in not_feed track by $index">
+                  <a class="media list-group-item" >
+                    <span class="media-body block m-b-none" ng-click = "FeedMessageList($index, feedback.fd_id)" ">
+                      {{feedback.user_fullname}} : {{feedback.fd_topic}}<br>
+                      <small class="text-muted"><span am-time-ago="feedback.fd_date"></span></small>
                     </span>
                   </a>
+                  </h5>
 
                 </div>
                 <div class="panel-footer text-sm">
                   <a href class="pull-right"><i class="fa fa-cog"></i></a>
-                  <a ui-sref="app.bank-waiting-list" data-toggle="class:show animated fadeInRight">See all messages</a>
+                  <a ui-sref="app.feedback-list" data-toggle="class:show animated fadeInRight">See all feedbacks</a>
                 </div>
               </div>
             </div>
@@ -96,19 +97,19 @@
             <a href class="dropdown-toggle" dropdown-toggle>
               <i class="icon-bell fa-fw"></i>
               <span class="visible-xs-inline">Awaiting Confirmation</span>
-              <span class="badge badge-sm up bg-danger pull-right-xs">{{payments.length}}</span>
+              <span class="badge badge-sm up bg-danger pull-right-xs">{{not_list.length}}</span>
             </a>
             <!-- dropdown -->
-            <div class="dropdown-menu w-xl animated fadeInUp" ng-show="payments.length > 0">
+            <div class="dropdown-menu w-xl animated fadeInUp" ng-show="not_list.length > 0">
               <div class="panel bg-white">
                 <div class="panel-heading b-light bg-light">
-                  <strong>You have <span>{{payments.length}}</span> payment(s) awaiting confirmation</strong>
+                  <strong>You have <span>{{not_list.length}}</span> payment(s) awaiting confirmation</strong>
                 </div>
                 <div class="list-group">
                   
-                  <a href class="media list-group-item" ng-repeat="payment in payments">
+                  <a ui-sref="app.bank-waiting-list" class="media list-group-item" ng-repeat="payment in not_list">
                     <span class="media-body block m-b-none">
-                      {{payment.user_firstname? payment.user_firstname + ' ' + payment.user_surname : payment.user_email}} ({{payment.pay_amount | number:2}})<br>
+                      <strong>{{payment.user_fullname}}</strong> Paid <strong>N{{payment.pay_amount | number:2}}</strong> On <strong>{{payment.pay_bank_date}}</strong><br>
                       <small class="text-muted"><span am-time-ago="payment.pay_time_completed"></span></small>
                     </span>
                   </a>
@@ -125,7 +126,8 @@
           <li class="dropdown" dropdown>
             <a href class="dropdown-toggle clear" dropdown-toggle>
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                <img src="img/a0.jpg" alt="...">
+                <img src="img/admin-images/{{trenova_user.ad_photo}}" alt="img/a0.jpg" ng-if ="trenova_user.ad_photo != undefined">
+                <img src="img/a0.jpg" alt="img/a0.jpg" ng-if ="trenova_user.ad_photo == undefined">
                 <i class="on md b-white bottom"></i>
               </span>
               <span class="">{{trenova_user.ad_name}}</span>

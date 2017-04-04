@@ -26,11 +26,20 @@
             <div class="form-group">
               <label>Address</label>
               <textarea cols="20" rows="5" class="form-control" ng-model="profile.ad_address"></textarea>
-            </div>
+            </div><br />
             
             <div class="form-group">
-              <label>Profile Photo</label>
-              <input type="file" name="file" file-model = "myFile">
+              <span style="display: inline-block; width: 20%;">
+                <img src="img/admin-images/{{profile.ad_photo}}" alt="img/a0.jpg" width="100%" ng-show="profile.ad_photo != undefined">
+                <i class="on md b-white bottom"></i>
+              </span><br />
+              <label>
+              <br />
+              <strong>Change Profile Photo</strong> <input type="checkbox" ng-model="profile.changeImage" ng-show="profile.ad_photo != undefined"></label>
+            </div>
+
+            <div class="form-group">
+              <input type="file" name="file" file-model = "myFile" ng-show="profile.changeImage || !profile.ad_photo">
             </div>
  
             <button type="submit" class="btn btn-success" ng-click="editProfile(profile, myFile)" ng-disabled='form.$invalid'> {{admin.ad_id ? 'Save' : 'Submit' }} </button>            

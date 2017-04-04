@@ -51,7 +51,7 @@ app.controller('UserController', ['$scope', '$rootScope', 'FTAFunctions', '$stat
     }
 
 
-      //bc-message
+      //bc-message newUserMessage
       $scope.newBroadcast = function(broadcast) {
 
           Data.post('createBroadCast', {
@@ -69,6 +69,39 @@ app.controller('UserController', ['$scope', '$rootScope', 'FTAFunctions', '$stat
           });
     };
 
+    //user-details
+    if($state.current.name == 'app.user-message') {
+       //get the user details
+       console.log('user details');
+       FTAFunctions.getUser($stateParams.id).then(function(results) {
+        console.log(results.user);
+        if(results.status == "success") {
+          $scope.message = results.user;
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          $rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    }
+
+
+          //send user-message 
+      $scope.newUserMessage = function(message) {
+console.log(message);
+          Data.post('sendUserMesssage', {
+            message: message
+        }).then(function (results) {
+            console.log(results);
+            if(results.status == "success") {
+              //broadcast successful. Show message
+                $state.go('app.user-list');
+                $rootScope.toasterPop('success','Action Successful!',results.message);
+              } else {
+                //problemo. show error
+                $rootScope.toasterPop('error','Oops!',results.message);
+              }
+          });
+    };
 
 
       //broadcast and feedback-details
@@ -150,6 +183,7 @@ app.controller('UserController', ['$scope', '$rootScope', 'FTAFunctions', '$stat
             console.log(results);
             if(results.status == "success") {
               //user edited. Show message
+              $state.go('app.user-list');
               $rootScope.toasterPop('success','Action Successful!',results.message);
             } else {
               //problemo. show error
@@ -165,7 +199,7 @@ app.controller('UserController', ['$scope', '$rootScope', 'FTAFunctions', '$stat
             console.log(results);
             if(results.status == "success") {
               //user created. Show message and go to user list
-              $state.go('app.user-list');
+              $state.go('app.user-list, {reload: true}');
               $rootScope.toasterPop('success','Action Successful!',results.message);
             } else {
               //problemo. show error

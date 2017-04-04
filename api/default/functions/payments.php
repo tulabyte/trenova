@@ -135,7 +135,7 @@ $app->get('/getDashTrends', function() use ($app) {
     $currdate = $start_date;
     do {
         
-        $user_counter = $db->getOneRecord("SELECT COUNT(*) AS user_count FROM user WHERE user_date_created = '$currdate'");
+        $user_counter = $db->getOneRecord("SELECT COUNT(*) AS user_count FROM user WHERE user_time_reg = '$currdate'");
         $user_trends[] = $user_counter['user_count'];
 
         $sub_counter = $db->getOneRecord("SELECT COUNT(*) AS sub_count FROM subscription WHERE sub_date_started = '$currdate'");

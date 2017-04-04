@@ -26,7 +26,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="payment in payments">
-            <td> {{payment.user_firstname? payment.user_firstname + ' ' + payment.user_surname : payment.user_email}} </td>
+            <td> {{payment.user_fullname}} </td>
             <td> {{payment.pay_amount | number:2}} </td>
             <td> {{payment.pay_bank_date | date:'dd/MM/yyyy' }} </td>
             <td> {{payment.pay_time_completed | date:'dd/MM/yyyy @ h:mma'}} </td>

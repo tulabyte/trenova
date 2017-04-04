@@ -13,6 +13,7 @@ app
   $scope.top_courses = [];
   $scope.new_payments = [];
   $scope.new_users = [];
+  $scope.not_list = [];
 
   // console.log('moment.js today - ' + $moment().format('MMM D'));
 

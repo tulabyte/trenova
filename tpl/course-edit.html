@@ -9,13 +9,6 @@
         <div class="panel-body">
           <form role="form" name="form">
             <div class="form-group">
-              <label>Course Title</label>
-              <input type="text" class="form-control" placeholder="Enter course title" required ng-model="course.course_title">
-            </div>
-
-            <div class="line line-dashed b-b line-lg pull-in"></div>
-
-            <div class="form-group">
               <label>Class/Stage</label>
               <ui-select ng-model="selected_class" theme="bootstrap" on-select="selectClass($item, $model)" required>
                 <ui-select-match placeholder="Select or search a class in the list...">{{$select.selected.class_name}}</ui-select-match>
@@ -30,10 +23,25 @@
 
             <div class="form-group">
               <label>Subject</label>
-              <select class="form-control" ng-options="subject.sb_id as subject.sb_title for subject in subjects" ng-model="course.course_subject_id" required>
+              <select class="form-control" ng-options="subject.sb_title for subject in subjects" ng-model="course.selected_subject" required ng-change="getCourseName(course)">
                 
                 <!-- <option ng-repeat="category in categories">{{category.cat_name}}</option> -->
               </select>
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Term/Section</label>
+                  <input type="number" class="form-control" placeholder="Enter 1,2 or 3." required ng-model="course.course_term" max="3" min="1"  ng-change="getCourseTerm(course.course_term)"/>
+                </div>
+             <div class="col-md-6"> 
+              <label>Course Title</label>
+              <input type="text" class="form-control" placeholder="course title would be generated" required ng-model="course.course_title">
+            </div>
+            </div>
             </div>
 
             <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -46,18 +54,9 @@
             <div class="line line-dashed b-b line-lg pull-in"></div>
 
             <div class="form-group">
-              <div class="row">
-                <div class="col-md-6">
-                  <label>Term/Section</label>
-                  <input type="number" class="form-control" placeholder="Enter 1,2 or 3." required ng-model="course.course_term" max="3" min="1" />
-                </div>
-                <div class="col-md-6">
                   <label>Course Price</label>
                   <input type="number" class="form-control" placeholder="Enter course price" required ng-model="course.course_price" />
                 </div>
-              </div>
-              
-            </div>
 
             <div class="line line-dashed b-b line-lg pull-in"></div>
 

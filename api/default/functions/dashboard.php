@@ -176,3 +176,34 @@ $subs = $db->getRecordset("SELECT user_fullname, user_email, pay_id, pay_time_co
         echoResponse(201, $response);
     }
 });
+
+//getLatestNotifications
+
+$app->get('/getLatestNotifications', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+
+$notify_count = $db->getOneRecord("SELECT COUNT(*) as not_count FROM user_payment LEFT JOIN user ON pay_user_id =user_id WHERE pay_method = 'BANK' AND pay_status = 'PROCESSING' ");
+
+$not_list = $db->getRecordset("SELECT user_fullname, pay_amount, pay_time_initiated FROM user_payment LEFT JOIN user ON pay_user_id =user_id WHERE pay_method = 'BANK' AND pay_status = 'PROCESSING' LIMIT 5 ");
+
+$not_feed = $db->getRecordset("SELECT fd_id, fd_topic, fd_date, fd_status, user_fullname FROM feedback LEFT JOIN user ON fd_user_id = user_id WHERE fd_status = 'PENDING' LIMIT 5");
+
+ $not_count = intval($notify_count[not_count]);
+
+  if(!empty($not_list) || !empty($not_count)) {
+        //found course, return success result
+
+        $response['not_count'] = $not_count;
+        $response['not_list'] = $not_list;
+        $response['not_feed'] = $not_feed;
+        $response['status'] = "success";
+        $response["message"] = "Latest Notifications Loaded!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error loading latest notifications!";
+        echoResponse(201, $response);
+    }
+});

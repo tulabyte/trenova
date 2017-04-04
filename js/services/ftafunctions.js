@@ -108,6 +108,11 @@ app.service('FTAFunctions', function (Data, $state) {
 		return Data.get('deleteFile?f='+filename);
 	}
 
+	//delete profile image
+	this.deleteProfile = function (filename) {
+		return Data.get('deleteProfile?f='+filename);
+	}
+
 	/* MODULES */
 	// get list of modules for a course
 	this.getModuleList = function (course_id) {
@@ -119,11 +124,21 @@ app.service('FTAFunctions', function (Data, $state) {
 		return Data.get('deleteModule?id='+id);
 	};
 
+	// deleted selected question
+	this.deleteQuestionModule = function (id) {
+		return Data.get('deleteQuestionModule?id='+id);
+	};
+
 	/* DASHBOARD */
 
 	// get dashboard box stats
 	this.getDashStats = function () {
 		return Data.get('getDashStats');
+	};
+
+	// get dashboard box stats
+	this.getLatestNotifications = function () {
+		return Data.get('getLatestNotifications');
 	};
 
 	// get latest subs for dash

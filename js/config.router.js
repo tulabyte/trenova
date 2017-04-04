@@ -5,8 +5,8 @@
  */
 angular.module('app')
   .run(
-    [          '$rootScope', '$state', '$stateParams', 'bsLoadingOverlayService', 'Data', 'toaster', 
-      function ($rootScope,   $state,   $stateParams, bsLoadingOverlayService, Data, toaster) {
+    [          '$rootScope', '$state', '$stateParams', 'bsLoadingOverlayService', 'Data', 'toaster', 'DTOptionsBuilder', 
+      function ($rootScope,   $state,   $stateParams, bsLoadingOverlayService, Data, toaster, DTOptionsBuilder) {
           
           $rootScope.authenticated = false;
 
@@ -51,6 +51,7 @@ angular.module('app')
           $rootScope.makeDate = function(string) {
             return new Date(string);
           };          
+          $rootScope.dtOptions = DTOptionsBuilder.newOptions().withOption("order",[]);
 
           $rootScope.$state = $state;
           $rootScope.$stateParams = $stateParams;
@@ -155,6 +156,70 @@ angular.module('app')
                       deps: ['uiLoad',
                         function( uiLoad){
                           return uiLoad.load('js/controllers/AgentController.js');
+                      }]
+                  }
+              })
+
+                .state('app.feedback-list', {
+                  url: '/feedback-list',
+                  data: {pageTitle: 'Feedback List'},
+                  templateUrl: 'tpl/feedback-list.html',
+                  resolve: {
+                    deps: ['$ocLazyLoad',
+                      function( $ocLazyLoad ){
+                        return $ocLazyLoad.load(['js/controllers/UserController.js']);
+                    }]
+                  }
+              })
+
+              //feedback details
+              .state('app.feedback-details', {
+                  url: '/feedback-details/:id',
+                  templateUrl: 'tpl/feedback-details.html',
+                  data: {pageTitle: 'Feedback Details'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/UserController.js');
+                      }]
+                  }
+              })
+
+              //broadcast list
+              .state('app.broadcast-list', {
+                  url: '/app.broadcast-list',
+                  templateUrl: 'tpl/bc-list.html',
+                  data: {pageTitle: 'Broadcast-list'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/UserController.js');
+                      }]
+                  }
+              })
+
+                //broadcast message
+              .state('app.broadcast-message', {
+                  url: '/broadcast-message/:id',
+                  templateUrl: 'tpl/bc-message.html',
+                  data: {pageTitle: 'Broadcast Details'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/UserController.js');
+                      }]
+                  }
+              })
+
+              //user message
+              .state('app.user-message', {
+                  url: '/user-message/:id',
+                  templateUrl: 'tpl/user-message.html',
+                  data: {pageTitle: 'Message Details'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/UserController.js');
                       }]
                   }
               })

@@ -71,12 +71,11 @@ $app->post('/editUser', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('user_firstname','user_surname','user_email','user_password'),$r->user);
+    verifyRequiredParams(array('user_fullname','user_email','user_password'),$r->user);
     //require_once 'passwordHash.php';
     $db = new DbHandler();
     $user_id = $db->purify($r->user->user_id);
-    $user_firstname = $db->purify($r->user->user_firstname);
-    $user_surname = $db->purify($r->user->user_surname);
+    $user_fullname = $db->purify($r->user->user_fullname);
     $user_email = $db->purify($r->user->user_email);
     $user_password = $db->purify($r->user->user_password);
 
@@ -84,7 +83,7 @@ $app->post('/editUser', function() use ($app) {
     if($isUserExists){
         //$r->user->password = passwordHash::hash($password);
         $table_to_update = "user";
-        $columns_to_update = ['user_firstname'=>$user_firstname,'user_surname'=>$user_surname,'user_email'=>$user_email,'user_password'=>$user_password];
+        $columns_to_update = ['user_fullname'=>$user_fullname,'user_email'=>$user_email,'user_password'=>$user_password];
         $where_clause = ['user_id'=>$user_id];
 
         $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
@@ -395,6 +394,67 @@ $app->post('/createBroadCast', function() use ($app) {
         $response["status"] = "error";
         //$response['message'] = $r->module;
         $response["message"] = "ERROR: Admin does not exist!";
+        echoResponse(201, $response);
+    }
+});
+
+
+//send user a message
+$app->post('/sendUserMesssage', function() use ($app) {
+    
+    $db = new DbHandler();
+    $session = $db->getSession();
+
+    // get id of currently logged in admin
+    $ad_id = $session['trenova_user']['ad_id'];
+    
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    verifyRequiredParams(['subject','body'],$r->message);
+    $db = new DbHandler();
+    $subject = $db->purify($r->message->subject);
+    $body = $db->purify($r->message->body);
+    $email = $db->purify($r->message->email);
+    $attach = $db->purify($r->message->attach);
+    $date = date('Y-m-d H:i:s');
+    $user_id = $db->purify($r->message->user_id);
+    $user_fullname = $db->purify($r->message->user_fullname);
+
+    $isAdminExists = $db->getOneRecord("SELECT 1 FROM admin WHERE ad_id='$ad_id'");
+    if($isAdminExists){
+        $table_name = "message";
+        $column_names = ['msg_sender_id', 'msg_receiver_id', 'msg_time_sent', 'msg_subject', 'msg_body', 'msg_attachment'];
+        $values = [$ad_id,$user_id, $date, $subject,$body,$attach];
+
+        $result = $db->insertToTable($values, $column_names, $table_name);
+
+        if ($result > 0) {
+            //log action
+            $log_details = "Sent Message: $subject to  $email (ID: $ad_id)";
+            $db->logAction($log_details);
+
+            $response["status"] = "success";
+            $response["message"] = "Broadcast created successfully";
+            echoResponse(200, $response);
+
+/*            //send email to user
+                $swiftmailer = new mySwiftMailer();
+                $email_body = "<p>Dear $user_fullname,</p>
+                <p>$body</p>
+                <p>Thank you for using Lenova Training.</p>
+                <p>NOTE: please DO NOT REPLY to this email.</p>
+                <p><br><strong>Lenova Training App</strong></p>";
+                $swiftmailer->sendmail('info@tulabyte.net', 'Lenova Training', [$user_email], $subject, $e_body);*/
+
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Failed to send Message. Please try again";
+            echoResponse(201, $response);
+        }            
+    }else{
+        $response["status"] = "error";
+        //$response['message'] = $r->module;
+        $response["message"] = "ERROR: You are not Authorize to send this User a Message!";
         echoResponse(201, $response);
     }
 });

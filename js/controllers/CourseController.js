@@ -22,7 +22,7 @@ app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'course', 'modu
   $scope.course = course;
   if(module) {
     $scope.module = module;
-    $scope.module.mod_position = parseInt($scope.module.mod_position);
+    $scope.module.less_number = parseInt($scope.module.less_number);
     console.log(module);
   } else {
     $scope.module = {};
@@ -30,9 +30,9 @@ app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'course', 'modu
   $scope.error = undefined;
 
   $scope.editModule = function(module) {
-    module.mod_course_id = $scope.course.course_id;
+    module.less_course_id = $scope.course.course_id;
     console.log(module);
-    if(module.mod_id) {
+    if(module.less_id) {
       //edit module
       Data.post('editModule', 
         { module: module }
@@ -63,6 +63,41 @@ app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'course', 'modu
     }
   };
 
+    $scope.editQuestionModule = function(question) {
+    question.course_id = $scope.course.course_id;
+    /*console.log(question.course_id);*/
+    if(question.q_id) {
+      //edit question
+      Data.post('editQuestionModule', 
+        { question: question }
+      ).then(function(results) {
+        if(results.status = "success") {
+          $modalInstance.close("OK");
+        } else {
+          //error
+          $scope.error = results.message;
+        }
+      }, function(error) {
+        console.log(error);
+      });
+    } else {
+      //create new question
+      Data.post('createQuestionModule', 
+        { question: question }
+      ).then(function(results) {
+        console.log(results);
+        if(results.status = "success") {
+          $modalInstance.close("OK");
+        } else {
+          //error
+          $scope.error = results.message;
+        }
+      }, function(error) {
+        console.log(error);
+      });
+    }
+  };
+
   $scope.ok = function () {
     $modalInstance.close($scope.selected.item);
   };
@@ -80,16 +115,17 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
     $scope.courses = [];
     $scope.subjects = [];
     $scope.classes = [];
-    $scope.modules = [];
+    $scope.lessons = [];
     $scope.selected_class = {};
 
     var uploadUrl = 'api/default/uploadFile.php';
 
-    $scope.loadModules = function (course_id) {
+    $scope.loadLessons = function (course_id) {
       FTAFunctions.getModuleList(course_id).then(function(results) {
         if(results.status = "success") {
-          console.log(results.modules);
-          $scope.modules = results.modules;
+          console.log(results);
+          $scope.lessons = results.lessons;
+          $scope.questions = results.questions;
         }
       });
     };
@@ -149,7 +185,30 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
 
       modalInstance.result.then(function (status) {
         if(status == 'OK') {
-          $scope.loadModules($scope.course.course_id);
+          $scope.loadLessons($scope.course.course_id);
+        }
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+    };
+
+        $scope.openQuestionModal = function (module = null) {
+      var modalInstance = $modal.open({
+        templateUrl: 'myQuestionModalContent.html',
+        controller: 'ModalInstanceCtrl',
+        resolve: {
+          course: function () {
+            return $scope.course;
+          },
+          module: function (){
+            return module;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (status) {
+        if(status == 'OK') {
+          $scope.loadLessons($scope.course.course_id);
         }
       }, function () {
         console.log('Modal dismissed at: ' + new Date());
@@ -158,21 +217,54 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
 
     // Delete Module
     $scope.deleteModule = function(id) {
-      if (confirm("Are you sure you want to delete this MODULE?")) {
+      if (confirm("Are you sure you want to delete this LESSON?")) {
         FTAFunctions.deleteModule(id).then(function(result) {
           if(result.status = "success") {
-            $scope.loadModules($scope.course.course_id);
+            $scope.loadLessons($scope.course.course_id);
             $rootScope.toasterPop('success','Successful!',result.message);
           }
         });
       }
     };
 
+        // Delete Question Module
+    $scope.deleteQuestionModule = function(id) {
+      if (confirm("Are you sure you want to delete this QUESTION?")) {
+        FTAFunctions.deleteQuestionModule(id).then(function(result) {
+          if(result.status = "success") {
+            $scope.loadLessons($scope.course.course_id);
+            $rootScope.toasterPop('success','Successful!',result.message);
+          }
+        });
+      }
+    };
+
+        // class plus subject name
+        $scope.getCourseName = function(name) {
+          console.log(name);
+        $scope.course.sub_title = name.selected_subject.sb_title;
+        $scope.course.course_subject_id = name.selected_subject.sb_id;
+        $scope.course.course_title = $scope.course.course_title + '-' + $scope.course.sub_title;
+//        console.log($scope.course.sub_title);
+
+     //   $scope.course.course_title = $scope.constructCourseTitle($scope.course.selected_class.class_name, $scope.course.selected_subject.sb_title, $scope.course.course_term);
+    };
+        // class plus subject plus term name
+        $scope.getCourseTerm = function(name) {
+        $scope.course.course_title = $scope.course.course_title + '-' + 'Term' + '-'+ name;
+      //  console.log($scope.course.course_title);
+    };
+
+/*    $scope.constructCourseTitle = function($subject, $class, $term) {
+      return $class + " - " + $subject + " - Term " + $term;
+    }*/
+
     // select class when ui-select item is picked
     $scope.selectClass = function(item, model) {
-      // console.log(item);
-      // console.log(model);
+//       console.log(item);
+//       console.log(model);
       $scope.course.course_class_id = item.class_id;
+      $scope.course.course_title = model.class_name;
     };
 
     // edit course - load classes & subjects 
@@ -193,7 +285,8 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
         if(results.status == "success") {
           $scope.course = results.course;
           $scope.course.course_price = parseFloat ($scope.course.course_price);
-          $scope.loadModules($scope.course.course_id);
+          $scope.course.course_term = parseInt ($scope.course.course_term);
+          $scope.loadLessons($scope.course.course_id);
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);
@@ -209,7 +302,7 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
     // Edit Course
     $scope.editCourse = function(course, course_image) {
       //check if we are on the edit page
-      // console.log(course);
+       console.log(course);
       if($stateParams.id) {
         //edit the course
         //console.log('editing course...');
