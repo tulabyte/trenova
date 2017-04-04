@@ -128,7 +128,6 @@ $app->get('/deleteSchool', function() use ($app) {
 $app->get('/getSchoolList', function() use ($app) {
     $response = array();
 
-
     $db = new DbHandler();
     
     $schools = $db->getRecordset("SELECT * FROM school ORDER BY sch_name");

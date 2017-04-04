@@ -61,35 +61,35 @@ $app->post('/createModule', function() use ($app) {
     $r = json_decode($app->request->getBody());
     verifyRequiredParams(['less_title', 'less_content', 'less_course_id'],$r->module);
     $db = new DbHandler();
-    $mod_title = $db->purify($r->module->less_title);
-    $mod_content = $db->purify($r->module->less_content);
-    $mod_position = $db->purify($r->module->less_position);
-    $mod_course_id = $db->purify($r->module->less_course_id);
+
+    $less_title = $db->purify($r->module->less_title);
+    $less_content = $db->purify($r->module->less_content);
+    $less_position = $db->purify($r->module->less_number);
+    $less_course_id = $db->purify($r->module->less_course_id);
     
     //check if module already exists with same title for same course
-    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_title='$mod_title' AND less_course_id = '$mod_course_id'");
+    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_title='$less_title' AND less_course_id = '$less_course_id'");
     if(!$isModuleExists){
         //the title has not yet been used
 
         //if position is empty, derive new position
-        if ($mod_position == '') {
+        if ($less_position == '') {
             $maxPos = $db->getOneRecord("SELECT MAX(less_number) AS max_pos FROM course_lesson WHERE less_course_id = '$mod_course_id'");
-            $mod_position = $maxPos['max_pos'] + 1;
+            $less_position = $maxPos['max_pos'] + 1;
         }
 
         $table_name = "course_lesson";
         $column_names = ['less_title', 'less_course_id', 'less_content', 'less_number'];
         $values = [$mod_title, $mod_course_id, $mod_content, $mod_position];
-
         $result = $db->insertToTable($values, $column_names, $table_name);
 
         if ($result != NULL) {
             $response["status"] = "success";
             $response["message"] = "Lesson created successfully";
-            $response["mod_id"] = $result;
+            $response["less_id"] = $result;
 
             //log action
-            $log_details = "Created New Lesson: $mod_title (ID: $result)";
+            $log_details = "Created New Lesson: $less_title (ID: $result)";
             $db->logAction($log_details);            
 
             echoResponse(200, $response);
@@ -132,7 +132,7 @@ $app->post('/createCourseRating', function() use ($app) {
         if ($result != NULL) {
             $response["status"] = "success";
             $response["message"] = "Rating created successfully";
-            $response["mod_id"] = $result;
+            $response["less_id"] = $result;
 
             echoResponse(200, $response);
         } else {
@@ -203,22 +203,22 @@ $app->post('/editModule', function() use ($app) {
     $r = json_decode($app->request->getBody());
     verifyRequiredParams(['less_id', 'less_title', 'less_content', 'less_number'],$r->module);
     $db = new DbHandler();
-    $mod_id = $db->purify($r->module->less_id);
-    $mod_title = $db->purify($r->module->less_title);
-    $mod_content = $db->purify($r->module->less_content);
-    $mod_position = $db->purify($r->module->less_number);
+    $less_id = $db->purify($r->module->less_id);
+    $less_title = $db->purify($r->module->less_title);
+    $less_content = $db->purify($r->module->less_content);
+    $less_position = $db->purify($r->module->less_number);
 
-    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_id='$mod_id'");
+    $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_id='$less_id'");
     if($isModuleExists){
         $table_to_update = "course_lesson";
-        $columns_to_update = ['less_title'=>$mod_title,'less_content'=>$mod_content, 'less_number'=>$mod_position];
-        $where_clause = ['less_id'=>$mod_id];
-
+        $columns_to_update = ['less_title'=>$less_title,'less_content'=>$less_content, 'less_number'=>$less_position];
+        $where_clause = ['less_id'=>$less_id];
         $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
 
         if ($result > 0) {
             //log action
-            $log_details = "Edited Lesson: $mod_title (ID: $mod_id)";
+
+            $log_details = "Edited Module: $less_title (ID: $less_id)";
             $db->logAction($log_details);
 
             $response["status"] = "success";
@@ -433,6 +433,77 @@ $app->get('/getCourseList', function() use ($app) {
     }
 });
 
+// get course list for mobile
+$app->get('/getCourseListForMobile', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    
+    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course ORDER BY course_title");
+    if($courses) {
+        //courses found
+        $count = count($courses);
+
+        $response['courses'] = $courses;
+        $response['status'] = "success";
+        $response["message"] = "$count Courses Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No course found!";
+        echoResponse(201, $response);
+    }
+});
+
+$app->get('/getCourseListBySubject', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $subject_id = $db->purify($app->request->get('id'));
+
+    $subject = $db->getOneRecord("SELECT * FROM subject WHERE sb_id = '$subject_id'");
+    
+    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_subject_id = '$subject_id' ORDER BY course_title");
+    if($courses) {
+        //courses found
+        $count = count($courses);
+        $response['subject'] = $subject;
+        $response['courses'] = $courses;
+        $response['status'] = "success";
+        $response["message"] = "$count Courses Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No course found!";
+        echoResponse(201, $response);
+    }
+});
+
+$app->get('/getCourseListByClass', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $class_id = $db->purify($app->request->get('id'));
+
+    $class = $db->getOneRecord("SELECT * FROM class WHERE class_id = '$class_id'");
+    
+    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_class_id = '$class_id' ORDER BY course_title");
+    if($courses) {
+        //courses found
+        $count = count($courses);
+
+        $response['class'] = $class;
+        $response['courses'] = $courses;
+        $response['status'] = "success";
+        $response["message"] = "$count Courses Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No course found!";
+        echoResponse(201, $response);
+    }
+});
+
 // get course list - frontend
 $app->get('/getCourseListF', function() use ($app) {
     $response = array();
@@ -440,7 +511,7 @@ $app->get('/getCourseListF', function() use ($app) {
     $db = new DbHandler();
     
     $courses = $db->getRecordset("SELECT *, 
-        (SELECT COUNT(*) FROM course_module WHERE mod_course_id = course_id) AS module_count 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
         FROM course 
         ORDER BY course_title");
     if($courses) {
@@ -467,7 +538,7 @@ $app->get('/getCourseFavList', function() use ($app) {
     $user_id = $session['trv_id'];
     
     $courses = $db->getRecordset("SELECT *, 
-        (SELECT COUNT(*) FROM course_module WHERE mod_course_id = course_id) AS module_count 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
         FROM course 
         LEFT JOIN favourite ON course_id = fav_course_id 
         WHERE fav_user_id = '$user_id' 
@@ -496,7 +567,7 @@ $app->get('/getCourseSubList', function() use ($app) {
     $user_id = $session['trv_id'];
     
     $courses = $db->getRecordset("SELECT *, 
-        (SELECT COUNT(*) FROM course_module WHERE mod_course_id = course_id) AS module_count 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
         FROM course 
         LEFT JOIN subscription ON course_id = sub_course_id 
         WHERE sub_user_id = '$user_id' 
@@ -523,11 +594,12 @@ $app->get('/getModuleList', function() use ($app) {
     $db = new DbHandler();
     $course_id = $db->purify($app->request->get('course_id'));
     
-    $lesson = $db->getRecordset("SELECT * FROM course_lesson WHERE less_course_id = '$course_id' ORDER BY less_title");
+    $lesson = $db->getRecordset("SELECT * FROM course_lesson WHERE less_course_id = '$course_id' ORDER BY less_number,less_title");
 
     $question = $db->getRecordset("SELECT * FROM question WHERE q_course_id = '$course_id' ORDER BY q_number ASC");
 
     if(!empty($lesson) || !empty($question)) {
+
         //categories found
         $count = count($lesson);
 
@@ -585,20 +657,20 @@ $app->get('/deleteModule', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();
-    $mod_id = $db->purify($app->request->get('id'));
+    $less_id = $db->purify($app->request->get('id'));
 
     //get module details
-    $module = $db->getOneRecord("SELECT * FROM course_lesson WHERE less_id='$mod_id'");
+    $module = $db->getOneRecord("SELECT * FROM course_lesson WHERE less_id='$less_id'");
 
     $table_name = 'course_lesson';
     $col_name = 'less_id';
-    $result = $db->deleteFromTable($table_name, $col_name, $mod_id);
+    $result = $db->deleteFromTable($table_name, $col_name, $less_id);
 
     if($result > 0) {
         //module deleted
 
         //log action
-        $log_details = "Deleted Module: ".$module['less_title']." ($mod_id)";
+        $log_details = "Deleted Lesson: ".$module['less_title']." ($less_id)";
         $db->logAction($log_details);
 
         $response['status'] = "success";
@@ -650,23 +722,16 @@ $app->get('/getFeaturedCourseList', function() use ($app) {
     $db = new DbHandler();
     
     $featured_courses = $db->getRecordset("SELECT *, 
-        (SELECT COUNT(*) FROM subscription WHERE sub_course_id=course_id) AS sub_count, 
-        (SELECT COUNT(*) FROM course_module WHERE mod_course_id=course_id) AS module_count  
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count  
         FROM course WHERE course_is_featured > 0 ");
     if($featured_courses) {
-        //found course, return success result
-
-        //log action
-        /*$log_details = "Accessed Featured Course Details: ".$db->purify($course['course_title'])." (ID: ".$course['course_id'].")";
-        $db->logAction($log_details);*/
-
         $response['featured_courses'] = $featured_courses;
         $response['status'] = "success";
-        $response["message"] = "Course Details Loaded!";
+        $response["message"] = "Featured courses Loaded!";
         echoResponse(200, $response);
     } else {
         $response['status'] = "error";
-        $response["message"] = "Error loading course!";
+        $response["message"] = "Error loading featured courses!";
         echoResponse(201, $response);
     }
 });
@@ -677,21 +742,15 @@ $app->get('/getNewCourseList', function() use ($app) {
 
     $db = new DbHandler();
     
-    $new_courses = $db->getRecordset("SELECT * FROM course ORDER BY course_time_created DESC LIMIT 10 ");
+    $new_courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count FROM course ORDER BY course_time_created DESC LIMIT 10 ");
     if($new_courses) {
-        //found course, return success result
-
-        //log action
-/*        $log_details = "Accessed Course Details: ".$db->purify($course['course_title'])." (ID: ".$course['course_id'].")";
-        $db->logAction($log_details);
-*/
         $response['new_courses'] = $new_courses;
         $response['status'] = "success";
-        $response["message"] = "Course Details Loaded!";
+        $response["message"] = "New courses Loaded!";
         echoResponse(200, $response);
     } else {
         $response['status'] = "error";
-        $response["message"] = "Error loading course!";
+        $response["message"] = "Error loading new courses!";
         echoResponse(201, $response);
     }
 });
@@ -751,8 +810,9 @@ $app->get('/getCourseDetails', function() use ($app) {
 
         $response['course_details'] = $course_details;
 
-        // get course lessons for selected course
-        $course_lessons = $db->getRecordset("SELECT * FROM course_lesson WHERE less_course_id = '$course_id' ORDER BY mod_position ASC");
+
+        // get course modules for selected course
+        $course_lessons = $db->getRecordset("SELECT * FROM course_lesson WHERE less_course_id = '$course_id' ORDER BY less_number ASC");
         $response['course_lessons'] = $course_lessons;
 
         // count number of subscriptions for selected course
@@ -798,12 +858,6 @@ $app->get('/getTrendingCourseList', function() use ($app) {
     $trending = $db->getRecordset("SELECT *, COUNT(sub_course_id) AS sub_count FROM subscription LEFT JOIN course ON sub_course_id=course_id GROUP BY sub_course_id HAVING sub_count > 0 ORDER BY sub_count DESC LIMIT 10 ");
 
     if($trending) {
-        //found course by category, return success result
-
-        //log action
-        /*$log_details = "Accessed Course By Category Details: ".$db->purify($course['course_title'])." (ID: ".$course['course_id'].")" . "(CATEGORY ID:" . $course['course_category_id']  . ")";
-        $db->logAction($log_details);
-        */
         
         $response['trending_courses'] = $trending;
         $response['status'] = "success";

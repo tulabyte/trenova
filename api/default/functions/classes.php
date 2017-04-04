@@ -128,11 +128,9 @@ $app->get('/deleteClass', function() use ($app) {
 
 });
 
-
 // get class list
 $app->get('/getClassList', function() use ($app) {
     $response = array();
-
 
     $db = new DbHandler();
     
@@ -152,6 +150,29 @@ $app->get('/getClassList', function() use ($app) {
     }
 });
 
+// get class list
+$app->get('/getClassListForSchool', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+
+    $sch_id = $db->purify($app->request->get('sch_id'));
+    
+    $classes = $db->getRecordset("SELECT class_id, class_name, class_school_id FROM class WHERE class_school_id = '$sch_id'");
+    if($classes) {
+        //class found
+        $class_count = count($classes);
+
+        $response['classes'] = $classes;
+        $response['status'] = "success";
+        $response["message"] = "$class_count Classes Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No Class found!";
+        echoResponse(201, $response);
+    }
+});
 
 // get Class
 $app->get('/getClass', function() use ($app) {
