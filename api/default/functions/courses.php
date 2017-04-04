@@ -64,7 +64,7 @@ $app->post('/createModule', function() use ($app) {
 
     $less_title = $db->purify($r->module->less_title);
     $less_content = $db->purify($r->module->less_content);
-    $less_position = $db->purify($r->module->less_number);
+    $less_number = $db->purify($r->module->less_number);
     $less_course_id = $db->purify($r->module->less_course_id);
     
     //check if module already exists with same title for same course
@@ -73,14 +73,13 @@ $app->post('/createModule', function() use ($app) {
         //the title has not yet been used
 
         //if position is empty, derive new position
-        if ($less_position == '') {
-            $maxPos = $db->getOneRecord("SELECT MAX(less_number) AS max_pos FROM course_lesson WHERE less_course_id = '$mod_course_id'");
-            $less_position = $maxPos['max_pos'] + 1;
+        if ($less_number == '') {
+            $maxPos = $db->getOneRecord("SELECT MAX(less_number) AS max_pos FROM course_lesson WHERE less_course_id = '$less_course_id'");
+            $less_number = $maxPos['max_pos'] + 1;
         }
-
         $table_name = "course_lesson";
         $column_names = ['less_title', 'less_course_id', 'less_content', 'less_number'];
-        $values = [$mod_title, $mod_course_id, $mod_content, $mod_position];
+        $values = [$less_title, $less_course_id, $less_content, $less_number];
         $result = $db->insertToTable($values, $column_names, $table_name);
 
         if ($result != NULL) {
@@ -206,12 +205,12 @@ $app->post('/editModule', function() use ($app) {
     $less_id = $db->purify($r->module->less_id);
     $less_title = $db->purify($r->module->less_title);
     $less_content = $db->purify($r->module->less_content);
-    $less_position = $db->purify($r->module->less_number);
+    $less_number = $db->purify($r->module->less_number);
 
     $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_id='$less_id'");
     if($isModuleExists){
         $table_to_update = "course_lesson";
-        $columns_to_update = ['less_title'=>$less_title,'less_content'=>$less_content, 'less_number'=>$less_position];
+        $columns_to_update = ['less_title'=>$less_title,'less_content'=>$less_content, 'less_number'=>$less_number];
         $where_clause = ['less_id'=>$less_id];
         $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
 
@@ -535,7 +534,7 @@ $app->get('/getCourseFavList', function() use ($app) {
 
     $db = new DbHandler();
     $session = $db->getSession();
-    $user_id = $session['trv_id'];
+    $user_id = $session['trenova_user']['user_id'];
     
     $courses = $db->getRecordset("SELECT *, 
         (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
@@ -564,7 +563,7 @@ $app->get('/getCourseSubList', function() use ($app) {
 
     $db = new DbHandler();
     $session = $db->getSession();
-    $user_id = $session['trv_id'];
+    $user_id = $session['trenova_user']['user_id'];
     
     $courses = $db->getRecordset("SELECT *, 
         (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
@@ -801,10 +800,9 @@ $app->get('/getCourseDetails', function() use ($app) {
 
     $db = new DbHandler();
     $course_id = $db->purify($app->request->get('course_id'));
-    $session = $db->getSession();
-    $user_id = $session['trv_id'];
+    $user_id = $db->purify($app->request->get('user_id'));
     
-    $course_details = $db->getOneRecord("SELECT * FROM course LEFT JOIN course_category ON course_category_id = cat_id WHERE course_id='$course_id'");
+    $course_details = $db->getOneRecord("SELECT * FROM course LEFT JOIN subject ON course_subject_id = sb_id WHERE course_id='$course_id'");
 
      if($course_details) {
 
@@ -819,7 +817,7 @@ $app->get('/getCourseDetails', function() use ($app) {
         $course_sub_count = $db->getOneRecord("SELECT COUNT(*) AS sub_count FROM subscription WHERE sub_course_id='$course_id'");
         $response['course_sub_count'] = $course_sub_count ? $course_sub_count['sub_count'] : 0;
         // number of favourites
-        $course_fav_count = $db->getOneRecord("SELECT COUNT(*) AS fav_count FROM favourite WHERE fav_course_id='$course_id'");
+        $course_fav_count = $db->getOneRecord("SELECT COUNT(*) AS fav_count FROM user_favourite WHERE fav_course_id='$course_id'");
         $response['course_fav_count'] = $course_fav_count ? $course_fav_count['fav_count'] : 0;
         // number of ratings
         $course_rating_count = $db->getOneRecord("SELECT COUNT(*) AS rating_count FROM course_rating WHERE cr_course_id='$course_id'");
@@ -828,7 +826,7 @@ $app->get('/getCourseDetails', function() use ($app) {
         $course_rating_avg = $db->getOneRecord("SELECT AVG(cr_rating) AS rating_avg FROM course_rating WHERE cr_course_id='$course_id'");
         $response['course_rating_avg'] = $course_rating_avg ? $course_rating_avg['rating_avg'] : 0 ;
         // in favourites
-        $in_favs = $db->getOneRecord("SELECT * FROM favourite WHERE fav_user_id = '$user_id' AND fav_course_id = '$course_id' ");
+        $in_favs = $db->getOneRecord("SELECT * FROM user_favourite WHERE fav_user_id = '$user_id' AND fav_course_id = '$course_id' ");
         $response['course_in_favs'] = $in_favs ? true : false;
         // course rated by me
         $ratedbyme = $db->getOneRecord("SELECT * FROM course_rating WHERE cr_course_id='$course_id' AND cr_user_id = '$user_id' ");

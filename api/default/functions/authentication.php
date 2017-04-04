@@ -611,8 +611,6 @@ $app->get('/GenerateSignUpToken', function() use ($app) {
     $response = array();
     $db = new DbHandler();
     $token_user_id = $db->purify($app->request->get('user_id'));
-    // $session = $db->getSession();
-    //$token_user_id = $session['trv_id'];
     if($token_user_id){
 
     $user = $db->getOneRecord("SELECT * FROM user WHERE user_id = '$token_user_id'");

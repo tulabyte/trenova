@@ -241,7 +241,7 @@ $app->get('/addToFavourites', function() use ($app) {
     $db = new DbHandler();
     $session = $db->getSession();
     $course_id = $db->purify($app->request->get('course_id'));
-    $user_id = $session['trv_id'];
+    $user_id = $session['trenova_user']['user_id'];
     $response['user_id'] = $user_id;
     // check if it's already in favourites
     $fav = $db->getOneRecord("SELECT * FROM favourite WHERE fav_user_id = '$user_id' AND fav_course_id = '$course_id' ");
