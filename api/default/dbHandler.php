@@ -144,8 +144,9 @@ class DbHandler {
     }
 
 
-public function getSession(){
+public function getSession($session_id = ""){
     if (!isset($_SESSION)) {
+        if(!empty($session_id)) session_id($session_id);
         session_start();
     }
     $sess = array();

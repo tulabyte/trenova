@@ -91,7 +91,7 @@ $app->post('/createPayment', function() use ($app) {
 
     // get logged in user session details
     $session = $db->getSession(); 
-    $pay_user_id = $session['trv_id'];
+    $pay_user_id = $session['trenova_user']['user_id'];
 
     // generate other necessary values
     $pay_time_initiated = date("Y-m-d h:i:s");
