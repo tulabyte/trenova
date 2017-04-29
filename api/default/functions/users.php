@@ -33,19 +33,19 @@ $app->post('/createUser', function() use ($app) {
 
             //send email notification to new user
             $swiftmailer = new mySwiftMailer();
-            $subject = "Your new User Account on FITC Training";
+            $subject = "Your new User Account on Trenova";
             $body = "<p>Dear $user_firstname,</p>
-    <p>A user account has been created for you on FITC Training. You can login using the following details:</p>
+    <p>A user account has been created for you on Trenova. You can login using the following details:</p>
     <p>
-    URL: http://fta.fitc-ng.com<br>
+    URL: http://tulabyte.net/trenova<br>
     Email: $user_email<br>
     Password: $user_password
     </p>
     <p>You are advised to change your password to something more personal once you login.</p>
-    <p>Thank you for using FITC Training.</p>
+    <p>Thank you for using Trenova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>FITC Training App</strong></p>";
-            $swiftmailer->sendmail('info@fitc-ng.com', 'FITC Training', [$user_email], $subject, $body);
+    <p><br><strong>Trenova App</strong></p>";
+            $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$user_email], $subject, $body);
 
             //log action
             $log_details = "Created User: $user_firstname $user_surname (ID: $user_id)";
@@ -241,10 +241,10 @@ $app->get('/addToFavourites', function() use ($app) {
     $db = new DbHandler();
     $session = $db->getSession();
     $course_id = $db->purify($app->request->get('course_id'));
-    $user_id = $session['trenova_user']['user_id'];
+    $user_id = $db->purify($app->request->get('user_id'));
     $response['user_id'] = $user_id;
     // check if it's already in favourites
-    $fav = $db->getOneRecord("SELECT * FROM favourite WHERE fav_user_id = '$user_id' AND fav_course_id = '$course_id' ");
+    $fav = $db->getOneRecord("SELECT * FROM user_favourite WHERE fav_user_id = '$user_id' AND fav_course_id = '$course_id' ");
 
     if($fav) {
         $response['status'] = "success";
@@ -252,12 +252,15 @@ $app->get('/addToFavourites', function() use ($app) {
         echoResponse(200, $response);
     } else {
        // run query to insert new fav
-        $table_name = "favourite";
+        $table_name = "user_favourite";
         $column_names = ['fav_user_id', 'fav_course_id'];
         $values = [$user_id, $course_id];
-        $result = $db->insertToTable($values, $column_names, $table_name); 
+        $result = $db->insertToTable($values, $column_names, $table_name);
 
-        if($result) {
+        // check if insert was successful
+        $fav = $db->getOneRecord("SELECT * FROM user_favourite WHERE fav_user_id = '$user_id' AND fav_course_id = '$course_id' ");
+
+        if($fav) {
             //fav added
             $response['status'] = "success";
             $response["message"] = "Added to Favourites";
@@ -268,19 +271,17 @@ $app->get('/addToFavourites', function() use ($app) {
             echoResponse(201, $response);
         }
     }
-
-    
+   
 });
-
 
 // get Feedback list
 $app->get('/getFeedbackList', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();    
-    $feedback = $db->getRecordset("SELECT fd_id, fd_topic, fd_date, fd_status, user_fullname FROM feedback LEFT JOIN user ON fd_user_id = user_id");
+    $feedback = $db->getRecordset("SELECT fd_id, fd_topic, fd_date, fd_status, user_fullname FROM feedback LEFT JOIN user ON fd_user_id = user_id ORDER BY fd_date DESC");
 
-    $broadcast = $db->getRecordset("SELECT bc_id, bc_topic, bc_date, ad_name FROM broadcast LEFT JOIN admin ON bc_ad_id = ad_id");
+    $broadcast = $db->getRecordset("SELECT bc_id, bc_topic, bc_date, ad_name FROM broadcast LEFT JOIN admin ON bc_ad_id = ad_id ORDER BY bc_date DESC");
     
     if($feedback || $broadcast) {
         //feedback found\
@@ -375,13 +376,13 @@ $app->post('/createBroadCast', function() use ($app) {
             foreach ($users as $user) {
                 $swiftmailer = new mySwiftMailer();
                 $subject = $bc_topic;
-                $user_email = $user[user_email];
-                $body = "<p>Dear $user[user_fullname],</p>
+                $user_email = $user['user_email'];
+                $body = "<p>Dear ".$user['user_fullname'].",</p>
                 <p>$bc_message</p>
-                <p>Thank you for using Lenova Training.</p>
+                <p>Thank you for using Learnova Training.</p>
                 <p>NOTE: please DO NOT REPLY to this email.</p>
-                <p><br><strong>Lenova Training App</strong></p>";
-                $swiftmailer->sendmail('info@tulabyte.net', 'Lenova Training', [$user_email], $subject, $body);
+                <p><br><strong>Learnova Training App</strong></p>";
+                $swiftmailer->sendmail('info@tulabyte.net', 'Learnova Training', [$user_email], $subject, $body);
             }
 
 
@@ -441,10 +442,10 @@ $app->post('/sendUserMesssage', function() use ($app) {
                 $swiftmailer = new mySwiftMailer();
                 $email_body = "<p>Dear $user_fullname,</p>
                 <p>$body</p>
-                <p>Thank you for using Lenova Training.</p>
+                <p>Thank you for using Learnova Training.</p>
                 <p>NOTE: please DO NOT REPLY to this email.</p>
-                <p><br><strong>Lenova Training App</strong></p>";
-                $swiftmailer->sendmail('info@tulabyte.net', 'Lenova Training', [$user_email], $subject, $e_body);*/
+                <p><br><strong>Learnova Training App</strong></p>";
+                $swiftmailer->sendmail('info@tulabyte.net', 'Learnova Training', [$user_email], $subject, $e_body);*/
 
         } else {
             $response["status"] = "error";

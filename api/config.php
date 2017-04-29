@@ -10,7 +10,6 @@ define('DB_NAME', 'tulaborm_trenova');
 /* Site URL Config */
 define('SITE_URL', 'http://tulabyte.net/trenova');
 // define('SITE_URL', 'http://app.trenova.com');
-//define('SITE_URL', 'http://localhost/fitc-training');
 
 /* Brand ID */
 define('SHORTNAME', 'Trenova');

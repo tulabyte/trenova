@@ -61,14 +61,15 @@ $app->post('/createOrder', function() use ($app) {
 
     // extract values needed from body of request
     $ord_total = $db->purify($r->ord_total);
+    $user_id = $db->purify($r->user_id);
 
     // get logged in user session details
     $session = $db->getSession(); 
-    $user_id = $session['fta_id'];
+    // $user_id = $session['fta_id'];
 
     // generate other necessary values
-    $ord_date_init = date("Y-m-d h:i:s");
-    $ord_status = 'PENDING';
+    $order_time_created = date("Y-m-d h:i:s");
+    $order_status = 'PENDING';
 
     // try a dummy select - makes no sense for now
     $dummy = $db->getOneRecord("SELECT 1 FROM user");
@@ -76,8 +77,8 @@ $app->post('/createOrder', function() use ($app) {
     if($dummy) {
         // run query to insert new order
         $table_name = "user_order";
-        $column_names = ['order_user_id', 'order_total', 'order_date_init', 'order_status'];
-        $values = [$user_id, $ord_total, $ord_date_init, $ord_status];
+        $column_names = ['order_user_id', 'order_total', 'order_time_created', 'order_status'];
+        $values = [$user_id, $ord_total, $order_time_created, $order_status];
 
         $ord_id = $db->insertToTable($values, $column_names, $table_name);
         
@@ -115,7 +116,7 @@ $app->post('/createOrderItem', function() use ($app) {
 
     if($dummy) {
         // run query to insert new order item
-        $table_name = "order_item";
+        $table_name = "user_order_item";
         $column_names = ['item_order_id', 'item_course_id', 'item_qty'];
         $values = [$order_id, $course_id, $item_qty];
 
@@ -158,4 +159,50 @@ $app->get('/deleteOrder', function() use ($app) {
         echoResponse(201, $response);
     }
 
+});
+
+//get user's order list
+$app->get('/getUserOrderList', function() use ($app) {
+
+    $response = array();
+
+    $db = new DbHandler();
+    $user_id = $db->purify($app->request->get('id'));
+    
+    $orders = $db->getRecordset("SELECT order_id, order_total, order_time_created, order_status, (SELECT COUNT(item_id) FROM user_order_item WHERE item_order_id = order_id) AS item_count FROM user_order WHERE order_user_id='$user_id' ORDER BY order_time_created DESC");
+    if($orders) {
+        //found order, return success result
+        $response['orders'] = $orders;
+        $response['status'] = "success";
+        $response["message"] = "Orders Loaded!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error loading orders!";
+        echoResponse(201, $response);
+    }
+});
+
+//get full order details
+$app->get('/getOrderDetails', function() use ($app) {
+    
+    $response = array();
+
+    $db = new DbHandler();
+    $order_id = $db->purify($app->request->get('id'));
+    
+    $order = $db->getOneRecord("SELECT order_id, order_total, order_time_created, order_status FROM user_order WHERE order_id='$order_id'");
+    $order_items = $db->getRecordset("SELECT item_id, item_order_id, item_course_id, item_qty, course_title, course_image, course_price FROM user_order_item LEFT JOIN course ON item_course_id = course_id WHERE item_order_id = '$order_id' ");
+    if($order && $order_items) {
+        //found order, return success result
+        $response['order'] = $order;
+        $response['order_items'] = $order_items;
+        $response['status'] = "success";
+        $response["message"] = "Order Details Loaded!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error loading order details!";
+        echoResponse(201, $response);
+    }
 });

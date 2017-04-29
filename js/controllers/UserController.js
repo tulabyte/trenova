@@ -60,7 +60,7 @@ app.controller('UserController', ['$scope', '$rootScope', 'FTAFunctions', '$stat
             console.log(results);
             if(results.status == "success") {
               //broadcast successful. Show message
-                $state.go('app.dashboard');
+                $state.go('app.broadcast-list');
                 $rootScope.toasterPop('success','Action Successful!',results.message);
               } else {
                 //problemo. show error

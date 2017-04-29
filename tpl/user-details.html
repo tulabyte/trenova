@@ -13,7 +13,7 @@
                           <span class="h3 text-black">{{user.user_fullname}}</span><br /><br />
                           <span class="h5 text-black">{{user.user_email}}</span><br />
                           <span class="h5 text-black">{{user.user_phone}}</span>
-                        <span class="h5 text-black">{{user.user_reg_status}}</span>
+                        <span class="h5 text-black"><strong>{{user.user_reg_status}}</strong></span>
                      </div>
                  </div>
                      <span class="h5 text-black">{{user.ad_address}}</span>
@@ -23,7 +23,7 @@
              <div class="col-sm-5">
                    <div class="pull-right pull-none-xs text-center">
                      <a href class="m-b-md inline m">
-                       <span class="h3 block font-bold">{{user_sub.length}}</span>
+                       <span class="h3 block font-bold">{{user_sub? user_sub.length : '0' }}</span>
                        <small>Active Subscriptions</small>
                      </a>
                    </div>
@@ -44,11 +44,11 @@
             <div class="panel panel-default">
               <!-- Default panel contents -->
               <div class="panel-heading h4" style="height: 50px;" ng-show ="user_sub.length > 0 || user_sub.length > 0">Total Subscriptions {{user_sub.length + user_esub.length}}</div>
-              <div class="panel-heading h4" style="height: 50px;" ng-hide ="user_sub.length > 0 || user_sub.length > 0" >{{user.user_fullname}} Has No Subscriptions {{user_sub.length + user_esub.length}}</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide ="user_sub.length > 0 || user_sub.length > 0" >{{user.user_fullname}} Has No Active Subscriptions {{user_sub.length + user_esub.length}}</div>
 
               <!-- Table  Active subs-->
               <table class="table table-striped m-b-none" ng-show ="user_sub.length > 0 ">
-              <h4 style="text-align: center;">Active Subs</h4><hr>
+              <h4 style="text-align: center;">Active Subscriptions</h4><hr>
               <thead>
                 <tr>
                 <th width="50%">Course </th>
@@ -60,14 +60,14 @@
               <tbody>
                 <tr ng-repeat="user_sb in user_sub">
                 <td>{{user_sb.course_title}}</td>
-                <td>{{user_sb.sub_date_started}}</td>
-                <td>{{user_sb.expiring}}</td>
+                <td>{{user_sb.sub_date_started | dateToISO | date:'mediumDate'}}</td>
+                <td>{{user_sb.expiring | dateToISO | date:'mediumDate'}}</td>
                 </tr>
               </tbody>                
               </table><br /> <hr>
 			<!-- expired tab -->
             <table class="table table-striped m-b-none" ng-show ="user_esub.length > 0">
-              <h4 style="text-align: center;" ng-show ="user_esub.length > 0">Expired Subs <hr></h4>
+              <h4 style="text-align: center;" ng-show ="user_esub.length > 0">Expired Subscriptions <hr></h4>
               <thead>
                 <tr>
                 <th width="50%">Course </th>
@@ -79,8 +79,8 @@
                 <tr ng-repeat="user_user in user_users">
                 <tr ng-repeat="user_esb in user_esub">
                 <td>{{user_esb.course_title}}</td>
-                <td>{{user_esb.sub_date_started}}</td>
-                <td>{{user_esb.expiring}}</td>
+                <td>{{user_esb.sub_date_started | dateToISO | date:'mediumDate'}}</td>
+                <td>{{user_esb.expiring | dateToISO | date:'mediumDate'}}</td>
                 </tr>
               </tbody>
                 
@@ -112,9 +112,9 @@
               <tbody>
                 <tr ng-repeat="user_py in user_pmt">
                 <td>{{user_py.pay_method}}</td>
-                <td>{{user_py.pay_amount}}</td>
-                <td>{{user_py.pay_time_initiated}}</td>
-                <td>{{user_py.pay_time_completed}}</td>
+                <td>{{user_py.pay_amount | number:2}}</td>
+                <td>{{user_py.pay_time_initiated | dateToISO | date: 'medium'}}</td>
+                <td>{{user_py.pay_time_completed | dateToISO | date: 'medium'}}</td>
                 <td><button class="btn btn-icon btn-sm btn-info" tooltip="Payment Status" style="width: 60%">{{user_py.pay_status}}</button>
                 </td>
                 </tr>
@@ -148,8 +148,8 @@
               <tbody>
                 <tr ng-repeat="user_ordr in user_ord">
                 <td>{{user_ordr.order_id}}</td>
-                <td>{{user_ordr.order_time_created}}</td>
-                <td>{{user_ordr.order_total}}</td>
+                <td>{{user_ordr.order_time_created | dateToISO | date:'medium'}}</td>
+                <td>{{user_ordr.order_total | number:2 }}</td>
                 <td>{{user_ordr.order_status}}</td>
                 <td>
                 </td>

@@ -18,7 +18,7 @@ app.directive('fileModel', ['$parse', function ($parse) {
     };
 }]);
 
-app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'course', 'module', 'Data', function($scope, $modalInstance, course, module, Data) {
+app.controller('ModalInstanceCtrl', ['$scope', '$rootScope', '$modalInstance', 'course', 'module', 'Data', function($scope, $rootScope, $modalInstance, course, module, Data) {
   $scope.course = course;
   if(module) {
     $scope.module = module;
@@ -72,10 +72,11 @@ app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'course', 'modu
         { question: question }
       ).then(function(results) {
         if(results.status = "success") {
+          $rootScope.toasterPop('success','Action Successful!',results.message);
           $modalInstance.close("OK");
         } else {
           //error
-          $scope.error = results.message;
+          $rootScope.toasterPop('error','Oops!',results.message);
         }
       }, function(error) {
         console.log(error);
@@ -87,10 +88,11 @@ app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'course', 'modu
       ).then(function(results) {
         console.log(results);
         if(results.status = "success") {
+          $rootScope.toasterPop('success','Action Successful!',results.message);
           $modalInstance.close("OK");
         } else {
           //error
-          $scope.error = results.message;
+          $rootScope.toasterPop('error','Oops!',results.message);
         }
       }, function(error) {
         console.log(error);
@@ -239,19 +241,19 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
       }
     };
 
-        // class plus subject name
-        $scope.getCourseName = function(name) {
+    // class plus subject name
+    $scope.getCourseName = function(name) {
           console.log(name);
         $scope.course.sub_title = name.selected_subject.sb_title;
         $scope.course.course_subject_id = name.selected_subject.sb_id;
-        $scope.course.course_title = $scope.course.course_title + '-' + $scope.course.sub_title;
+        $scope.course.course_title = $scope.course.course_title + ' - ' + $scope.course.sub_title;
 //        console.log($scope.course.sub_title);
 
      //   $scope.course.course_title = $scope.constructCourseTitle($scope.course.selected_class.class_name, $scope.course.selected_subject.sb_title, $scope.course.course_term);
     };
-        // class plus subject plus term name
-        $scope.getCourseTerm = function(name) {
-        $scope.course.course_title = $scope.course.course_title + '-' + 'Term' + '-'+ name;
+    // class plus subject plus term name
+    $scope.getCourseTerm = function(name) {
+        $scope.course.course_title = $scope.course.course_title + ' - ' + 'Term '+ name;
       //  console.log($scope.course.course_title);
     };
 
@@ -284,6 +286,8 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
         console.log(results);
         if(results.status == "success") {
           $scope.course = results.course;
+          $scope.course_subject_id = results.course.course_subject_id;
+          $scope.course_class_id = results.course.course_class_id;
           $scope.course.course_price = parseFloat ($scope.course.course_price);
           $scope.course.course_term = parseInt ($scope.course.course_term);
           $scope.loadLessons($scope.course.course_id);

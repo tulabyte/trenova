@@ -36,7 +36,7 @@ $app->get('/getDashStats', function() use ($app) {
                                              FROM course ");
 
     $total_revenue = $db->getOneRecord("SELECT SUM(pay_amount) as total_revenue
-                                             FROM USER_payment WHERE pay_status = 'SUCCESSFUL'");
+                                             FROM user_payment WHERE pay_status = 'SUCCESSFUL'");
 
     $stats['user_count'] = $user_count['user_count'];
     $stats['sub_count'] = $sub_count['sub_count'];
@@ -186,11 +186,11 @@ $app->get('/getLatestNotifications', function() use ($app) {
 
 $notify_count = $db->getOneRecord("SELECT COUNT(*) as not_count FROM user_payment LEFT JOIN user ON pay_user_id =user_id WHERE pay_method = 'BANK' AND pay_status = 'PROCESSING' ");
 
-$not_list = $db->getRecordset("SELECT user_fullname, pay_amount, pay_time_initiated FROM user_payment LEFT JOIN user ON pay_user_id =user_id WHERE pay_method = 'BANK' AND pay_status = 'PROCESSING' LIMIT 5 ");
+$not_list = $db->getRecordset("SELECT user_fullname, pay_amount, pay_time_initiated, pay_bank_date FROM user_payment LEFT JOIN user ON pay_user_id =user_id WHERE pay_method = 'BANK' AND pay_status = 'PROCESSING' LIMIT 5 ");
 
 $not_feed = $db->getRecordset("SELECT fd_id, fd_topic, fd_date, fd_status, user_fullname FROM feedback LEFT JOIN user ON fd_user_id = user_id WHERE fd_status = 'PENDING' LIMIT 5");
 
- $not_count = intval($notify_count[not_count]);
+ $not_count = intval($notify_count['not_count']);
 
   if(!empty($not_list) || !empty($not_count)) {
         //found course, return success result

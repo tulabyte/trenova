@@ -109,7 +109,7 @@
                   
                   <a ui-sref="app.bank-waiting-list" class="media list-group-item" ng-repeat="payment in not_list">
                     <span class="media-body block m-b-none">
-                      <strong>{{payment.user_fullname}}</strong> Paid <strong>N{{payment.pay_amount | number:2}}</strong> On <strong>{{payment.pay_bank_date}}</strong><br>
+                      <strong>{{payment.user_fullname}}</strong> paid <strong>N{{payment.pay_amount | number:2}}</strong> on <strong>{{payment.pay_bank_date | date:'mediumDate' }}</strong><br>
                       <small class="text-muted"><span am-time-ago="payment.pay_time_completed"></span></small>
                     </span>
                   </a>

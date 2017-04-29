@@ -4,12 +4,13 @@
 // ini_set("display_errors", FALSE);
 // date_default_timezone_set('Africa/Lagos');
 // ini_set('log_errors',TRUE);
+ini_set('max_execution_time', 3600); //execution time in seconds
 
 //error_reporting(E_ALL); ini_set("display_errors", FALSE); 
 // apc_clear_cache();
-// header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-// header("Access-Control-Allow-Headers: Origin, X-Auth-Token, X-Requested-With, Content-Type, Accept, Authorization");
+header("Access-Control-Allow-Headers: Origin, X-Auth-Token, X-Requested-With, Content-Type, Accept, Authorization");
 
 if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
    header( "HTTP/1.1 200 OK" );

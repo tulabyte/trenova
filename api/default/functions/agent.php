@@ -197,9 +197,10 @@ $app->post('/buyAgentCourse', function() use ($app) {
     // get logged in user session details
     $session = $db->getSession(); 
     $ao_agent_id = $session['trenova_user']['ad_id'];
+    // die($session['trenova_user']['ad_id']);
 
     // try a dummy select - makes no sense for now
-    $dummy = $db->getOneRecord("SELECT 1 FROM agent_order");
+    $dummy = $db->getOneRecord("SELECT 1 FROM user");
 
     if($dummy) {
         // run query to insert new order

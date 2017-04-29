@@ -60,7 +60,7 @@ $app->get('/getSubscriptionList', function() use ($app) {
 
     $db = new DbHandler();
     
-    $subscriptions = $db->getRecordset("SELECT * FROM subscription LEFT JOIN course ON sub_course_id=course_id LEFT JOIN user ON sub_user_id=user_id");
+    $subscriptions = $db->getRecordset("SELECT * FROM subscription LEFT JOIN course ON sub_course_id=course_id LEFT JOIN user ON sub_user_id=user_id ORDER BY sub_date_started DESC");
 
     if($subscriptions) {
        

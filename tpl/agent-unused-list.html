@@ -11,7 +11,7 @@
     </div>
     <h3 ng-hide ="agent_usg.length > 0"><span style="text-align: center;">Your Dont Have Any Used Course </span> </h3>
     <div class="table-responsive" ng-show="agent_usg.length > 0">
-      <table datatable="ng" class="table table-striped m-b-none">
+      <table datatable="ng" dt-options ="dtOptions" class="table table-striped m-b-none">
         <thead>
           <tr>
                 <th width="45%">Course</th>                

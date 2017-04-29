@@ -102,7 +102,7 @@
               <span class="pull-left thumb-sm"><img src="img/a1.jpg" alt="..." class="img-circle"></span>
               
               <div class="media-body">
-                <div><a href ui-sref="app.user-details({id:user.user_id})"><em>{{sub.user_fullname}} : {{sub.user_email}} </em> - <strong>{{sub.course_title}}</strong></a></div>
+                <div><a ui-sref="app.user-details({id:sub.user_id})"><em>{{sub.user_fullname}} : {{sub.user_email}} </em> - <strong>{{sub.course_title}}</strong></a></div>
                 <small class="text-muted" am-time-ago="sub.sub_date_started"></small>
               </div>
             </div>

@@ -17,7 +17,7 @@ $app->post('/createCourse', function() use ($app) {
     $course_price = $db->purify($r->course->course_price);    
     $course_image = $db->purify($r->course->course_image);
     $course_description = $db->purify($r->course->course_description);
-    $course_is_featured = ($r->course->course_is_featured) ? 1 : 0;
+    $course_is_featured = isset($r->course->course_is_featured) ? 1 : 0;
     $course_time_created = date("Y-m-d H:i:s");
     //check if course already exists with same title
     $isCourseExists = $db->getOneRecord("SELECT 1 FROM course WHERE course_title='$course_title'");
@@ -64,7 +64,7 @@ $app->post('/createModule', function() use ($app) {
 
     $less_title = $db->purify($r->module->less_title);
     $less_content = $db->purify($r->module->less_content);
-    $less_number = $db->purify($r->module->less_number);
+    $less_number = isset($r->module->less_number) ? $db->purify($r->module->less_number) : '';
     $less_course_id = $db->purify($r->module->less_course_id);
     
     //check if module already exists with same title for same course
@@ -242,76 +242,66 @@ $app->post('/createQuestionModule', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(['q_id', 'optiona', 'optionb' , 'optionc', 'optiond', 'option'],$r->question);
+    verifyRequiredParams(['optiona', 'optionb' , 'optionc', 'optiond', 'option'],$r->question);
     $db = new DbHandler();
-    $q_id = $db->purify($r->question->q_id);
-    $question = $db->purify($r->question->q_question);
+    $q_question = $db->purify($r->question->q_question);
     $optiona = $db->purify($r->question->optiona);
     $optionb = $db->purify($r->question->optionb);
     $optionc = $db->purify($r->question->optionc);
     $optiond = $db->purify($r->question->optiond);
     $correct_option = $db->purify($r->question->option);
-    $q_number = $db->purify($r->question->question_number);
+    $q_number = isset($r->question->question_number) ? $db->purify($r->question->question_number) : '';
     $q_type = "COURSE";
-    
-    //check if module already exists with same title for same course
-    $isQuestionExists = $db->getOneRecord("SELECT 1 FROM question WHERE q_id = '$q_id'");
-    if(!$isQuestionExists){
+    $course_id = $db->purify($r->question->course_id);
 
-        //if position is empty, derive new position
-        if ($q_number == '') {
-            $maxPos = $db->getOneRecord("SELECT MAX(q_number) AS max_pos FROM question WHERE q_course_id = '$course_id'");
-            $q_number = $maxPos['max_pos'] + 1;
-        }
+    //if position is empty, derive new position
+    if ($q_number == '') {
+        $maxPos = $db->getOneRecord("SELECT MAX(q_number) AS max_pos FROM question WHERE q_course_id = '$course_id'");
+        $q_number = $maxPos['max_pos'] + 1;
+    }
 
-    $table_to_update = "question";
-    $columns_to_update = ['q_question' => $question, 'q_type' => $q_type, 'q_number' => $q_number];
-    $where_clause = ['q_id' => $q_id];
+    $table_name = "question";
+    $column_names = ['q_question', 'q_type', 'q_number', 'q_course_id'];
+    $values = [$q_question, $q_type, $q_number, $course_id];
+    $result = $db->insertToTable($values, $column_names, $table_name); 
 
-        $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+    if ($result != NULL) {
+        //create question options
+        $qo_option = array($optiona, $optionb, $optionc, $optiond);
+        
+            foreach ($qo_option as $q_option) {
+                if ($q_option == $correct_option) {
 
-        if ($result != NULL) {
-            //create question options
-            $qo_option = array($optiona, $optionb, $optionc, $optiond);
-            
-                foreach ($qo_option as $q_option) {
-                    if ($q_option == $correct_option) {
+                    $table_name = "question_option";
+                    $qo_is_correct = 1 ;
+                    $column_names = ['qo_question_id', 'qo_option', 'qo_is_correct'];
+                    $values = [$result, $q_option, $qo_is_correct];
+                    $option_result = $db->insertToTable($values, $column_names, $table_name);    
 
+                } else{
+                    
                         $table_name = "question_option";
-                        $qo_is_correct = 1 ;
-                        $column_names = ['qo_question_id', 'qo_option', 'qo_is_correct'];
-                        $values = [$result, $q_option, $qo_is_correct];
-                        $option_result = $db->insertToTable($values, $column_names, $table_name);    
-
-                    } else{
-                        
-                            $table_name = "question_option";
-                            $column_names = ['qo_question_id', 'qo_option'];
-                            $values = [$result, $q_option];
-                            $option_result = $db->insertToTable($values, $column_names, $table_name);  
-                        }
-                }
-                if ($option_result != NULL) {
-                    $response["status"] = "success";
-                    $response["message"] = "Question And Options created successfully";
-                    $response["mod_id"] = $result;
-                    echoResponse(200, $response);
-                }else{
-                    $response["status"] = "error";
-                    $response["message"] = "Failed to create Question Options. Please try again";
-                    echoResponse(201, $response);
-                }
-        } else {
-            $response["status"] = "error";
-            $response["message"] = "Failed to create question. Please try again";
-            echoResponse(201, $response);
-        }            
-    }else{
+                        $column_names = ['qo_question_id', 'qo_option'];
+                        $values = [$result, $q_option];
+                        $option_result = $db->insertToTable($values, $column_names, $table_name);  
+                    }
+            }
+            if ($option_result != NULL) {
+                $response["status"] = "success";
+                $response["message"] = "Question And Options created successfully";
+                $response["mod_id"] = $result;
+                echoResponse(200, $response);
+            }else{
+                $response["status"] = "error";
+                $response["message"] = "Failed to create Question Options. Please try again";
+                echoResponse(201, $response);
+            }
+    } else {
         $response["status"] = "error";
-        //$response['message'] = $r->module;
-        $response["message"] = "This course does not exist for this course!";
+        $response["message"] = "Failed to create question. Please try again";
         echoResponse(201, $response);
     }
+    
 });
 
 //edit question Module
@@ -459,14 +449,11 @@ $app->get('/getCourseListBySubject', function() use ($app) {
 
     $db = new DbHandler();
     $subject_id = $db->purify($app->request->get('id'));
-
-    $subject = $db->getOneRecord("SELECT * FROM subject WHERE sb_id = '$subject_id'");
     
     $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_subject_id = '$subject_id' ORDER BY course_title");
     if($courses) {
         //courses found
         $count = count($courses);
-        $response['subject'] = $subject;
         $response['courses'] = $courses;
         $response['status'] = "success";
         $response["message"] = "$count Courses Found!";
@@ -483,15 +470,12 @@ $app->get('/getCourseListByClass', function() use ($app) {
 
     $db = new DbHandler();
     $class_id = $db->purify($app->request->get('id'));
-
-    $class = $db->getOneRecord("SELECT * FROM class WHERE class_id = '$class_id'");
     
     $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_class_id = '$class_id' ORDER BY course_title");
     if($courses) {
         //courses found
         $count = count($courses);
 
-        $response['class'] = $class;
         $response['courses'] = $courses;
         $response['status'] = "success";
         $response["message"] = "$count Courses Found!";
@@ -503,7 +487,7 @@ $app->get('/getCourseListByClass', function() use ($app) {
     }
 });
 
-// get course list - frontend
+/*// get course list - frontend
 $app->get('/getCourseListF', function() use ($app) {
     $response = array();
 
@@ -526,7 +510,7 @@ $app->get('/getCourseListF', function() use ($app) {
         $response["message"] = "ERROR - No course found in database!";
         echoResponse(201, $response);
     }
-});
+});*/
 
 // get course list - favourites
 $app->get('/getCourseFavList', function() use ($app) {
@@ -534,14 +518,14 @@ $app->get('/getCourseFavList', function() use ($app) {
 
     $db = new DbHandler();
     $session = $db->getSession();
-    $user_id = $session['trenova_user']['user_id'];
+    $user_id = $db->purify($app->request->get('id'));
     
     $courses = $db->getRecordset("SELECT *, 
         (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
         FROM course 
-        LEFT JOIN favourite ON course_id = fav_course_id 
+        LEFT JOIN user_favourite ON course_id = fav_course_id 
         WHERE fav_user_id = '$user_id' 
-        ORDER BY course_title");
+        ORDER BY fav_time_added");
     if($courses) {
         //courses found
         $count = count($courses);
@@ -563,8 +547,7 @@ $app->get('/getCourseSubList', function() use ($app) {
 
     $db = new DbHandler();
     $session = $db->getSession();
-    $user_id = $session['trenova_user']['user_id'];
-    
+    $user_id = $db->purify($app->request->get('id'));
     $courses = $db->getRecordset("SELECT *, 
         (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
         FROM course 

@@ -30,10 +30,10 @@ $app->post('/registerPayment', function() use ($app) {
             $task_date_created = date("Y-m-d h:i:s");
             $task_details = "Pending Confirmation for Bank Payment for Order $pay_order_id";
 
-            $table_name = "payment_verification_task";
+            /*$table_name = "payment_verification_task";
             $column_names = ['task_date_created','task_details','task_payment_id'];
             $values = [$task_date_created, $task_details, $pay_id];
-            $result = $db->insertToTable($values, $column_names, $table_name);
+            $result = $db->insertToTable($values, $column_names, $table_name);*/
 
             // Send Email?
 
@@ -88,10 +88,11 @@ $app->post('/createPayment', function() use ($app) {
     $pay_method = $db->purify($r->payment->pay_method);
     $pay_amount = $db->purify($r->payment->pay_amount);
     $pay_order_id = $db->purify($r->payment->pay_order_id);
+    $pay_user_id = $db->purify($r->payment->pay_user_id);
 
     // get logged in user session details
     $session = $db->getSession(); 
-    $pay_user_id = $session['trenova_user']['user_id'];
+    // $pay_user_id = $session['trenova_user']['user_id'];
 
     // generate other necessary values
     $pay_time_initiated = date("Y-m-d h:i:s");
@@ -182,18 +183,18 @@ $app->get('/denyPayment', function() use ($app) {
         $swiftmailer = new mySwiftMailer();
         $subject = "Your payment has been DENIED";
         $body = "<p>Hello,</p>
-    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the FITC Training Mobile App:</p>
+    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the Trenova Mobile App:</p>
     <p>
     Date of Payment: ".$payment['pay_bank_date']."<br>
     Teller/Transaction Number: " . $payment['pay_bank_ref'] . "<br>
     Amount Paid: N ". $payment['pay_amount'] ."
     </p>
     <p>We are sorry to inform you that we could NOT find any records to verify your payment, therefore we had to DENY it.</p>
-    <p>Please go to your Orders and try to make payment for it again, using the correct payment details this time around. If you have further issues, please send an email to training@fitc-ng.com.</p>
-    <p>Thank you for using FITC Training.</p>
+    <p>Please go to your Orders and try to make payment for it again, using the correct payment details this time around. If you have further issues, please send an email to training@trenova.com.</p>
+    <p>Thank you for using Trenova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>FITC Training App</strong></p>";
-        $swiftmailer->sendmail('info@fitc-ng.com', 'FITC Training', [$payment['user_email']], $subject, $body);
+    <p><br><strong>Trenova App</strong></p>";
+        $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
 
         //return success
         $response['status'] = "success";
@@ -214,7 +215,7 @@ $app->get('/confirmPayment', function() use ($app) {
     $pay_id = $db->purify($app->request->get('id'));
 
     // update payment status
-    $table_to_update = "payment";
+    $table_to_update = "user_payment";
     $columns_to_update = ['pay_status'=>'SUCCESSFUL', 'pay_time_completed'=>date("Y-m-d h:i:s") ];
     $where_clause = ['pay_id'=>$pay_id];
     $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
@@ -228,7 +229,7 @@ $app->get('/confirmPayment', function() use ($app) {
         $swiftmailer = new mySwiftMailer();
         $subject = "Your payment has been CONFIRMED";
         $body = "<p>Hello,</p>
-    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the FITC Training Mobile App:</p>
+    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the Trenova Mobile App:</p>
     <p>
     Date of Payment: ".$payment['pay_bank_date']."<br>
     Teller/Transaction Number: " . $payment['pay_bank_ref'] . "<br>
@@ -236,21 +237,21 @@ $app->get('/confirmPayment', function() use ($app) {
     </p>
     <p>We are pleased to inform you that your payment has been CONFIRMED.</p>
     <p>Your subscription is being activated at the moment. You will be notified once it is ready.</p>
-    <p>Thank you for using FITC Training.</p>
+    <p>Thank you for using Trenova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>FITC Training App</strong></p>";
-        $swiftmailer->sendmail('info@fitc-ng.com', 'FITC Training', [$payment['user_email']], $subject, $body);
+    <p><br><strong>Trenova App</strong></p>";
+        $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
 
         // get order items
-        $order_items = $db->getRecordset("SELECT * FROM order_item LEFT JOIN course ON item_course_id = course_id WHERE item_order_id = '". $payment['pay_order_id'] ."' ");
+        $user_order_items = $db->getRecordset("SELECT * FROM user_order_item LEFT JOIN course ON item_course_id = course_id WHERE item_order_id = '". $payment['pay_order_id'] ."' ");
 
         $course_list = "<strong></strong>";
 
         // loop through order items
-        foreach ($order_items as $item) {
+        foreach ($user_order_items as $item) {
             // create subscription for order
             $table_name = "subscription";
-            $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_years', 'sub_status', 'sub_order_id'];
+            $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
             $values = [$payment['pay_user_id'], $item['item_course_id'], date("Y-m-d h:i:s"), $item['item_qty'], 'ACTIVE', $payment['pay_order_id']];
             $itemresult = $db->insertToTable($values, $column_names, $table_name);
 
@@ -266,11 +267,11 @@ $app->get('/confirmPayment', function() use ($app) {
     <p>
     $course_list
     </p>
-    <p>To access your courses, please login to the FITC Training Mobile App and go to My Courses in the menu.</p>
-    <p>Thank you for using FITC Training.</p>
+    <p>To access your courses, please login to the Trenova Mobile App and go to My Courses in the menu.</p>
+    <p>Thank you for using Trenova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>FITC Training App</strong></p>";
-        $swiftmailer->sendmail('info@fitc-ng.com', 'FITC Training', [$payment['user_email']], $subject, $body);
+    <p><br><strong>Trenova App</strong></p>";
+        $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
             
         if($itemresult) {
             //return success
@@ -318,7 +319,30 @@ $app->get('/getBankWaitingList', function() use ($app) {
 
     $db = new DbHandler();
     
-    $payments = $db->getRecordset("SELECT * FROM user_payment LEFT JOIN user ON pay_user_id =user_id WHERE pay_method = 'BANK' AND pay_status = 'PROCESSING' ");
+    $payments = $db->getRecordset("SELECT * FROM user_payment LEFT JOIN user ON pay_user_id =user_id WHERE pay_method = 'BANK' AND pay_status = 'PROCESSING' ORDER BY pay_time_completed DESC");
+
+    if($payments) {
+        $response["message"] = "Payments loaded successfully!";
+        $response['payments'] = $payments;
+        $response['status'] = "success";
+       
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No bank payment (awaiting confirmation) found !";
+        echoResponse(201, $response);
+    }
+
+});
+
+$app->get('/getUserPaymentList', function() use ($app) {
+
+    $response = array();
+    $db = new DbHandler();
+
+    $user_id = $db->purify($app->request->get('id'));
+    
+    $payments = $db->getRecordset("SELECT * FROM user_payment WHERE pay_user_id = '$user_id' ORDER BY pay_time_initiated DESC ");
 
     if($payments) {
 
@@ -329,7 +353,7 @@ $app->get('/getBankWaitingList', function() use ($app) {
         echoResponse(200, $response);
     } else {
         $response['status'] = "error";
-        $response["message"] = "No bank payment (awaiting confirmation) found !";
+        $response["message"] = "No payment found!";
         echoResponse(201, $response);
     }
 
