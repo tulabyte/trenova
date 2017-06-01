@@ -415,7 +415,7 @@ $app->get('/getCourse', function() use ($app) {
     $course_lesson_name = $db->getOneRecord("SELECT sch_lesson_label FROM course LEFT JOIN class on course_class_id = class_id
                 LEFT JOIN school ON class_school_id = sch_id
                  WHERE course_id='$course_id'");
-    $course[term_label] = $course_lesson_name[sch_lesson_label];
+    $course['term_label'] = $course_lesson_name['sch_lesson_label'];
     if($course) {
         //found course, return success result
 
