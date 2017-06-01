@@ -346,11 +346,12 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
         console.log(results);
         if(results.status == "success") {
           $scope.course = results.course;
+          $scope.courseLabel = results.label;
           $scope.course_subject_id = results.course.course_subject_id;
           $scope.course_class_id = results.course.course_class_id;
           $scope.course.course_price = parseFloat ($scope.course.course_price);
           $scope.course.course_term = parseInt ($scope.course.course_term);
-          console.log(course_class_id);
+          console.log($scope.course_class_id);
           $scope.loadLessons($scope.course.class_id);
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {

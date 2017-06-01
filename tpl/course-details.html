@@ -45,22 +45,22 @@
             </div>
           </li>
       </ul>
-      <h5 class="font-bold">Course Lessons</h5>
-      <button class="btn btn-success btn-sm" ng-click="openModal()"><i class="fa fa-plus"></i> Add Lesson</button><br><br>
+      <h5 class="font-bold">Course {{course.term_label}}</h5>
+      <button class="btn btn-success btn-sm" ng-click="openModal()"><i class="fa fa-plus"></i> Add {{course.term_label}}</button><br><br>
 
       <script type="text/ng-template" id="myModalContent.html">
       <div class="modal-body wrapper-lg">
         <div class="row">
-          <h3 class="m-t-none m-b font-thin">{{module.less_id ? 'Edit' : 'Create'}} Lesson</h3>
-          <p><strong>{{module.less_id ? 'Edit lesson in' : 'Create new lesson for'}} <u>{{course.course_title}}</u></strong></p>
+          <h3 class="m-t-none m-b font-thin">{{module.less_id ? 'Edit' : 'Create'}} {{course.term_label}}</h3>
+          <p><strong>{{module.less_id ? 'Edit' + course.term_label + ' in  ' : 'Create new ' + course.term_label + ' for'}} <u>{{course.course_title}}</u></strong></p>
           <form role="form">
             <div class="alert alert-danger" ng-hide="!error">{{error}}</div>
             <div class="form-group">
-              <label>Lesson Title</label>
+              <label>{{course.term_label}} Title</label>
               <input type="text" class="form-control" placeholder="Enter title" ng-model="module.less_title" required>
             </div>
             <div class="form-group">
-              <label>Lesson Content</label>
+              <label>{{course.term_label}} Content</label>
               <textarea required class="form-control" placeholder="Enter lesson description here" ng-model="module.less_content"></textarea>
             </div>
 
@@ -79,7 +79,7 @@
             </div>
 
             <div class="form-group col-md-3">
-              <label>Lesson Number</label>
+              <label>{{course.term_label}} Number</label>
               <input type="number" class="form-control" ng-model="module.less_number">
             </div>            
 
@@ -93,7 +93,7 @@
       </div>
       </script>      
 
-      <div class="alert alert-danger" ng-hide="lessons.length > 0">No Lessons found!</div>
+      <div class="alert alert-danger" ng-hide="lessons.length > 0">No {{course.term_label}} found!</div>
 
       <ul ui-jq="sortable" class="list-group gutter list-group-lg list-group-sp" ng-show="lessons.length > 0" >
         
