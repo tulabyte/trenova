@@ -132,11 +132,12 @@ class DbHandler {
 
     /*function creates a new user session based on supplied user details
         used in signup, login and verify user*/
-    public function createUserSession($user) {
+    public function createUserSession($user, $logintype = 'DEFAULT') {
         // start a new session
         if (!isset($_SESSION)) {
             session_start();
         }
+        $user['user_last_auth'] = $logintype;
         // create session variables
         $_SESSION['trenova_user'] = $user;
 

@@ -143,7 +143,7 @@ $app->post('/createCourseRating', function() use ($app) {
     $user_id = $db->purify($r->rating->user_id);
     $course_id = $db->purify($r->rating->course_id);
     $rate = $db->purify($r->rating->rate);
-    $comment = $db->purify($r->rating->comment);
+    $comment = isset($r->rating->comment)? $db->purify($r->rating->comment) : NULL;
     
     //check if rating already exists for same user and course
     $isRatingExists = $db->getOneRecord("SELECT 1 FROM course_rating WHERE cr_course_id='$course_id' AND cr_user_id = '$user_id'");
@@ -158,7 +158,6 @@ $app->post('/createCourseRating', function() use ($app) {
         if ($result != NULL) {
             $response["status"] = "success";
             $response["message"] = "Rating created successfully";
-            $response["less_id"] = $result;
 
             echoResponse(200, $response);
         } else {
@@ -431,6 +430,28 @@ $app->get('/getCourse', function() use ($app) {
     }
 });
 
+// get course
+$app->get('/getLessonContent', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $less_id = $db->purify($app->request->get('id'));
+    
+    $lesson = $db->getOneRecord("SELECT * FROM course_lesson LEFT JOIN course ON less_course_id = course_id WHERE less_id='$less_id'");
+
+    if($lesson) {
+        //found lesson, return success result
+        $response['lesson'] = $lesson;
+        $response['status'] = "success";
+        $response["message"] = "Lesson Content Loaded!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error loading lesson content!";
+        echoResponse(201, $response);
+    }
+});
+
 // get course list
 $app->get('/getCourseList', function() use ($app) {
     $response = array();
@@ -474,7 +495,6 @@ $app->get('/getCourseList', function() use ($app) {
             }
 }
 });
-
 
 // get course list for mobile
 $app->get('/getCourseListForMobile', function() use ($app) {
@@ -524,8 +544,9 @@ $app->get('/getCourseListByClass', function() use ($app) {
 
     $db = new DbHandler();
     $class_id = $db->purify($app->request->get('id'));
+    $term = $db->purify($app->request->get('term'));
     
-    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_class_id = '$class_id' ORDER BY course_title");
+    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_class_id = '$class_id' AND course_term = '$term' ORDER BY course_title");
     if($courses) {
         //courses found
         $count = count($courses);
@@ -769,8 +790,6 @@ $app->get('/disApproveCourse', function() use ($app) {
 
 });
 
-
-
 // delete module
 $app->get('/deleteModule', function() use ($app) {
     $response = array();
@@ -954,6 +973,10 @@ $app->get('/getCourseDetails', function() use ($app) {
         // course in my subs
         $inmysubs = $db->getOneRecord("SELECT * FROM subscription WHERE sub_course_id='$course_id' AND sub_user_id = '$user_id'");
         $response['course_inmysubs'] = $inmysubs ? true : false;
+
+        // class details
+        $class = $db->getOneRecord("SELECT class_id, class_name, sch_id, sch_name, sch_term_label, sch_term_count, sch_lesson_label FROM class LEFT JOIN school ON class_school_id = sch_id WHERE class_id = '".$course_details['course_class_id']."'");
+        $response['class'] = $class;
 
         $response['status'] = "success";
         $response["message"] = "Course Details Found!";

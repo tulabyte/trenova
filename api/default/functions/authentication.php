@@ -327,6 +327,73 @@ $app->post('/userLogin', function() use ($app) {
     echoResponse(200, $response);
 });
 
+$app->post('/facebookUserLogin', function() use ($app) {
+    // require_once 'passwordHash.php';
+    $r = json_decode($app->request->getBody());
+    verifyRequiredParams(['email', 'first_name', 'last_name'],$r->user);
+    $response = array();
+    $db = new DbHandler();
+
+    $email = $db->purify($r->user->email);
+    $first_name = $db->purify($r->user->first_name);
+    $last_name = $db->purify($r->user->last_name);
+    $facebook_id = $db->purify($r->user->id);
+    // $user_device_token = $db->purify($r->user->user_device_token);
+    $password = $db->randomPassword();
+    $now = date("Y-m-d H:i:s");
+    $today = date("Y-m-d");
+
+    // check if user is in db
+    $user = $db->getOneRecord("SELECT * from user WHERE user_email='$email'");
+
+    if(!$user) {
+        // user not in db, create user
+        $table_name = "user";
+        $column_names = ['user_firstname', 'user_surname', 'user_email', 'user_password', 'user_time_reg', 'user_reg_type', 'user_facebook_id'];
+        $values = [$first_name, $last_name, $email, $password, $today, 'FACEBOOK', $facebook_id];
+        $user_created = $db->insertToTable($values, $column_names, $table_name);
+
+        if(!$user_created) {
+            // couldn't create user
+            $response['status'] = "error";
+            $response['message'] = 'ERROR: Authentication Failed while trying to create User Account! Please try again later.';
+            echoResponse(200, $response);
+        } else {
+            // get created user's details
+            $user = $db->getOneRecord("SELECT * from user WHERE user_id='$user_created'");
+        }
+    }
+
+    // after creating/identifying user, log user in/create session
+    $table_to_update = "user";
+    $columns_to_update = ['user_last_login'=> $now, 'user_last_auth'=>'FACEBOOK'/*, 'user_device_token'=>$user_device_token*/];
+    $where_clause = ['user_id'=>$user['user_id']];
+    $lastlogin = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+    // create a new user session
+    if($db->createUserSession($user, 'FACEBOOK')) {
+        $response['status'] = "success";
+        $response['sid'] = session_id();
+        $response['trv_name'] = $user['user_fullname'];
+        $response['trv_id'] = $user['user_id'];
+        $response['trv_email'] = $user['user_email'];
+        $response['trv_phone'] = $user['user_phone'];
+        $response['trv_date_created'] = $user['user_time_reg'];
+        $response['trv_type'] = $user['user_reg_type'];
+        $response['trv_last_login'] = $now;
+        $response['trv_avatar'] = $user['user_photo'];
+        $response['trv_login_type'] = 'FACEBOOK';
+
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response['message'] = 'ERROR: Something went wrong!';
+
+        echoResponse(200, $response);
+    }
+
+});
+
 $app->get('/userResetPassword', function() use ($app) {
     $response = array();
 
@@ -492,7 +559,7 @@ $app->post('/signUp', function() use ($app) {
             $msg_sms = $token_code_a.' is your Signup Token for Trenova App';
             $sms->SendSMS($msg_sms, SHORTNAME, $user_phone, 0);*/
 
-            // Send Email containing SMS details
+            /*// Send Email containing SMS details
             $swiftmailer = new mySwiftMailer();
             $subject = "SMS Token for your new account on Trenova";
             $body = "<p>Hello $user_fullname,</p>
@@ -503,7 +570,7 @@ $app->post('/signUp', function() use ($app) {
     <p>Thank you for using Trenova App.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
     <p><br><strong>Trenova App</strong></p>";
-            $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$user_email], $subject, $body);
+            $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$user_email], $subject, $body);*/
 
             // Prepare response
             $response['status'] = "success";
@@ -635,7 +702,8 @@ $app->get('/GenerateSignUpToken', function() use ($app) {
         //SMS The User token for confirmation.
         //SMS Token 'A' to the user
         $msg_sms = $token_code_a.' is your Signup Token for Trenova App';
-        $sms->SendSMS($msg_sms, SHORTNAME, $user['user_phone'], 0);*/
+        $smsresult = $sms->SendSMS($msg_sms, SHORTNAME, $user['user_phone'], 0);
+        die($smsresult);*/
 
         $response['token_user_id'] = $token_user_id;
         $response['token'] = $token_code_a;
