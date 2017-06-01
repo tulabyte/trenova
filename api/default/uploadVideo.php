@@ -3,7 +3,7 @@
 
 // require_once 'dbHandler.php';
  
- $location = '../../img/videos/';
+ $location = '../../vid/';
 $video_name = basename($_FILES["file"]["name"]);
 $uploadfilename = $_FILES['file']['tmp_name'];
 $filename = $location.$video_name;
