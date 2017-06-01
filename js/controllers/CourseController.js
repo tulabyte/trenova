@@ -205,12 +205,13 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
       });
     };
 
-    // load class list for select
-    $scope.loadTermList = function() {
-      Data.get('getTermList').then(function(results) {
+    // load term list for select
+    $scope.loadTermList = function(id) {
+      Data.get('getTermList?id='+ id).then(function(results) {
          console.log(results);
         if(results.status == "success") {
-          $scope.classes = results.classes;
+          $scope.termLabel = results.term.sch_term_label;
+          console.log($scope.termLabel);
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);
@@ -304,7 +305,7 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
 
 /*function to generate course title*/
     $scope.generateCourseName = function( stage, subject, term){
-      return stage + '-' +subject + '-' + 'Term' + '-' + term;
+      return stage + '-' +subject + '-' + $scope.termLabel + '-' + term;
     }
 
     $scope.getCourseName = function(name) {
@@ -349,7 +350,8 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
           $scope.course_class_id = results.course.course_class_id;
           $scope.course.course_price = parseFloat ($scope.course.course_price);
           $scope.course.course_term = parseInt ($scope.course.course_term);
-          $scope.loadLessons($scope.course.course_id);
+          console.log(course_class_id);
+          $scope.loadLessons($scope.course.class_id);
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);

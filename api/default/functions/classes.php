@@ -150,6 +150,31 @@ $app->get('/getClassList', function() use ($app) {
     }
 });
 
+
+// get class list
+$app->get('/getTermList', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $class_id = $db->purify($app->request->get('id'));
+
+    $classes = $db->getOneRecord("SELECT sch_term_label FROM class LEFT JOIN school ON class_school_id = sch_id WHERE class_id =  '$class_id' ");
+    if($classes) {
+        //class found
+        $class_count = count($classes);
+
+        $response['term'] = $classes;
+        $response['status'] = "success";
+        $response["message"] = "$class_count Classes Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No Class found!";
+        echoResponse(201, $response);
+    }
+});
+
+
 // get class list
 $app->get('/getClassListForSchool', function() use ($app) {
     $response = array();
