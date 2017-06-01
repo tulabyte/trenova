@@ -2,7 +2,7 @@
   <div class="pull-left">
     <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
   </div>
-  <div class="pull-right">
+  <div class="pull-right" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
     <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.agent-edit"><i class="fa fa-plus"></i>New Agent</button>
   </div>
   <div class="clearfix"></div>
@@ -22,7 +22,7 @@
             <th width="15%">Created</th>
             <th width="10%">Status</th>
             <th width="15%">Last Login</th>
-            <th></th>
+            <th ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"></th>
           </tr>
         </thead>
         <tbody>

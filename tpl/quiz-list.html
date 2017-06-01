@@ -1,0 +1,37 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="QuizController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Quiz
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" dt-options ="dtOptions" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="55%">Name</th>
+            <th width="15%">Score</th>
+            <th width="20%">Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="quiz in quizs">
+            <td><a ui-sref="app.user-details({id:quiz.uq_user_id})"> {{quiz.user_fullname}} </a></td>
+            <td> {{quiz.uq_score}} </td>
+            <td> {{quiz.uq_date_taken}} </td>
+            <td>
+            <button class="btn btn-icon btn-sm btn-info" ui-sref="app.quiz-details({id:quiz.uq_target_id})" tooltip="View Quiz Details" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></i></button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,33 @@ html {
   background-color: #f0f3f4;
 }
 
+
+@media all and (max-width: 1249px) { /* screen size until 1200px */
+    .text-size {
+        font-size: 0.89em; /* 1.5x default size */
+    }
+}
+@media all and (max-width: 1200px) { /* screen size until 1200px */
+    .text-size {
+        font-size: 0.8em; /* 1.5x default size */
+    }
+}
+@media all and (max-width: 1190px) { /* screen size until 1200px */
+    .text-size {
+        font-size: 0.7em; /* 1.5x default size */
+    }
+}
+@media all and (max-width: 1090px) { /* screen size until 1000px */
+    .text-size {
+        font-size: 0.6em; /* 1.2x default size */
+        }
+    }
+@media all and (max-width: 991px) { /* screen size until 978px */
+    .text-size {
+        font-size: 36px; /* 0.8x default size */
+        }
+    }
+
 body {
   font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;

@@ -59,7 +59,26 @@ $app->get('/getSubscriptionList', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();
-    
+    $session = $db->getSession();
+    // get type of currently logged in admin
+    $admin_type = $session['trenova_user']['ad_type'];
+    $ad_id = $session['trenova_user']['ad_id'];
+    if ($admin_type == "TEACHER") {
+    $subscriptions = $db->getRecordset("SELECT * FROM subscription LEFT JOIN course ON sub_course_id=course_id LEFT JOIN user ON sub_user_id=user_id WHERE course_creator_id = '$ad_id' ORDER BY sub_date_started DESC");
+                            if($subscriptions) {
+                               
+                                $response['subscriptions'] = $subscriptions;
+                                $response['status'] = "success";
+                                $response["message"] = "Subscriptions!";
+                                echoResponse(200, $response);
+                            } else {
+                                $response['status'] = "error";
+                                $response["message"] = "No subscriptions found!";
+                                echoResponse(201, $response);
+                            }
+                                    
+        }else{
+
     $subscriptions = $db->getRecordset("SELECT * FROM subscription LEFT JOIN course ON sub_course_id=course_id LEFT JOIN user ON sub_user_id=user_id ORDER BY sub_date_started DESC");
 
     if($subscriptions) {
@@ -73,4 +92,7 @@ $app->get('/getSubscriptionList', function() use ($app) {
         $response["message"] = "No subscriptions found!";
         echoResponse(201, $response);
     }
+        } 
+    
+
 });

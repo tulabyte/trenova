@@ -109,7 +109,7 @@
   </li>
 
 
-  <li ng-if-start="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
+  <li ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER' || trenova_user.ad_type == 'TEACHER' ">
     <a href class="auto">
       <span class="pull-right text-muted">
         <i class="fa fa-fw fa-angle-right text"></i>
@@ -146,7 +146,7 @@
           <span>Pending</span>
         </a>
       </li>
-      <li ui-sref-active="active">
+      <li ui-sref-active="active" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
         <a ui-sref="app.sub-list({type:'PAUSED'})" >
           <span>Paused</span>
         </a>
@@ -156,7 +156,7 @@
 
   
   
-  <li>
+  <li ng-if-start="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
     <a href class="auto">
       <span class="pull-right text-muted">
         <i class="fa fa-fw fa-angle-right text"></i>
@@ -244,7 +244,7 @@
     </a>
     <ul class="nav nav-sub dk">
       
-      <li ui-sref-active="active">
+      <li ui-sref-active="active" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
         <a ui-sref="app.subject-edit">
           <span>New Subject</span>
         </a>
@@ -268,7 +268,7 @@
     </a>
     <ul class="nav nav-sub dk">
       
-      <li ui-sref-active="active">
+      <li ui-sref-active="active" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
         <a ui-sref="app.class-edit">
           <span>New Class</span>
         </a>
@@ -293,7 +293,7 @@
     <ul class="nav nav-sub dk">
       
       <li ui-sref-active="active">
-        <a ui-sref="app.school-edit">
+        <a ui-sref="app.school-edit" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
           <span>New School</span>
         </a>
       </li>
@@ -433,7 +433,7 @@
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">          
     <span>Your Stuff</span>
   </li>
-    <li>
+    <li ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
     <a href class="auto">      
       <span class="pull-right text-muted">
         <i class="fa fa-fw fa-angle-right text"></i>

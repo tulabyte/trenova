@@ -160,6 +160,30 @@ angular.module('app')
                   }
               })
 
+              .state('app.quiz-list', {
+                  url: '/quiz-list/:id',
+                  templateUrl: 'tpl/quiz-list.html',
+                  data: {pageTitle: 'Quiz List'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/QuizController.js');
+                      }]
+                  }
+              })
+
+              .state('app.quiz-details', {
+                  url: '/quiz-details/:id',
+                  templateUrl: 'tpl/quiz-details.html',
+                  data: {pageTitle: 'Quiz Details'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/QuizController.js');
+                      }]
+                  }
+              })
+
                 .state('app.feedback-list', {
                   url: '/feedback-list',
                   data: {pageTitle: 'Feedback List'},

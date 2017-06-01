@@ -2,7 +2,7 @@
   <div class="pull-left">
     <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
   </div>
-  <div class="pull-right">
+  <div class="pull-right" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
     <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.subject-edit"><i class="fa fa-plus"></i>New Subject</button>
   </div>
   <div class="clearfix"></div>
@@ -18,14 +18,14 @@
           <tr>
             <th width="30%">Subject Title</th>
             <th width="50%">Description</th>
-            <th></th>
+            <th ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"></th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="subject in subjects">
             <td> {{subject.sb_title}} </td>
             <td> {{subject.sb_description}} </td>
-            <td>
+            <td ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
               <button class="btn btn-icon btn-sm btn-info" ui-sref="app.subject-edit({id:subject.sb_id})" tooltip="Edit Subject"><i class="fa fa-edit"></i></button>
 
               <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteSubject(subject.sb_id)" tooltip="Delete Subject"><i class="fa fa-trash"></i></button>

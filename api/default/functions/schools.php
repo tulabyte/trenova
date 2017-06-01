@@ -14,16 +14,18 @@ $app->post('/createSchool', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('sch_name'),$r->school);
+    verifyRequiredParams(array('sch_name', 'sch_term_label', 'sch_lesson_label'),$r->school);
     //require_once 'passwordHash.php';
     $db = new DbHandler();
     $sch_name = $db->purify($r->school->sch_name);
+    $sch_term_label = $db->purify($r->school->sch_term_label);
+    $sch_lesson_label = $db->purify($r->school->sch_lesson_label);
     $isSchoolExists = $db->getOneRecord("SELECT 1 FROM school WHERE sch_name = '$sch_name'");
   
     if(!$isSchoolExists){
         $table_name = "school";
-        $column_names = ['sch_name'];
-        $values = [$sch_name];
+        $column_names = ['sch_name', 'sch_term_label', 'sch_lesson_label'];
+        $values = [$sch_name, $sch_term_label, $sch_lesson_label];
 
         $result = $db->insertToTable($values, $column_names, $table_name);
 
@@ -56,16 +58,18 @@ $app->post('/editSchool', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('sch_name','sch_id'),$r->school);
+    verifyRequiredParams(array('sch_name','sch_id', 'sch_term_label', 'sch_lesson_label'),$r->school);
     //require_once 'passwordHash.php';
     $db = new DbHandler();
     $sch_id = $db->purify($r->school->sch_id);
     $sch_name = $db->purify($r->school->sch_name);
+    $sch_term_label = $db->purify($r->school->sch_term_label);
+    $sch_lesson_label = $db->purify($r->school->sch_lesson_label);
     $isSchoolExists = $db->getOneRecord("SELECT 1 FROM school WHERE sch_id = '$sch_id'");
 
     if($isSchoolExists){
         $table_to_update = "school";
-        $columns_to_update = ['sch_name'=>$sch_name];
+        $columns_to_update = ['sch_name'=>$sch_name, 'sch_term_label'=>$sch_term_label, 'sch_lesson_label'=>$sch_lesson_label];
         $where_clause = ['sch_id'=>$sch_id];
 
         $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);

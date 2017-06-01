@@ -2,7 +2,7 @@
   <div class="pull-left">
     <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
   </div>
-  <div class="pull-right">
+  <div class="pull-right" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
     <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.course-edit"><i class="fa fa-plus"></i>New Course</button>
   </div>
   <div class="clearfix"></div>
@@ -32,11 +32,15 @@
             <td> {{course.course_view_count}} </td>
             <td> {{course.sub_count}} </td>
             <td>
+            <button class="btn btn-icon btn-sm btn-success" ng-click="approveCourse(course.course_id)" tooltip="Approve Course" ng-if="(trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER' ) && course.course_status == 'PENDING' "><i class="fa fa-thumbs-up"></i></button>
+
+            <button class="btn btn-icon btn-sm btn-danger" ng-click="disApproveCourse(course.course_id)" tooltip="Disapprove Course" ng-if="(trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER' ) && course.course_status != 'PENDING' "><i class="fa fa-thumbs-down"></i></button>
+
               <button class="btn btn-icon btn-sm btn-success" ui-sref="app.course-details({id:course.course_id})" tooltip="View Course Details"><i class="fa fa-info"></i></button>
 
               <button class="btn btn-icon btn-sm btn-info" ui-sref="app.course-edit({id:course.course_id})" tooltip="Edit Course"><i class="fa fa-edit"></i></button>
 
-              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteCourse(course.course_id)" tooltip="Delete Course"><i class="fa fa-trash"></i></button>
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteCourse(course.course_id)" tooltip="Delete Course" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>

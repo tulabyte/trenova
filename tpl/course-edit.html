@@ -23,7 +23,7 @@
 
             <div class="form-group">
               <label>Subject</label>
-              <select class="form-control" ng-options="subject.sb_title for subject in subjects" ng-model="course.selected_subject" required ng-change="getCourseName(course)">
+              <select class="form-control" ng-options="subject.sb_title for subject in subjects" ng-model="course.selected_subject" required ng-change="getCourseName(course)" ng-disabled= "!courseTitle">
                 
                 <!-- <option ng-repeat="category in categories">{{category.cat_name}}</option> -->
               </select>
@@ -34,8 +34,8 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-6">
-                  <label>Term/Section</label>
-                  <input type="number" class="form-control" placeholder="Enter 1,2 or 3." required ng-model="course.course_term" max="3" min="1"  ng-change="getCourseTerm(course.course_term)"/>
+                  <label>Term/Section/Semester</label>
+                  <input type="number" class="form-control" placeholder="Enter 1,2 or 3." required ng-model="course.course_term" max="3" min="1"  ng-change="getCourseTerm(course.course_term)" ng-disabled= "!course.selected_subject" />
                 </div>
              <div class="col-md-6"> 
               <label>Course Title</label>

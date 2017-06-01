@@ -63,13 +63,28 @@
               <label>Lesson Content</label>
               <textarea required class="form-control" placeholder="Enter lesson description here" ng-model="module.less_content"></textarea>
             </div>
+
+            <div class="form-group">
+              <label>Add Video <input type="checkbox" ng-model="moduleVideo"> </label>
+            </div>
+            <div class="form-group" ng-show="moduleVideo">
+              <label>
+              <strong>Upload Video</strong></label>
+              <input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'video/*'"
+            ngf-accept="'video/*'" ngf-max-size="200MB" ngf-min-height="100">
+            </div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: {{video_progress}}%"> {{video_progress}}%           
+              </div>
+            </div>
+
             <div class="form-group col-md-3">
               <label>Lesson Number</label>
               <input type="number" class="form-control" ng-model="module.less_number">
-            </div>
+            </div>            
 
             <div class="checkbox m-t-lg">
-              <button type="button" class="btn btn-success pull-right text-uc m-t-n-xs" ng-click="editModule(module)"><strong>Save</strong></button>
+              <button type="button" class="btn btn-success pull-right text-uc m-t-n-xs" ng-click="editModule(file,module)"><strong>Save</strong></button>
 
               <button type="button" class="btn pull-right text-uc m-t-n-xs" ng-click="cancel()"><strong>Cancel</strong></button>              
             </div>
@@ -97,7 +112,8 @@
 
       <!--questions -->
       <h5 class="font-bold">Course Questions</h5>
-      <button class="btn btn-success btn-sm" ng-click="openQuestionModal()"><i class="fa fa-plus"></i> Add Question</button><br><br>
+      <button class="btn btn-success btn-sm" ng-click="openQuestionModal()"><i class="fa fa-plus"></i> Add Question</button>
+      <button class="btn btn-success btn-sm" ui-sref="app.quiz-list({id:course.course_id})"><i class="fa fa-book"></i> Quiz Scores</button><br><br>
 
       <script type="text/ng-template" id="myQuestionModalContent.html">
       <div class="modal-body wrapper-lg">

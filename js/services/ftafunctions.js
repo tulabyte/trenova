@@ -98,6 +98,16 @@ app.service('FTAFunctions', function (Data, $state) {
 		return Data.get('deleteCourse?id='+id);
 	};
 
+	// approveCourse
+	this.approveCourse = function (id) {
+		return Data.get('approveCourse?id='+id);
+	};
+
+	// disApproveCourse
+	this.disApproveCourse = function (id) {
+		return Data.get('disApproveCourse?id='+id);
+	};
+
 	// mark as paid
 	this.markResellerCommission = function (id) {
 		return Data.get('markResellerCommission?id='+id);
@@ -117,6 +127,12 @@ app.service('FTAFunctions', function (Data, $state) {
 	// get list of modules for a course
 	this.getModuleList = function (course_id) {
 		return Data.get('getModuleList?course_id='+course_id);
+	};
+
+	//getQuestionModuleList
+
+	this.getQuestionModuleList = function (course_id) {
+	return Data.get('getQuestionModuleList?question_id='+question_id);
 	};
 
 	// deleted selected module

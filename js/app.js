@@ -20,5 +20,6 @@ angular.module('app', [
     'toaster',
     'angular-momentjs',
     'datatables',
+    'ngFileUpload',    
     "chart.js"
 ]);

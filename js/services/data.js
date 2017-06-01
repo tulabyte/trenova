@@ -1,9 +1,9 @@
 app.factory("Data", ['$http', '$rootScope', 'bsLoadingOverlayService', 
     function ($http, $rootScope, bsLoadingOverlayService) { // This service connects to our REST API
 
-        var serviceBase = 'http://tulabyte.net/trenova/api/default/';
+         //var serviceBase = 'http://tulabyte.net/trenova/api/default/';
         // var serviceBase = 'api/default/index.php/';
-        // var serviceBase = 'http://localhost/trenova/api/default/index.php/';
+         var serviceBase = 'http://localhost/lenova/trenova/api/default/index.php/';
         // var serviceBase = 'http://localhost:3000/api/default/index.php/';
 
         var obj = {};

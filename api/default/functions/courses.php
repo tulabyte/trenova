@@ -9,6 +9,11 @@ $app->post('/createCourse', function() use ($app) {
     verifyRequiredParams(['course_title', 'course_class_id', 'course_subject_id', 'course_term', 'course_summary', 'course_price', 'course_image', 'course_description'],$r->course);
     //require_once 'passwordHash.php';
     $db = new DbHandler();
+    $session = $db->getSession();
+    // get type of currently logged in admin
+    $admin_type = $session['trenova_user']['ad_type'];
+    $ad_id = $session['trenova_user']['ad_id'];
+
     $course_title = $db->purify($r->course->course_title);
     $course_class_id = $db->purify($r->course->course_class_id);
     $course_subject_id = $db->purify($r->course->course_subject_id);
@@ -22,6 +27,26 @@ $app->post('/createCourse', function() use ($app) {
     //check if course already exists with same title
     $isCourseExists = $db->getOneRecord("SELECT 1 FROM course WHERE course_title='$course_title'");
     if(!$isCourseExists){
+          if ($admin_type == "TEACHER") {
+                $crs_status = 'PENDING' ;
+                $course_creator_id = $ad_id;
+                $table_name = "course" ;
+                $column_names = ['course_creator_id','course_status','course_title', 'course_class_id', 'course_subject_id', 'course_term', 'course_summary', 'course_price', 'course_image', 'course_description', 'course_is_featured', 'course_time_created'];
+                $values = [$course_creator_id, $crs_status, $course_title, $course_class_id, $course_subject_id, $course_term, $course_summary, $course_price,$course_image, $course_description, $course_is_featured, $course_time_created];
+                $result = $db->insertToTable($values, $column_names, $table_name);
+
+                            if ($result != NULL) {
+                                $response["status"] = "success";
+                                $response["message"] = "Course created successfully";
+                                $response["course_id"] = $result;
+                                echoResponse(200, $response);
+                                    }else {
+                                        $response["status"] = "error";
+                                        $response["message"] = "Failed to create course. Please try again";
+                                        echoResponse(201, $response);
+                                    } 
+                    }else{
+
         //the title has not yet been used
         //$r->course->password = passwordHash::hash($password);
         $table_name = "course";
@@ -44,7 +69,8 @@ $app->post('/createCourse', function() use ($app) {
             $response["status"] = "error";
             $response["message"] = "Failed to create course. Please try again";
             echoResponse(201, $response);
-        }            
+        }   
+        }         
     }else{
         $response["status"] = "error";
         //$response['message'] = $r->course;
@@ -66,6 +92,7 @@ $app->post('/createModule', function() use ($app) {
     $less_content = $db->purify($r->module->less_content);
     $less_number = isset($r->module->less_number) ? $db->purify($r->module->less_number) : '';
     $less_course_id = $db->purify($r->module->less_course_id);
+    $less_video = $db->purify($r->module->less_video);
     
     //check if module already exists with same title for same course
     $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_title='$less_title' AND less_course_id = '$less_course_id'");
@@ -78,8 +105,8 @@ $app->post('/createModule', function() use ($app) {
             $less_number = $maxPos['max_pos'] + 1;
         }
         $table_name = "course_lesson";
-        $column_names = ['less_title', 'less_course_id', 'less_content', 'less_number'];
-        $values = [$less_title, $less_course_id, $less_content, $less_number];
+        $column_names = ['less_title', 'less_course_id', 'less_content', 'less_number', 'less_video'];
+        $values = [$less_title, $less_course_id, $less_content, $less_number,$less_video];
         $result = $db->insertToTable($values, $column_names, $table_name);
 
         if ($result != NULL) {
@@ -405,22 +432,45 @@ $app->get('/getCourseList', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();
+    $session = $db->getSession();
+    // get type of currently logged in admin
+    $admin_type = $session['trenova_user']['ad_type'];
+    $admin_id = $session['trenova_user']['ad_id'];
     
-    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM subscription WHERE sub_course_id = course_id) AS sub_count FROM course LEFT JOIN class ON course_class_id = class_id LEFT JOIN subject ON course_subject_id = sb_id ORDER BY course_title");
-    if($courses) {
-        //courses found
-        $count = count($courses);
+    if ($admin_type == 'TEACHER') {
+                $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM subscription WHERE sub_course_id = course_id) AS sub_count FROM course LEFT JOIN class ON course_class_id = class_id LEFT JOIN subject ON course_subject_id = sb_id WHERE course_creator_id = '$admin_id' ORDER BY course_title");
+                    if($courses) {
+                        //courses found
+                        $count = count($courses);
 
-        $response['courses'] = $courses;
-        $response['status'] = "success";
-        $response["message"] = "$count Courses Found!";
-        echoResponse(200, $response);
-    } else {
-        $response['status'] = "error";
-        $response["message"] = "No course found!";
-        echoResponse(201, $response);
-    }
+                        $response['courses'] = $courses;
+                        $response['status'] = "success";
+                        $response["message"] = "$count Courses Found!";
+                        echoResponse(200, $response);
+                    } else {
+                        $response['status'] = "error";
+                        $response["message"] = "No course found!";
+                        echoResponse(201, $response);
+                    }
+                    
+    }else{
+            $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM subscription WHERE sub_course_id = course_id) AS sub_count FROM course LEFT JOIN class ON course_class_id = class_id LEFT JOIN subject ON course_subject_id = sb_id ORDER BY course_title");
+            if($courses) {
+                //courses found
+                $count = count($courses);
+
+                $response['courses'] = $courses;
+                $response['status'] = "success";
+                $response["message"] = "$count Courses Found!";
+                echoResponse(200, $response);
+            } else {
+                $response['status'] = "error";
+                $response["message"] = "No course found!";
+                echoResponse(201, $response);
+            }
+}
 });
+
 
 // get course list for mobile
 $app->get('/getCourseListForMobile', function() use ($app) {
@@ -597,6 +647,34 @@ $app->get('/getModuleList', function() use ($app) {
     }
 });
 
+// getQuestionModuleList
+$app->get('/getQuestionModuleList', function() use ($app) {
+    $response = array();
+    
+    $db = new DbHandler();
+    $question_id = $db->purify($app->request->get('question_id'));
+    
+    $question = $db->getOneRecord("SELECT * FROM question WHERE q_id = '$question_id' ");
+
+    $question_option = $db->getRecordset("SELECT * FROM question_option WHERE qo_question_id = '$question_id' ORDER BY qo_id ASC");
+
+    if(!empty($question_option) || !empty($question)) {
+
+        //categories found
+        $count = count($question);
+
+        $response['question'] = $question;
+        $response['question_option'] = $question_option;
+        $response['status'] = "success";
+        $response["message"] = "$count Lesson Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No question found for this course!";
+        echoResponse(201, $response);
+    }
+});
+
 // delete course
 $app->get('/deleteCourse', function() use ($app) {
     $response = array();
@@ -633,6 +711,61 @@ $app->get('/deleteCourse', function() use ($app) {
     // $response["course_id"] = $course_id;
     // echoResponse(200, $response);
 });
+
+// approveCourse
+$app->get('/approveCourse', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $course_id = $db->purify($app->request->get('id'));
+    $course_status = 'ACTIVE';
+
+    $table_to_update = "course";
+    $columns_to_update = ['course_status'=>$course_status];
+    $where_clause = ['course_id'=>$course_id];
+    $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+    if($result > 0) {
+        //course updated
+        $response['status'] = "success";
+        $response["message"] = "Course Approved successfully!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error approving course!";
+        echoResponse(201, $response);
+    }
+
+});
+
+// disApproveCourse
+$app->get('/disApproveCourse', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $course_id = $db->purify($app->request->get('id'));
+    $course_status = 'PENDING';
+
+    $table_to_update = "course";
+    $columns_to_update = ['course_status'=>$course_status];
+    $where_clause = ['course_id'=>$course_id];
+    $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+
+    if($result > 0) {
+        //course updated
+        $response['status'] = "success";
+        $response["message"] = "Course Disapproved successfully!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error disapproving course!";
+        echoResponse(201, $response);
+    }
+
+});
+
+
 
 // delete module
 $app->get('/deleteModule', function() use ($app) {

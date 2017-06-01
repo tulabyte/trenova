@@ -34,6 +34,8 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', 'Data', '$r
             break;
             case 'AGENT' : $state.go('app.agent-dashboard');
             break;
+            case 'TEACHER' : $state.go('app.sub-list');
+            break;
             
             default : $state.go('app.dashboard');
           }

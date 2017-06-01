@@ -18,7 +18,9 @@ app.directive('fileModel', ['$parse', function ($parse) {
     };
 }]);
 
-app.controller('ModalInstanceCtrl', ['$scope', '$rootScope', '$modalInstance', 'course', 'module', 'Data', function($scope, $rootScope, $modalInstance, course, module, Data) {
+app.controller('ModalInstanceCtrl', ['$scope', 'Upload', '$rootScope', '$modalInstance', 'course', 'module', 'Data', function($scope, Upload, $rootScope, $modalInstance, course, module, Data) {
+ var uploadVideoUrl = 'api/default/uploadVideo.php';
+
   $scope.course = course;
   if(module) {
     $scope.module = module;
@@ -29,9 +31,11 @@ app.controller('ModalInstanceCtrl', ['$scope', '$rootScope', '$modalInstance', '
   }
   $scope.error = undefined;
 
-  $scope.editModule = function(module) {
+  $scope.editModule = function(file, module) {
     module.less_course_id = $scope.course.course_id;
-    console.log(module);
+    $scope.module.less_video = file.name;
+    //console.log(module);
+//    console.log(file);
     if(module.less_id) {
       //edit module
       Data.post('editModule', 
@@ -52,7 +56,8 @@ app.controller('ModalInstanceCtrl', ['$scope', '$rootScope', '$modalInstance', '
         { module: module }
       ).then(function(results) {
         if(results.status = "success") {
-          $modalInstance.close("OK");
+          $scope.upload($scope.file, $scope.module.less_video);
+//          $modalInstance.close("OK");
         } else {
           //error
           $scope.error = results.message;
@@ -62,6 +67,29 @@ app.controller('ModalInstanceCtrl', ['$scope', '$rootScope', '$modalInstance', '
       });
     }
   };
+
+  
+
+  /*code to upload the file via ngf*/
+     $scope.upload = function (file, video_name) {
+        Upload.upload({
+            url: uploadVideoUrl,
+            data: {file: file, 'video': video_name}
+        }).then(function (resp) { 
+//            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        }, function (resp) {
+  //          console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.video_progress = progressPercentage;
+            if (progressPercentage == 100){
+            $rootScope.toasterPop('Video Upload Successful!');
+            $modalInstance.close("OK");
+              }
+    //        console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+    };
+
 
     $scope.editQuestionModule = function(question) {
     question.course_id = $scope.course.course_id;
@@ -110,7 +138,7 @@ app.controller('ModalInstanceCtrl', ['$scope', '$rootScope', '$modalInstance', '
 }])
 ;
 
-app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFunctions', '$state', '$stateParams', '$http', 'Data', /*'FileUploader',*/ function($scope, $rootScope, $modal, FTAFunctions, $state, $stateParams, $http, Data/*, FileUploader*/) {
+app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 'FTAFunctions', '$state', '$stateParams', '$http', 'Data', /*'FileUploader',*/ function($scope, Upload, $rootScope, $modal, FTAFunctions, $state, $stateParams, $http, Data/*, FileUploader*/) {
     
     //initialize stuff
     $scope.course = {};
@@ -121,6 +149,7 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
     $scope.selected_class = {};
 
     var uploadUrl = 'api/default/uploadFile.php';
+    var uploadVideoUrl = 'api/default/uploadVideo.php';
 
     $scope.loadLessons = function (course_id) {
       FTAFunctions.getModuleList(course_id).then(function(results) {
@@ -131,6 +160,24 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
         }
       });
     };
+
+/*code to upload the file via ngf*/
+/*     $scope.upload = function (file, video_name) {
+        Upload.upload({
+            url: uploadVideoUrl,
+            data: {file: file, 'video': video_name}
+        }).then(function (resp) {
+//            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        }, function (resp) {
+  //          console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.module.video_progress = progressPercentage;
+    //        console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+    };
+*/
+
 
     // load subject list for select
     $scope.loadSubjectList = function() {
@@ -157,6 +204,20 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
         }
       });
     };
+
+    // load class list for select
+    $scope.loadTermList = function() {
+      Data.get('getTermList').then(function(results) {
+         console.log(results);
+        if(results.status == "success") {
+          $scope.classes = results.classes;
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          $rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    };
+
 
     // load course list
     $scope.loadCourseList = function() {
@@ -241,32 +302,30 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
       }
     };
 
-    // class plus subject name
+/*function to generate course title*/
+    $scope.generateCourseName = function( stage, subject, term){
+      return stage + '-' +subject + '-' + 'Term' + '-' + term;
+    }
+
     $scope.getCourseName = function(name) {
           console.log(name);
         $scope.course.sub_title = name.selected_subject.sb_title;
+        $scope.subTitle = $scope.course.sub_title;
         $scope.course.course_subject_id = name.selected_subject.sb_id;
-        $scope.course.course_title = $scope.course.course_title + ' - ' + $scope.course.sub_title;
-//        console.log($scope.course.sub_title);
-
-     //   $scope.course.course_title = $scope.constructCourseTitle($scope.course.selected_class.class_name, $scope.course.selected_subject.sb_title, $scope.course.course_term);
+        $scope.course.course_title = $scope.generateCourseName($scope.courseTitle,$scope.subTitle,$scope.course.course_term);
     };
+
     // class plus subject plus term name
     $scope.getCourseTerm = function(name) {
-        $scope.course.course_title = $scope.course.course_title + ' - ' + 'Term '+ name;
-      //  console.log($scope.course.course_title);
+        $scope.course.course_title = $scope.generateCourseName($scope.courseTitle,$scope.subTitle, name);
+        console.log($scope.course.course_title);
     };
-
-/*    $scope.constructCourseTitle = function($subject, $class, $term) {
-      return $class + " - " + $subject + " - Term " + $term;
-    }*/
 
     // select class when ui-select item is picked
     $scope.selectClass = function(item, model) {
-//       console.log(item);
-//       console.log(model);
       $scope.course.course_class_id = item.class_id;
-      $scope.course.course_title = model.class_name;
+      $scope.courseTitle = model.class_name;
+      $scope.loadTermList($scope.course.course_class_id);
     };
 
     // edit course - load classes & subjects 
@@ -399,6 +458,44 @@ app.controller('CourseController', ['$scope', '$rootScope', '$modal', 'FTAFuncti
         return false;
       }
     };
+
+    // disApproveCourse
+    $scope.disApproveCourse = function(id) {
+        FTAFunctions.disApproveCourse(id).then(function(results) {
+          console.log(results);
+          if(results.status == 'success') {
+            $state.go('app.course-list', {reload: true});
+            FTAFunctions.getCourseList().then(function(results) {
+              if(results.status == "success") {
+                $scope.courses = results.courses;
+              }
+            });
+            $rootScope.toasterPop('success','Action Successful!',results.message);
+          } else {
+            $rootScope.toasterPop('error','Oops!',results.message);
+          }
+        });
+    };
+
+        // approve course
+    $scope.approveCourse = function(id) {
+        FTAFunctions.approveCourse(id).then(function(results) {
+          console.log(results);
+          if(results.status == 'success') {
+            $state.go('app.course-list', {reload: true});
+            FTAFunctions.getCourseList().then(function(results) {
+              if(results.status == "success") {
+                $scope.courses = results.courses;
+              }
+            });
+            $rootScope.toasterPop('success','Action Successful!',results.message);
+          } else {
+            $rootScope.toasterPop('error','Oops!',results.message);
+          }
+        });
+    };
+
+
 
     //$rootScope.toasterPop('success','Testing','Toaster.js Works in FORM.JS !!!');
 

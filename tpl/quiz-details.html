@@ -1,0 +1,55 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="QuizController">
+   <div class="col">
+       <div class="wrapper-lg bg-white-opacity">
+       <!-- begining of row -->
+        <div class="row m-t">
+           <!-- begining og 1st column -->
+           <div class="col-sm-7">
+                 <div class="clear m-b">
+                     <div class="m-b m-t-sm">
+                          <span class="h3 text-black">{{course.course_title}}</span><br /><br />
+                     </div>
+                 </div>
+           </div>
+                      <!-- end of column 7 -->   
+         </div>
+<!--       end of row -->
+      </div>
+<!--       end of wrapper -->
+   <!-- beginning of tab -->
+    <div class="wrapper bg-white b-b">
+
+    <tabset class="nav-tabs-alt" justified="true">
+
+      <tab>
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;">Question And Answers</div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show ="quizs.length > 0">
+              <thead>
+                <tr>
+                <th width="60%">Question</th>
+                <th width="20%">Answer</th>
+                <th width="20%">User's Answer</th>                
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="quiz in quizs track by $index">
+                <td>{{quiz.q_question}}</td>
+                <td>{{quiz.qo_option}}</td>
+                <td>{{quiz.q_opt}}</td>
+                </tr>
+              </tbody>                
+              </table>
+            </div>
+        </tab>      
+      
+
+    </tabset>
+ <!--    end of tab -->
+      </div>
+    </div>
+    </div>

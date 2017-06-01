@@ -21,7 +21,7 @@
             <th width="20%">Course</th>
             <th width="20%">Start Date</th>
             <th width="10%">Status</th>
-            <th></th>
+            <th ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"></th>
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
             <td> {{sub.course_title}} </td>
             <td> {{sub.sub_date_started | dateToISO | date:'medium' }} </td>
             <td> <span class="label" ng-class="{'bg-success': sub.sub_status == 'ACTIVE', 'bg-warning': sub.sub_status == 'PENDING', 'bg-danger': sub.sub_status == 'EXPIRED' || sub.sub_status == 'PAUSED' }">{{sub.sub_status}}</span> </td>
-            <td>
+            <td ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
               <button class="btn btn-icon btn-sm btn-danger" ng-click="pauseSubscription(sub.sub_id)" tooltip="Pause Subscription" ng-if="sub.sub_status != 'PAUSED'" ><i class="fa fa-pause"></i></button>
               <button class="btn btn-icon btn-sm btn-danger" ng-click="resumeSubscription(sub.sub_id)" tooltip="Resume Subscription" ng-if="sub.sub_status == 'PAUSED'" ><i class="fa fa-play"></i></button>
             </td>
