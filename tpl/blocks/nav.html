@@ -229,7 +229,12 @@
         <a ui-sref="app.course-list">
           <span>Course List</span>
         </a>
-      </li>      
+      </li>
+      <li ui-sref-active="active" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
+        <a ui-sref="app.course-pending-list">
+          <span>Pending List</span>
+        </a>
+      </li>            
     </ul>
   </li>
 

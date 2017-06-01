@@ -679,6 +679,19 @@ angular.module('app')
                   }
               })
 
+              // course list
+              .state('app.course-pending-list', {
+                  url: '/course-pending-list',
+                  templateUrl: 'tpl/course-pending-list.html',
+                  data: {pageTitle: 'Course Pending List'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/CourseController.js');
+                      }]
+                  }
+              })              
+
               // subscription list
               .state('app.sub-list', {
                   url: '/sub-list/:type',

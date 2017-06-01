@@ -26,7 +26,7 @@
             <td> {{quiz.uq_score}} </td>
             <td> {{quiz.uq_date_taken}} </td>
             <td>
-            <button class="btn btn-icon btn-sm btn-info" ui-sref="app.quiz-details({id:quiz.uq_target_id})" tooltip="View Quiz Details" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></i></button>
+            <button class="btn btn-icon btn-sm btn-info" ui-sref="app.quiz-details({id:quiz.uq_id})" tooltip="View Quiz Details" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-info"></i></i></button>
 
             </td>
           </tr>

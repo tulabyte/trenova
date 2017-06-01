@@ -6,7 +6,7 @@ app.controller('QuizController', ['$scope', '$rootScope', '$modal', 'FTAFunction
     $scope.quizs = {};
     
     if($state.current.name == 'app.quiz-list') {
-      Data.get('getQuizList').then(function(results) {
+      Data.get('getQuizList?id='+$stateParams.id).then(function(results) {
          console.log(results);
         if(results.status == "success") {
           $scope.quizs = results.quizs;

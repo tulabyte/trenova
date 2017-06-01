@@ -479,12 +479,16 @@ $app->get('/getCourseList', function() use ($app) {
                     }
                     
     }else{
-            $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM subscription WHERE sub_course_id = course_id) AS sub_count FROM course LEFT JOIN class ON course_class_id = class_id LEFT JOIN subject ON course_subject_id = sb_id ORDER BY course_title");
+            $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM subscription WHERE sub_course_id = course_id) AS sub_count FROM course LEFT JOIN class ON course_class_id = class_id LEFT JOIN subject ON course_subject_id = sb_id WHERE course_status = 'ACTIVE' ORDER BY course_title");
+
+            $courses_pending = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM subscription WHERE sub_course_id = course_id) AS sub_count FROM course LEFT JOIN class ON course_class_id = class_id LEFT JOIN subject ON course_subject_id = sb_id WHERE course_status = 'PENDING' ORDER BY course_time_created DESC");
+
             if($courses) {
                 //courses found
                 $count = count($courses);
 
                 $response['courses'] = $courses;
+                $response['courses_pending'] = $courses_pending;
                 $response['status'] = "success";
                 $response["message"] = "$count Courses Found!";
                 echoResponse(200, $response);

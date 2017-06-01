@@ -226,6 +226,7 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
         console.log(results);
         if(results.status == "success") {
           $scope.courses = results.courses;
+          $scope.courses_pend = results.courses_pending;
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);
@@ -352,7 +353,7 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
           $scope.course.course_price = parseFloat ($scope.course.course_price);
           $scope.course.course_term = parseInt ($scope.course.course_term);
           console.log($scope.course_class_id);
-          $scope.loadLessons($scope.course.class_id);
+          $scope.loadLessons($scope.course_class_id);
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);
@@ -361,7 +362,7 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
     }
 
     //course-list
-    if($state.current.name == 'app.course-list') {
+    if($state.current.name == 'app.course-list' || $state.current.name == 'app.course-pending-list') {
       $scope.loadCourseList();
     };
 
@@ -467,7 +468,7 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
         FTAFunctions.disApproveCourse(id).then(function(results) {
           console.log(results);
           if(results.status == 'success') {
-            $state.go('app.course-list', {reload: true});
+            $state.go('app.course-pending-list', {reload: true});
             FTAFunctions.getCourseList().then(function(results) {
               if(results.status == "success") {
                 $scope.courses = results.courses;
