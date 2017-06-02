@@ -7,7 +7,8 @@
           <i class="glyphicon glyphicon-align-justify"></i>
         </button>
         <!-- brand -->
-        <a href="#/" class="navbar-brand text-lt" ng-if="trenova_user.ad_type != 'RESELLER' && trenova_user.ad_type != 'AGENT' ">
+        <a href="#/" class="navbar-brand text-lt" ng-if="trenova_user.ad_type != 'RESELLER' && trenova_user.ad_type != 'AGENT' && trenova_user.ad_type != 'TEACHER'">
+        <a href class="navbar-brand text-lt" ng-if="trenova_user.ad_type == 'RESELLER' || trenova_user.ad_type == 'AGENT' || trenova_user.ad_type == 'TEACHER'">
           <!-- <i class="fa fa-btc"></i> -->
           <img src="img/trenova-logo.png" alt="Trenova" style="max-height: 40px; margin-top: 10px;">
           <!-- <span class="hidden-folded m-l-xs">{{app.name}}</span> -->
@@ -42,7 +43,7 @@
         <!-- link and dropdown -->
         <ul class="nav navbar-nav hidden-sm">
           
-          <li class="dropdown" dropdown ng-if="trenova_user.ad_type != 'RESELLER' ">
+          <li class="dropdown" dropdown ng-if="trenova_user.ad_type != 'RESELLER' && trenova_user.ad_type != 'TEACHER' && trenova_user.ad_type != 'AGENT'">
             <a href class="dropdown-toggle" dropdown-toggle>
               <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
               <span translate="header.navbar.new.NEW">New</span> <span class="caret"></span>
@@ -62,7 +63,7 @@
           <li class="hidden-xs">
             <a ui-fullscreen></a>
           </li>
-          <li class="dropdown" dropdown>
+          <li class="dropdown" dropdown ng-if=" trenova_user.ad_type != 'TEACHER' && trenova_user.ad_type != 'RESELLER' && trenova_user.ad_type != 'AGENT'">
             <a href class="dropdown-toggle" dropdown-toggle>
               <i class="icon-envelope fa-fw"></i>
               <span class="visible-xs-inline">Unread Messages</span>
@@ -93,7 +94,7 @@
             </div>
             <!-- / dropdown -->
           </li>
-          <li class="dropdown" dropdown>
+          <li class="dropdown" dropdown ng-if=" trenova_user.ad_type != 'TEACHER' && trenova_user.ad_type != 'RESELLER' && trenova_user.ad_type != 'AGENT' ">
             <a href class="dropdown-toggle" dropdown-toggle>
               <i class="icon-bell fa-fw"></i>
               <span class="visible-xs-inline">Awaiting Confirmation</span>
