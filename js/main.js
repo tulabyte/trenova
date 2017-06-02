@@ -12,8 +12,8 @@ angular.module('app')
 
       // config
       $scope.app = {
-        name: 'Trenova',
-        version: '0.0.1',
+        name: 'Learnnova',
+        version: '0.3.0',
         // for chart colors
         color: {
           primary: '#7266ba',
