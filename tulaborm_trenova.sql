@@ -29,13 +29,14 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`ad_id`, `ad_email`, `ad_password`, `ad_name`, `ad_phone`, `ad_address`, `ad_photo`, `ad_time_reg`, `ad_last_login`, `ad_type`, `ad_reseller_code`, `ad_credits_balance`, `ad_reg_status`, `ad_creator_id`, `ad_is_disabled`, `ad_signup_code`, `ad_email_confirmed`) VALUES
 (2,	'modupe@tulabyte.net',	'test123',	'Modupe Sanni',	'080565698799',	'Credibly repurpose tactical resources.',	NULL,	'2017-02-02 01:43:30',	'2017-04-18 13:49:45',	'AGENT',	NULL,	0,	'VERIFIED',	NULL,	NULL,	'248982146473',	1),
 (4,	'john@tulabyte.net',	'test123',	'John Blaze',	'0979562145633',	'Interactively seize innovative systems.',	NULL,	'2017-02-02 01:48:02',	NULL,	'RESELLER',	'ref_123_john_456',	0,	'VERIFIED',	NULL,	NULL,	'806680626154',	NULL),
-(5,	'yemi@tulabyte.net',	'test123',	'Yemi Tula',	'08055811697',	'27, Dipo Abe Street\nOjodu',	'Admissions Resources.jpg',	'2017-02-02 17:53:19',	'2017-05-18 12:35:12',	'SUPER',	NULL,	0,	'VERIFIED',	NULL,	NULL,	NULL,	1),
+(5,	'yemi@tulabyte.net',	'test123',	'Yemi Tula',	'08055811697',	'27, Dipo Abe Street\nOjodu',	'Admissions Resources.jpg',	'2017-02-02 17:53:19',	'2017-06-13 12:10:13',	'SUPER',	NULL,	0,	'VERIFIED',	NULL,	NULL,	NULL,	1),
 (6,	'yemgab@yahoo.com',	'test123',	'Gabriel Adetula',	NULL,	NULL,	NULL,	'2017-02-02 21:48:01',	'2017-04-18 16:31:28',	'TEACHER',	NULL,	0,	'VERIFIED',	5,	NULL,	NULL,	1),
-(7,	'kess@tulabyte.net',	'test123',	'Segun Kess',	NULL,	NULL,	NULL,	'2017-02-02 23:55:57',	'2017-02-02 23:58:39',	'ADMIN',	NULL,	0,	'VERIFIED',	5,	NULL,	NULL,	1),
+(7,	'kess@tulabyte.net',	'test123',	'Segun Kess',	NULL,	NULL,	NULL,	'2017-02-02 23:55:57',	'2017-06-01 13:40:43',	'ADMIN',	NULL,	0,	'VERIFIED',	5,	NULL,	NULL,	1),
 (11,	'elijah@tulabyte.net',	'test123',	'Elijah Opelio',	'0646416416',	'adfadsa das dsa dsa',	NULL,	'2017-02-03 01:41:53',	'2017-02-03 01:42:47',	'AGENT',	NULL,	0,	'VERIFIED',	5,	NULL,	NULL,	1),
 (12,	'comfort@tulabyte.net',	'test123',	'Kcommie Tula',	'08056818441',	'asskjaskdl;ksa  sak;dsadsasa',	NULL,	'2017-02-03 12:12:37',	NULL,	'RESELLER',	'123_ref_kcommie',	0,	'VERIFIED',	5,	NULL,	NULL,	1),
 (14,	'johnsmith@gmail.com',	'test123',	'John Smith',	'08123546998',	'Test durve, Ikeja, Lagos',	NULL,	'2017-02-06 11:21:45',	NULL,	'RESELLER',	NULL,	0,	'VERIFIED',	NULL,	NULL,	'726356275837',	NULL),
-(15,	'info@tulabyte.net',	'test123',	'Trenova Teacher',	NULL,	NULL,	NULL,	'2017-04-18 14:19:26',	NULL,	'TEACHER',	NULL,	0,	'VERIFIED',	5,	NULL,	NULL,	1);
+(15,	'info@tulabyte.net',	'test123',	'Trenova Teacher',	NULL,	NULL,	NULL,	'2017-04-18 14:19:26',	'2017-06-02 13:49:22',	'TEACHER',	NULL,	0,	'VERIFIED',	5,	NULL,	NULL,	1),
+(16,	'adeolusayo2@gmail.com',	'test123',	'Adeolu Sayo',	NULL,	NULL,	NULL,	'2017-06-02 14:07:41',	'2017-06-02 14:07:52',	'SUPER',	NULL,	0,	'VERIFIED',	5,	NULL,	NULL,	1);
 
 CREATE TABLE `admin_log` (
   `log_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -438,7 +439,47 @@ INSERT INTO `admin_log` (`log_id`, `log_time`, `log_admin_id`, `log_admin_name`,
 (462,	'2017-04-18 16:31:28',	6,	'Gabriel Adetula',	'Logged In: Successful'),
 (463,	'2017-05-08 10:57:40',	5,	'Yemi Tula',	'Logged In: Successful'),
 (464,	'2017-05-16 08:57:47',	5,	'Yemi Tula',	'Logged In: Successful'),
-(465,	'2017-05-18 12:35:12',	5,	'Yemi Tula',	'Logged In: Successful');
+(465,	'2017-05-18 12:35:12',	5,	'Yemi Tula',	'Logged In: Successful'),
+(466,	'2017-05-31 16:06:41',	5,	'Yemi Tula',	'Logged In: Successful'),
+(467,	'2017-06-01 00:37:37',	5,	'Yemi Tula',	'Logged In: Successful'),
+(468,	'2017-06-01 09:53:46',	5,	'Yemi Tula',	'Logged In: Successful'),
+(469,	'2017-06-01 12:53:53',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(470,	'2017-06-01 12:57:00',	15,	'Trenova Teacher',	'Logged Out'),
+(471,	'2017-06-01 12:57:14',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(472,	'2017-06-01 12:57:32',	15,	'Trenova Teacher',	'Logged Out'),
+(473,	'2017-06-01 13:00:01',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(474,	'2017-06-01 13:01:31',	15,	'Trenova Teacher',	'Logged Out'),
+(475,	'2017-06-01 13:01:36',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(476,	'2017-06-01 13:09:04',	5,	'Yemi Tula',	'Logged Out'),
+(477,	'2017-06-01 13:09:56',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(478,	'2017-06-01 13:12:56',	15,	'Trenova Teacher',	'Logged Out'),
+(479,	'2017-06-01 13:13:01',	5,	'Yemi Tula',	'Logged In: Successful'),
+(480,	'2017-06-01 13:26:42',	15,	'Trenova Teacher',	'Logged Out'),
+(481,	'2017-06-01 13:32:27',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(482,	'2017-06-01 13:39:49',	15,	'Trenova Teacher',	'Logged Out'),
+(483,	'2017-06-01 13:40:43',	7,	'Segun Kess',	'Logged In: Successful'),
+(484,	'2017-06-01 13:42:32',	7,	'Segun Kess',	'Created New Lesson: Iam Kess (ID: 68)'),
+(485,	'2017-06-01 13:53:17',	7,	'Segun Kess',	'Created New Lesson: Video Test (ID: 69)'),
+(486,	'2017-06-01 15:39:26',	5,	'Yemi Tula',	'Logged Out'),
+(487,	'2017-06-01 15:51:09',	5,	'Yemi Tula',	'Logged In: Successful'),
+(488,	'2017-06-02 10:46:34',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(489,	'2017-06-02 11:04:39',	5,	'Yemi Tula',	'Logged In: Successful'),
+(490,	'2017-06-02 11:05:05',	5,	'Yemi Tula',	'Logged Out'),
+(491,	'2017-06-02 11:05:22',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(492,	'2017-06-02 13:45:42',	15,	'Trenova Teacher',	'Logged Out'),
+(493,	'2017-06-02 13:49:22',	15,	'Trenova Teacher',	'Logged In: Successful'),
+(494,	'2017-06-02 13:53:32',	15,	'Trenova Teacher',	'Created New Lesson: teccher sample (ID: 70)'),
+(495,	'2017-06-02 13:55:33',	15,	'Trenova Teacher',	'Logged Out'),
+(496,	'2017-06-02 13:55:42',	5,	'Yemi Tula',	'Logged In: Successful'),
+(497,	'2017-06-02 14:02:35',	5,	'Yemi Tula',	'Created New School: university (ID: 4)'),
+(498,	'2017-06-02 14:04:38',	5,	'Yemi Tula',	'Created New Class: 100l (ID: 19)'),
+(499,	'2017-06-02 14:06:47',	5,	'Yemi Tula',	'Accessed Admin List'),
+(500,	'2017-06-02 14:07:41',	5,	'Yemi Tula',	'Created SUPER: Adeolu Sayo (ID: 16)'),
+(501,	'2017-06-02 14:07:42',	5,	'Yemi Tula',	'Accessed Admin List'),
+(502,	'2017-06-02 14:07:52',	16,	'Adeolu Sayo',	'Logged In: Successful'),
+(503,	'2017-06-05 12:04:48',	5,	'Yemi Tula',	'Logged In: Successful'),
+(504,	'2017-06-13 12:09:14',	5,	'Yemi Tula',	'Logged In: Successful'),
+(505,	'2017-06-13 12:10:13',	5,	'Yemi Tula',	'Logged In: Successful');
 
 CREATE TABLE `agent_credit_purchase` (
   `acp_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -524,11 +565,11 @@ INSERT INTO `class` (`class_id`, `class_name`, `class_school_id`, `class_is_disa
 (2,	'KG 2',	1,	NULL),
 (3,	'Nursery 1',	1,	NULL),
 (4,	'Nursery 2',	1,	NULL),
-(5,	'Primary 1',	1,	NULL),
-(6,	'Primary 2',	1,	NULL),
-(7,	'Primary 3',	1,	NULL),
-(8,	'Primary 4',	1,	NULL),
-(9,	'Primary 5 & 6',	1,	NULL),
+(5,	'Grade 1',	1,	NULL),
+(6,	'Grade 2',	1,	NULL),
+(7,	'Grade 3',	1,	NULL),
+(8,	'Grade 4',	1,	NULL),
+(9,	'Grade 5 & 6',	1,	NULL),
 (10,	'JSS 1',	2,	NULL),
 (11,	'JSS 2',	2,	NULL),
 (12,	'Basic Stage',	3,	NULL),
@@ -537,7 +578,8 @@ INSERT INTO `class` (`class_id`, `class_name`, `class_school_id`, `class_is_disa
 (15,	'SSS 1',	2,	NULL),
 (16,	'JSS 3',	2,	NULL),
 (17,	'SSS 2',	2,	NULL),
-(18,	'SSS 3',	2,	NULL);
+(18,	'SSS 3',	2,	NULL),
+(19,	'100l',	4,	NULL);
 
 CREATE TABLE `course` (
   `course_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -550,6 +592,8 @@ CREATE TABLE `course` (
   `course_image` varchar(100) NOT NULL,
   `course_price` double(10,2) NOT NULL,
   `course_time_created` datetime NOT NULL,
+  `course_quiz_minutes` int(11) NOT NULL DEFAULT '5',
+  `course_questions_per_quiz` int(11) NOT NULL DEFAULT '5',
   `course_is_featured` int(1) DEFAULT NULL,
   `course_is_disabled` int(1) DEFAULT NULL,
   `course_view_count` int(11) NOT NULL DEFAULT '0',
@@ -560,36 +604,62 @@ CREATE TABLE `course` (
   KEY `course_class_id` (`course_class_id`),
   KEY `course_subject_id` (`course_subject_id`),
   KEY `course_creator_id` (`course_creator_id`),
-  CONSTRAINT `course_ibfk_3` FOREIGN KEY (`course_creator_id`) REFERENCES `admin` (`ad_id`),
   CONSTRAINT `course_ibfk_1` FOREIGN KEY (`course_class_id`) REFERENCES `class` (`class_id`),
-  CONSTRAINT `course_ibfk_2` FOREIGN KEY (`course_subject_id`) REFERENCES `subject` (`sb_id`)
+  CONSTRAINT `course_ibfk_2` FOREIGN KEY (`course_subject_id`) REFERENCES `subject` (`sb_id`),
+  CONSTRAINT `course_ibfk_3` FOREIGN KEY (`course_creator_id`) REFERENCES `admin` (`ad_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `course` (`course_id`, `course_title`, `course_class_id`, `course_subject_id`, `course_term`, `course_summary`, `course_description`, `course_image`, `course_price`, `course_time_created`, `course_is_featured`, `course_is_disabled`, `course_view_count`, `course_share_count`, `course_creator_id`, `course_status`) VALUES
-(1,	'Start-up Business Development Class - Basic Stage - Section 1',	12,	4,	1,	'Dramatically disintermediate just in time schemas vis-a-vis high-quality benefits. Dynamically evisculate cross-unit leadership skills and equity invested.',	'<p>Dynamically benchmark exceptional leadership skills for prospective web-readiness. Objectively monetize resource-leveling information rather than principle-centered niches. <b>Progressively initiate 24/365 mate</b>rials through goal-oriented paradigms. Appropriately reintermediate dynamic human capital without corporate &#34;outside the box&#34; thinking. Seamlessly foster open-source data whereas highly efficient models.</p><p><br/></p><p>Collaboratively customize market positioning action items for backward-compatible.</p>',	'ntl-driver-car.jpg',	500.00,	'2017-02-06 10:39:03',	1,	NULL,	0,	0,	5,	'ACTIVE'),
-(2,	'Basic Stage-Start-up Business Development Class',	11,	5,	1,	'Learn To BEcome a Programmer',	'<p><b>Efficiently leverage other\'s stand-alone users via fully tested process improvements. Enthusiastically deploy market positioning web services after granular e-tailers</b>.&#160;</p><p>Completely procrastinate customer directed channels rather than business collaboration and idea-sharing. Energistically build performance based communities vis-a-vis robust sources. Objectively aggregate plug-and-play functionalities without customized alignments.</p><p><br/></p><p>Appropriately extend diverse.</p>',	'gej3.jpg',	10000.00,	'2017-02-13 00:00:00',	0,	NULL,	2,	1,	5,	'ACTIVE'),
-(3,	'KG1 Phonics - 1st Term',	1,	1,	1,	'Collaboratively develop quality methodologies rather than tactical users. Compellingly implement superior benefits.',	'<p>Rapidiously develop emerging platforms via timely models. Collaboratively repurpose just in time vortals rather than ethical human capital. Quickly seize dynamic users with sustainable results. Collaboratively procrastinate real-time core.</p><p>Conveniently evolve diverse sources before standards compliant potentialities. Completely revolutionize functionalized schemas without ethical applications. Quickly negotiate global &#34;outside the box&#34; thinking through web-enabled quality vectors. Appropriately synthesize multifunctional.</p>',	'tulabyte work team.jpg',	5000.00,	'2017-03-22 13:49:35',	1,	NULL,	0,	0,	5,	'ACTIVE'),
-(4,	'Key Stage 1-Mathematics-Term-1',	13,	2,	2,	'Collaboratively underwhelm emerging growth strategies after resource-leveling total linkage. Phosfluorescently reinvent open-source synergy before unique web services. Collaboratively seize enterprise architectures rather than web-enabled benefits. Dynamically.',	'<p>Quickly morph cross-media materials and tactical best practices. Interactively formulate strategic partnerships whereas market-driven architectures. Quickly whiteboard interoperable testing procedures and goal-oriented core competencies. Progressively incentivize tactical models after leading-edge alignments. Competently pursue ethical total linkage rather than 2.0 e-commerce.</p><p><br/></p><p>Collaboratively benchmark front-end e-tailers without distinctive strategic theme areas. Efficiently customize turnkey best practices before 24/365 quality vectors. Progressively restore enabled relationships after sustainable methods of empowerment. Intrinsicly embrace.</p>',	'For Students.jpg',	2000.00,	'2017-04-05 12:50:16',	1,	NULL,	0,	0,	5,	'ACTIVE'),
-(5,	'KG 1 - Mathematics - Term 1',	1,	2,	1,	'Completely optimize optimal synergy without wireless ideas. Continually facilitate holistic infrastructures rather than quality mindshare. Uniquely promote client-centric convergence via standards compliant benefits. Compellingly deploy high.',	'<blockquote><p><b>Dramatically pontificate synergistic growth strategies after best-of-breed results. Synergistically develop high-payoff networks whereas performance based alignments. Monotonectally brand 24/7 vortals before interdependent applications. Continually monetize turnkey sources for integrated partnerships. Objectively predominate bricks-and-clicks solutions without enterprise-wide core competencies.</b><br/><br/>Energistically fabricate functional methods of empowerment whereas emerging quality vectors. Assertively fabricate multidisciplinary sources vis-a-vis reliable e-commerce. Phosfluorescently strategize multifunctional ROI without prospective paradigms. Appropriately reconceptualize backward-compatible deliverables vis-a-vis B2C niches. Dramatically leverage existing clicks-and-mortar web services via bricks-and-clicks technologies.<br/><br/>Rapidiously evisculate frictionless sources whereas world-class human capital. Efficiently conceptualize economically sound paradigms before highly efficient collaboration and idea-sharing. Phosfluorescently supply multidisciplinary platforms and viral collaboration and idea-sharing. Interactively fabricate open-source supply chains without alternative e-commerce. Assertively deliver e-business intellectual capital after distributed information.<br/><br/>Authoritatively innovate team driven content rather than integrated experiences. Objectively create team building metrics before multifunctional systems. Conveniently underwhelm resource maximizing process improvements with just in time platforms. Efficiently drive efficient applications and extensive opportunities. Continually embrace interactive bandwidth rather than cutting-edge experiences.<br/></p></blockquote>',	'trenova-maths1.jpg',	5000.00,	'2017-04-17 17:34:27',	1,	NULL,	0,	0,	5,	'ACTIVE'),
-(6,	'Nursery 1 - Mathematics - Term 2',	3,	2,	2,	'Conveniently grow progressive sources without extensive value. Uniquely formulate resource maximizing potentialities whereas inexpensive web-readiness. Continually underwhelm.',	'<p><b>Phosfluorescently promote resource-leveling potentialities before multimedia based e-tailers. Credibly coordinate strategic sources before efficient meta-services. Uniquely mesh leading-edge models through best-of-breed alignments. Proactively harness impactful &#34;outside the box&#34; thinking before parallel process improvements. Appropriately benchmark parallel schemas for collaborative technologies.</b></p><p><br/></p><p>Holisticly innovate plug-and-play leadership skills for customized resources. Globally deliver seamless growth strategies via backward-compatible opportunities. Collaboratively recaptiualize premium systems and best-of-breed strategic theme areas. Competently evolve viral metrics before maintainable expertise. Seamlessly enable emerging content for user friendly products.</p><p><br/></p><blockquote><p>Efficiently simplify interdependent synergy and enterprise data. Compellingly engineer cross-platform opportunities with resource-leveling ideas. Professionally matrix equity invested internal or &#34;organic&#34; sources vis-a-vis accurate testing procedures. Proactively scale viral alignments for integrated initiatives. Efficiently target cross-platform architectures and equity invested portals.</p><p><br/></p></blockquote><p>Compellingly strategize technically sound process improvements and efficient customer service. Monotonectally formulate tactical models and open-source users. Dramatically engage superior materials with top-line materials. Completely re-engineer next-generation e-markets after mission-critical processes. Collaboratively evisculate real-time resources and orthogonal niches.</p><p><br/></p><p>Progressively matrix distributed quality vectors through orthogonal convergence. Synergistically matrix efficient processes rather than end-to-end relationships. Interactively customize emerging total linkage without flexible synergy. Quickly incubate sticky technologies whereas real-time markets. Completely negotiate worldwide data and next-generation customer service.</p>',	'trenova-maths2.jpg',	1000.00,	'2017-04-18 09:50:48',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(7,	'Nursery 1 - Phonics - Term 3',	1,	1,	2,	'Interactively utilize sustainable mindshare through team building alignments. Professionally grow interdependent expertise rather than open-source growth strategies. Efficiently re-engineer.',	'<p><b>Interactively administrate robust information whereas frictionless functionalities. Professionally integrate superior leadership skills through ubiquitous &#34;outside the box&#34; thinking. Efficiently enhance enterprise-wide growth strategies with covalent leadership skills. Dramatically morph e-business services through business sources. Quickly plagiarize ethical e-business vis-a-vis corporate alignments.</b></p><p><br/></p><p>Distinctively strategize worldwide models after stand-alone core competencies. Monotonectally myocardinate intermandated quality vectors through distributed expertise. Phosfluorescently network client-focused users without superior schemas. Progressively exploit cutting-edge processes via 2.0 scenarios. Proactively restore out-of-the-box markets vis-a-vis high-quality outsourcing.</p><p><br/></p><p><i>Completely deploy distributed schemas without parallel e-services. Distinctively re-engineer global convergence after pandemic relationships. Enthusiastically repurpose 24/7 potentialities without enabled manufactured products. Holisticly drive resource maximizing technology with fully researched services. Seamlessly revolutionize web-enabled internal or &#34;organic&#34; sources and cross-unit infrastructures.</i></p><p><br/></p><p>Intrinsicly iterate sustainable web services rather than state of the art testing procedures. Conveniently aggregate e-business meta-services vis-a-vis viral ideas. Phosfluorescently reconceptualize visionary supply chains vis-a-vis client-focused content. Quickly iterate fully tested outsourcing whereas multidisciplinary value. Completely optimize user-centric architectures for innovative leadership.</p><p><br/></p><blockquote><p>Credibly syndicate emerging ROI after clicks-and-mortar systems. Synergistically negotiate intuitive process improvements with high standards in results. Uniquely deploy diverse applications after stand-alone infrastructures. Phosfluorescently develop timely ideas via client-based human capital. Compellingly expedite distributed technologies rather than interactive methods of empowerment.</p></blockquote>',	'phonemes_1.jpg',	1000.00,	'2017-04-18 10:11:04',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(8,	'KG 2 - Phonics - Term 2',	2,	1,	2,	'Globally streamline fully tested alignments and leveraged imperatives. Assertively incubate client-based supply chains through.',	'<p><b>Interactively administrate robust information whereas frictionless functionalities. Professionally integrate superior leadership skills through ubiquitous &#34;outside the box&#34; thinking. Efficiently enhance enterprise-wide growth strategies with covalent leadership skills. Dramatically morph e-business services through business sources. Quickly plagiarize ethical e-business vis-a-vis corporate alignments.</b></p><p><br/></p><p>Distinctively strategize worldwide models after stand-alone core competencies. Monotonectally myocardinate intermandated quality vectors through distributed expertise. Phosfluorescently network client-focused users without superior schemas. Progressively exploit cutting-edge processes via 2.0 scenarios. Proactively restore out-of-the-box markets vis-a-vis high-quality outsourcing.</p><p><br/></p><p><i>Completely deploy distributed schemas without parallel e-services. Distinctively re-engineer global convergence after pandemic relationships. Enthusiastically repurpose 24/7 potentialities without enabled manufactured products. Holisticly drive resource maximizing technology with fully researched services. Seamlessly revolutionize web-enabled internal or &#34;organic&#34; sources and cross-unit infrastructures.</i></p><p><br/></p><p>Intrinsicly iterate sustainable web services rather than state of the art testing procedures. Conveniently aggregate e-business meta-services vis-a-vis viral ideas. Phosfluorescently reconceptualize visionary supply chains vis-a-vis client-focused content. Quickly iterate fully tested outsourcing whereas multidisciplinary value. Completely optimize user-centric architectures for innovative leadership.</p><p><br/></p><blockquote><p>Credibly syndicate emerging ROI after clicks-and-mortar systems. Synergistically negotiate intuitive process improvements with high standards in results. Uniquely deploy diverse applications after stand-alone infrastructures. Phosfluorescently develop timely ideas via client-based human capital. Compellingly expedite distributed technologies rather than interactive methods of empowerment.</p></blockquote>',	'phonics.png',	1000.00,	'2017-04-18 10:17:09',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(9,	'Nursery 2 - Phonics - Term 2',	4,	1,	2,	'Globally streamline fully tested alignments and leveraged imperatives. Assertively incubate client-based supply chains through.',	'<p><b>Appropriately revolutionize functional deliverables with turnkey ROI. Rapidiously coordinate highly efficient partnerships for visionary methodologies. Intrinsicly embrace impactful intellectual capital vis-a-vis top-line e-services. Enthusiastically whiteboard inexpensive infomediaries vis-a-vis interoperable technologies. Compellingly disintermediate integrated paradigms via mission-critical vortals.</b></p><p><br/></p><p><i>Monotonectally syndicate go forward ROI vis-a-vis fully tested channels. Distinctively incentivize turnkey process improvements with maintainable leadership. Rapidiously matrix innovative e-business vis-a-vis goal-oriented information. Distinctively transition business outsourcing via inexpensive intellectual capital. Appropriately iterate sticky systems whereas virtual testing procedures.</i></p><p><br/></p><blockquote><p>Globally streamline 24/7 growth strategies whereas wireless solutions. Progressively synthesize one-to-one applications without standardized materials. Authoritatively facilitate clicks-and-mortar e-business before client-based vortals. Progressively foster cooperative catalysts for change with go forward mindshare. Dynamically grow out-of-the-box markets through alternative e-services.</p><p><br/></p></blockquote><p>Holisticly whiteboard premier testing procedures rather than team building metrics. Authoritatively communicate progressive platforms without 24/7 imperatives. Proactively network cross functional e-commerce via focused infrastructures. Professionally transition sustainable customer service without technically sound value. Credibly leverage existing quality models vis-a-vis effective services.</p>',	'nur2.jpg',	1000.00,	'2017-04-18 10:31:14',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(10,	'Primary 1 - Phonics - Term 1',	5,	1,	1,	'Enthusiastically visualize alternative meta-services after stand-alone action items. Assertively seize synergistic alignments through timely leadership skills. Completely envisioneer cross-media.',	'<p><b>Appropriately revolutionize functional deliverables with turnkey ROI. Rapidiously coordinate highly efficient partnerships for visionary methodologies. Intrinsicly embrace impactful intellectual capital vis-a-vis top-line e-services. Enthusiastically whiteboard inexpensive infomediaries vis-a-vis interoperable technologies. Compellingly disintermediate integrated paradigms via mission-critical vortals.</b></p><p><br/></p><p>Monotonectally syndicate go forward ROI vis-a-vis fully tested channels. Distinctively incentivize turnkey process improvements with maintainable leadership. Rapidiously matrix innovative e-business vis-a-vis goal-oriented information. Distinctively transition business outsourcing via inexpensive intellectual capital. Appropriately iterate sticky systems whereas virtual testing procedures.</p><p><br/></p><blockquote><p>Globally streamline 24/7 growth strategies whereas wireless solutions. Progressively synthesize one-to-one applications without standardized materials. Authoritatively facilitate clicks-and-mortar e-business before client-based vortals. Progressively foster cooperative catalysts for change with go forward mindshare. Dynamically grow out-of-the-box markets through alternative e-services.</p><p><br/></p></blockquote><p>Holisticly whiteboard premier testing procedures rather than team building metrics. Authoritatively communicate progressive platforms without 24/7 imperatives. Proactively network cross functional e-commerce via focused infrastructures. Professionally transition sustainable customer service without technically sound value. Credibly leverage existing quality models vis-a-vis effective services.</p>',	'images (1).jpg',	1000.00,	'2017-04-18 10:33:30',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(11,	'Primary 2 - Phonics - Term 2',	6,	1,	2,	'Enthusiastically visualize alternative meta-services after stand-alone action items. Assertively seize synergistic alignments through timely leadership skills. Completely envisioneer cross-media.',	'<p><b>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</b></p><p><br/></p><blockquote><p>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</p></blockquote>',	'phonics_sounds.jpg',	1000.00,	'2017-04-18 10:36:11',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(12,	'Primary 3 - Phonics - Term 3',	7,	1,	3,	'Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable \"outside the box\" thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.',	'<p><b><i>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</i></b></p><p><i><br/></i></p><p><i>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</i></p>',	'SAMPLED.png',	1000.00,	'2017-04-18 10:41:44',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(13,	'Primary 4 - Phonics - Term 1',	8,	1,	1,	'Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data.',	'<p><b>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</b></p><p><br/></p><blockquote><p>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</p></blockquote>',	'download (1).jpg',	1000.00,	'2017-04-18 10:44:42',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(14,	'Primary 5 & 6 - Phonics - Term 2',	9,	1,	2,	'Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.',	'<p><b>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</b></p><p><br/></p><blockquote><p>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</p></blockquote>',	'518hH2uBBkL.jpg',	1000.00,	'2017-04-18 10:47:37',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(15,	'KG 2 - Mathematics - Term 2',	2,	2,	2,	'Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'_original.jpg',	1000.00,	'2017-04-18 11:57:59',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(16,	'Nursery 1 - Mathematics - Term 1',	3,	2,	1,	'Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'shutterstock-173272112-390x285.jpg',	1000.00,	'2017-04-18 12:03:32',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(17,	'Primary 1 - Mathematics - Term 3',	5,	2,	3,	'Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><p><i>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</i></p>',	'screen480x480.jpeg',	1000.00,	'2017-04-18 12:08:24',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(18,	'Primary 2 - Mathematics - Term 2',	6,	2,	2,	'Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'unnamed.png',	1000.00,	'2017-04-18 12:12:26',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(19,	'Primary 3 - Mathematics - Term 3',	7,	2,	3,	'Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'unnamed (1).png',	1000.00,	'2017-04-18 12:21:10',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(20,	'Primary 4 - Mathematics - Term 2',	8,	2,	2,	'Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p><p><br/></p><p><i>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</i></p></blockquote>',	'maths-ftr-1024x640.jpg',	1000.00,	'2017-04-18 12:28:44',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(21,	'Primary 5 & 6 - Mathematics - Term 1',	9,	2,	1,	'Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'2e28bb7acc0fe69be0ff1f66a3836b28.jpg',	1000.00,	'2017-04-18 12:32:01',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(22,	'JSS 1 - Diction/Phonetics - Term 1',	10,	3,	1,	'Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><p><i>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</i></p>',	'phoneme_chart.png',	1000.00,	'2017-04-18 12:41:33',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(23,	'JSS 2 - Diction/Phonetics - Term 2',	11,	3,	2,	'Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'phonemes_1 (1).jpg',	1000.00,	'2017-04-18 12:43:32',	0,	NULL,	0,	0,	5,	'ACTIVE'),
-(24,	'SSS 3 - Mathematics - Term 2',	18,	2,	2,	'Continually benchmark holistic strategic theme areas vis-a-vis high-payoff niche markets. Objectively expedite robust imperatives.',	'<p><b><i><u>Uniquely network qual</u></i></b>ity convergence and adaptive scenarios. Collaboratively scale cross-platform technology whereas optimal imperatives. Uniquely maximize turnkey imperatives before strategic synergy. Credibly envisioneer one-to-one methodologies and multidisciplinary e-tailers. Uniquely envisioneer state of the art action items with cross-media applications.</p><p><br/></p><blockquote><p>Assertively implement efficient schemas after B2C customer service. Continually utilize top-line relationships and real-time synergy. Completely drive efficient testing procedures for multifunctional intellectual capital. Competently harness strategic applications via technically sound users. Holisticly parallel task covalent ROI before cross-media strategic theme areas.</p></blockquote>',	'trenova-maths3.jpg',	1000.00,	'2017-04-18 14:46:45',	1,	NULL,	0,	0,	5,	'ACTIVE');
+INSERT INTO `course` (`course_id`, `course_title`, `course_class_id`, `course_subject_id`, `course_term`, `course_summary`, `course_description`, `course_image`, `course_price`, `course_time_created`, `course_quiz_minutes`, `course_questions_per_quiz`, `course_is_featured`, `course_is_disabled`, `course_view_count`, `course_share_count`, `course_creator_id`, `course_status`) VALUES
+(1,	'Start-up Business Development Class - Basic Stage - Section 1',	12,	4,	1,	'Dramatically disintermediate just in time schemas vis-a-vis high-quality benefits. Dynamically evisculate cross-unit leadership skills and equity invested.',	'<p>Dynamically benchmark exceptional leadership skills for prospective web-readiness. Objectively monetize resource-leveling information rather than principle-centered niches. <b>Progressively initiate 24/365 mate</b>rials through goal-oriented paradigms. Appropriately reintermediate dynamic human capital without corporate &#34;outside the box&#34; thinking. Seamlessly foster open-source data whereas highly efficient models.</p><p><br/></p><p>Collaboratively customize market positioning action items for backward-compatible.</p>',	'ntl-driver-car.jpg',	500.00,	'2017-02-06 10:39:03',	5,	5,	1,	NULL,	0,	0,	5,	'ACTIVE'),
+(2,	'Basic Stage - Start-up Business Development Class - Term 1',	11,	5,	1,	'Learn To BEcome a Programmer',	'<p><b>Efficiently leverage other\'s stand-alone users via fully tested process improvements. Enthusiastically deploy market positioning web services after granular e-tailers</b>.&#160;</p><p>Completely procrastinate customer directed channels rather than business collaboration and idea-sharing. Energistically build performance based communities vis-a-vis robust sources. Objectively aggregate plug-and-play functionalities without customized alignments.</p><p><br/></p><p>Appropriately extend diverse.</p>',	'gej3.jpg',	10000.00,	'2017-02-13 00:00:00',	5,	5,	1,	NULL,	2,	1,	5,	'ACTIVE'),
+(3,	'KG1 Phonics - 1st Term',	1,	1,	1,	'Collaboratively develop quality methodologies rather than tactical users. Compellingly implement superior benefits.',	'<p>Rapidiously develop emerging platforms via timely models. Collaboratively repurpose just in time vortals rather than ethical human capital. Quickly seize dynamic users with sustainable results. Collaboratively procrastinate real-time core.</p><p>Conveniently evolve diverse sources before standards compliant potentialities. Completely revolutionize functionalized schemas without ethical applications. Quickly negotiate global &#34;outside the box&#34; thinking through web-enabled quality vectors. Appropriately synthesize multifunctional.</p>',	'tulabyte work team.jpg',	5000.00,	'2017-03-22 13:49:35',	5,	5,	1,	NULL,	0,	0,	5,	'ACTIVE'),
+(4,	'Key Stage 1-Mathematics-Term-1',	13,	2,	2,	'Collaboratively underwhelm emerging growth strategies after resource-leveling total linkage. Phosfluorescently reinvent open-source synergy before unique web services. Collaboratively seize enterprise architectures rather than web-enabled benefits. Dynamically.',	'<p>Quickly morph cross-media materials and tactical best practices. Interactively formulate strategic partnerships whereas market-driven architectures. Quickly whiteboard interoperable testing procedures and goal-oriented core competencies. Progressively incentivize tactical models after leading-edge alignments. Competently pursue ethical total linkage rather than 2.0 e-commerce.</p><p><br/></p><p>Collaboratively benchmark front-end e-tailers without distinctive strategic theme areas. Efficiently customize turnkey best practices before 24/365 quality vectors. Progressively restore enabled relationships after sustainable methods of empowerment. Intrinsicly embrace.</p>',	'For Students.jpg',	2000.00,	'2017-04-05 12:50:16',	5,	5,	1,	NULL,	0,	0,	5,	'ACTIVE'),
+(5,	'KG 1 - Mathematics - Term 1',	1,	2,	1,	'Completely optimize optimal synergy without wireless ideas. Continually facilitate holistic infrastructures rather than quality mindshare. Uniquely promote client-centric convergence via standards compliant benefits. Compellingly deploy high.',	'<blockquote><p><b>Dramatically pontificate synergistic growth strategies after best-of-breed results. Synergistically develop high-payoff networks whereas performance based alignments. Monotonectally brand 24/7 vortals before interdependent applications. Continually monetize turnkey sources for integrated partnerships. Objectively predominate bricks-and-clicks solutions without enterprise-wide core competencies.</b><br/><br/>Energistically fabricate functional methods of empowerment whereas emerging quality vectors. Assertively fabricate multidisciplinary sources vis-a-vis reliable e-commerce. Phosfluorescently strategize multifunctional ROI without prospective paradigms. Appropriately reconceptualize backward-compatible deliverables vis-a-vis B2C niches. Dramatically leverage existing clicks-and-mortar web services via bricks-and-clicks technologies.<br/><br/>Rapidiously evisculate frictionless sources whereas world-class human capital. Efficiently conceptualize economically sound paradigms before highly efficient collaboration and idea-sharing. Phosfluorescently supply multidisciplinary platforms and viral collaboration and idea-sharing. Interactively fabricate open-source supply chains without alternative e-commerce. Assertively deliver e-business intellectual capital after distributed information.<br/><br/>Authoritatively innovate team driven content rather than integrated experiences. Objectively create team building metrics before multifunctional systems. Conveniently underwhelm resource maximizing process improvements with just in time platforms. Efficiently drive efficient applications and extensive opportunities. Continually embrace interactive bandwidth rather than cutting-edge experiences.<br/></p></blockquote>',	'trenova-maths1.jpg',	5000.00,	'2017-04-17 17:34:27',	5,	5,	1,	NULL,	0,	0,	5,	'ACTIVE'),
+(6,	'Nursery 1 - Mathematics - Term 2',	3,	2,	2,	'Conveniently grow progressive sources without extensive value. Uniquely formulate resource maximizing potentialities whereas inexpensive web-readiness. Continually underwhelm.',	'<p><b>Phosfluorescently promote resource-leveling potentialities before multimedia based e-tailers. Credibly coordinate strategic sources before efficient meta-services. Uniquely mesh leading-edge models through best-of-breed alignments. Proactively harness impactful &#34;outside the box&#34; thinking before parallel process improvements. Appropriately benchmark parallel schemas for collaborative technologies.</b></p><p><br/></p><p>Holisticly innovate plug-and-play leadership skills for customized resources. Globally deliver seamless growth strategies via backward-compatible opportunities. Collaboratively recaptiualize premium systems and best-of-breed strategic theme areas. Competently evolve viral metrics before maintainable expertise. Seamlessly enable emerging content for user friendly products.</p><p><br/></p><blockquote><p>Efficiently simplify interdependent synergy and enterprise data. Compellingly engineer cross-platform opportunities with resource-leveling ideas. Professionally matrix equity invested internal or &#34;organic&#34; sources vis-a-vis accurate testing procedures. Proactively scale viral alignments for integrated initiatives. Efficiently target cross-platform architectures and equity invested portals.</p><p><br/></p></blockquote><p>Compellingly strategize technically sound process improvements and efficient customer service. Monotonectally formulate tactical models and open-source users. Dramatically engage superior materials with top-line materials. Completely re-engineer next-generation e-markets after mission-critical processes. Collaboratively evisculate real-time resources and orthogonal niches.</p><p><br/></p><p>Progressively matrix distributed quality vectors through orthogonal convergence. Synergistically matrix efficient processes rather than end-to-end relationships. Interactively customize emerging total linkage without flexible synergy. Quickly incubate sticky technologies whereas real-time markets. Completely negotiate worldwide data and next-generation customer service.</p>',	'trenova-maths2.jpg',	1000.00,	'2017-04-18 09:50:48',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(7,	'Nursery 1 - Phonics - Term 3',	1,	1,	2,	'Interactively utilize sustainable mindshare through team building alignments. Professionally grow interdependent expertise rather than open-source growth strategies. Efficiently re-engineer.',	'<p><b>Interactively administrate robust information whereas frictionless functionalities. Professionally integrate superior leadership skills through ubiquitous &#34;outside the box&#34; thinking. Efficiently enhance enterprise-wide growth strategies with covalent leadership skills. Dramatically morph e-business services through business sources. Quickly plagiarize ethical e-business vis-a-vis corporate alignments.</b></p><p><br/></p><p>Distinctively strategize worldwide models after stand-alone core competencies. Monotonectally myocardinate intermandated quality vectors through distributed expertise. Phosfluorescently network client-focused users without superior schemas. Progressively exploit cutting-edge processes via 2.0 scenarios. Proactively restore out-of-the-box markets vis-a-vis high-quality outsourcing.</p><p><br/></p><p><i>Completely deploy distributed schemas without parallel e-services. Distinctively re-engineer global convergence after pandemic relationships. Enthusiastically repurpose 24/7 potentialities without enabled manufactured products. Holisticly drive resource maximizing technology with fully researched services. Seamlessly revolutionize web-enabled internal or &#34;organic&#34; sources and cross-unit infrastructures.</i></p><p><br/></p><p>Intrinsicly iterate sustainable web services rather than state of the art testing procedures. Conveniently aggregate e-business meta-services vis-a-vis viral ideas. Phosfluorescently reconceptualize visionary supply chains vis-a-vis client-focused content. Quickly iterate fully tested outsourcing whereas multidisciplinary value. Completely optimize user-centric architectures for innovative leadership.</p><p><br/></p><blockquote><p>Credibly syndicate emerging ROI after clicks-and-mortar systems. Synergistically negotiate intuitive process improvements with high standards in results. Uniquely deploy diverse applications after stand-alone infrastructures. Phosfluorescently develop timely ideas via client-based human capital. Compellingly expedite distributed technologies rather than interactive methods of empowerment.</p></blockquote>',	'phonemes_1.jpg',	1000.00,	'2017-04-18 10:11:04',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(8,	'KG 2 - Phonics - Term 2',	2,	1,	2,	'Globally streamline fully tested alignments and leveraged imperatives. Assertively incubate client-based supply chains through.',	'<p><b>Interactively administrate robust information whereas frictionless functionalities. Professionally integrate superior leadership skills through ubiquitous &#34;outside the box&#34; thinking. Efficiently enhance enterprise-wide growth strategies with covalent leadership skills. Dramatically morph e-business services through business sources. Quickly plagiarize ethical e-business vis-a-vis corporate alignments.</b></p><p><br/></p><p>Distinctively strategize worldwide models after stand-alone core competencies. Monotonectally myocardinate intermandated quality vectors through distributed expertise. Phosfluorescently network client-focused users without superior schemas. Progressively exploit cutting-edge processes via 2.0 scenarios. Proactively restore out-of-the-box markets vis-a-vis high-quality outsourcing.</p><p><br/></p><p><i>Completely deploy distributed schemas without parallel e-services. Distinctively re-engineer global convergence after pandemic relationships. Enthusiastically repurpose 24/7 potentialities without enabled manufactured products. Holisticly drive resource maximizing technology with fully researched services. Seamlessly revolutionize web-enabled internal or &#34;organic&#34; sources and cross-unit infrastructures.</i></p><p><br/></p><p>Intrinsicly iterate sustainable web services rather than state of the art testing procedures. Conveniently aggregate e-business meta-services vis-a-vis viral ideas. Phosfluorescently reconceptualize visionary supply chains vis-a-vis client-focused content. Quickly iterate fully tested outsourcing whereas multidisciplinary value. Completely optimize user-centric architectures for innovative leadership.</p><p><br/></p><blockquote><p>Credibly syndicate emerging ROI after clicks-and-mortar systems. Synergistically negotiate intuitive process improvements with high standards in results. Uniquely deploy diverse applications after stand-alone infrastructures. Phosfluorescently develop timely ideas via client-based human capital. Compellingly expedite distributed technologies rather than interactive methods of empowerment.</p></blockquote>',	'phonics.png',	1000.00,	'2017-04-18 10:17:09',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(9,	'Nursery 2 - Phonics - Term 2',	4,	1,	2,	'Globally streamline fully tested alignments and leveraged imperatives. Assertively incubate client-based supply chains through.',	'<p><b>Appropriately revolutionize functional deliverables with turnkey ROI. Rapidiously coordinate highly efficient partnerships for visionary methodologies. Intrinsicly embrace impactful intellectual capital vis-a-vis top-line e-services. Enthusiastically whiteboard inexpensive infomediaries vis-a-vis interoperable technologies. Compellingly disintermediate integrated paradigms via mission-critical vortals.</b></p><p><br/></p><p><i>Monotonectally syndicate go forward ROI vis-a-vis fully tested channels. Distinctively incentivize turnkey process improvements with maintainable leadership. Rapidiously matrix innovative e-business vis-a-vis goal-oriented information. Distinctively transition business outsourcing via inexpensive intellectual capital. Appropriately iterate sticky systems whereas virtual testing procedures.</i></p><p><br/></p><blockquote><p>Globally streamline 24/7 growth strategies whereas wireless solutions. Progressively synthesize one-to-one applications without standardized materials. Authoritatively facilitate clicks-and-mortar e-business before client-based vortals. Progressively foster cooperative catalysts for change with go forward mindshare. Dynamically grow out-of-the-box markets through alternative e-services.</p><p><br/></p></blockquote><p>Holisticly whiteboard premier testing procedures rather than team building metrics. Authoritatively communicate progressive platforms without 24/7 imperatives. Proactively network cross functional e-commerce via focused infrastructures. Professionally transition sustainable customer service without technically sound value. Credibly leverage existing quality models vis-a-vis effective services.</p>',	'nur2.jpg',	1000.00,	'2017-04-18 10:31:14',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(10,	'Primary 1 - Phonics - Term 1',	5,	1,	1,	'Enthusiastically visualize alternative meta-services after stand-alone action items. Assertively seize synergistic alignments through timely leadership skills. Completely envisioneer cross-media.',	'<p><b>Appropriately revolutionize functional deliverables with turnkey ROI. Rapidiously coordinate highly efficient partnerships for visionary methodologies. Intrinsicly embrace impactful intellectual capital vis-a-vis top-line e-services. Enthusiastically whiteboard inexpensive infomediaries vis-a-vis interoperable technologies. Compellingly disintermediate integrated paradigms via mission-critical vortals.</b></p><p><br/></p><p>Monotonectally syndicate go forward ROI vis-a-vis fully tested channels. Distinctively incentivize turnkey process improvements with maintainable leadership. Rapidiously matrix innovative e-business vis-a-vis goal-oriented information. Distinctively transition business outsourcing via inexpensive intellectual capital. Appropriately iterate sticky systems whereas virtual testing procedures.</p><p><br/></p><blockquote><p>Globally streamline 24/7 growth strategies whereas wireless solutions. Progressively synthesize one-to-one applications without standardized materials. Authoritatively facilitate clicks-and-mortar e-business before client-based vortals. Progressively foster cooperative catalysts for change with go forward mindshare. Dynamically grow out-of-the-box markets through alternative e-services.</p><p><br/></p></blockquote><p>Holisticly whiteboard premier testing procedures rather than team building metrics. Authoritatively communicate progressive platforms without 24/7 imperatives. Proactively network cross functional e-commerce via focused infrastructures. Professionally transition sustainable customer service without technically sound value. Credibly leverage existing quality models vis-a-vis effective services.</p>',	'images (1).jpg',	1000.00,	'2017-04-18 10:33:30',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(11,	'Primary 2 - Phonics - Term 2',	6,	1,	2,	'Enthusiastically visualize alternative meta-services after stand-alone action items. Assertively seize synergistic alignments through timely leadership skills. Completely envisioneer cross-media.',	'<p><b>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</b></p><p><br/></p><blockquote><p>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</p></blockquote>',	'phonics_sounds.jpg',	1000.00,	'2017-04-18 10:36:11',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(12,	'Primary 3 - Phonics - Term 3',	7,	1,	3,	'Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable \"outside the box\" thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.',	'<p><b><i>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</i></b></p><p><i><br/></i></p><p><i>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</i></p>',	'SAMPLED.png',	1000.00,	'2017-04-18 10:41:44',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(13,	'Primary 4 - Phonics - Term 1',	8,	1,	1,	'Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data.',	'<p><b>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</b></p><p><br/></p><blockquote><p>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</p></blockquote>',	'download (1).jpg',	1000.00,	'2017-04-18 10:44:42',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(14,	'Primary 5 & 6 - Phonics - Term 2',	9,	1,	2,	'Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.',	'<p><b>Collaboratively parallel task parallel services whereas out-of-the-box schemas. Globally disintermediate interoperable &#34;outside the box&#34; thinking before value-added supply chains. Authoritatively re-engineer bricks-and-clicks models rather than backend infrastructures. Objectively deliver resource sucking alignments before transparent opportunities. Compellingly grow customized potentialities via standardized e-business.</b></p><p><br/></p><blockquote><p>Completely communicate low-risk high-yield e-business via leveraged leadership skills. Dramatically envisioneer magnetic meta-services whereas reliable resources. Intrinsicly communicate cross functional solutions whereas cross-platform data. Completely morph leveraged channels before cross-unit technology. Completely mesh synergistic customer service after client-focused web-readiness.</p></blockquote>',	'518hH2uBBkL.jpg',	1000.00,	'2017-04-18 10:47:37',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(15,	'KG 2 - Mathematics - Term 2',	2,	2,	2,	'Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'_original.jpg',	1000.00,	'2017-04-18 11:57:59',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(16,	'Nursery 1 - Mathematics - Term 1',	3,	2,	1,	'Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'shutterstock-173272112-390x285.jpg',	1000.00,	'2017-04-18 12:03:32',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(17,	'Primary 1 - Mathematics - Term 3',	5,	2,	3,	'Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><p><i>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</i></p>',	'screen480x480.jpeg',	1000.00,	'2017-04-18 12:08:24',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(18,	'Primary 2 - Mathematics - Term 2',	6,	2,	2,	'Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'unnamed.png',	1000.00,	'2017-04-18 12:12:26',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(19,	'Primary 3 - Mathematics - Term 3',	7,	2,	3,	'Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'unnamed (1).png',	1000.00,	'2017-04-18 12:21:10',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(20,	'Primary 4 - Mathematics - Term 2',	8,	2,	2,	'Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p><p><br/></p><p><i>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</i></p></blockquote>',	'maths-ftr-1024x640.jpg',	1000.00,	'2017-04-18 12:28:44',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(21,	'Primary 5 & 6 - Mathematics - Term 1',	9,	2,	1,	'Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'2e28bb7acc0fe69be0ff1f66a3836b28.jpg',	1000.00,	'2017-04-18 12:32:01',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(22,	'JSS 1 - Diction/Phonetics - Term 1',	10,	3,	1,	'Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><p><i>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</i></p>',	'phoneme_chart.png',	1000.00,	'2017-04-18 12:41:33',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(23,	'JSS 2 - Diction/Phonetics - Term 2',	11,	3,	2,	'Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.',	'<p><b>Dynamically leverage other\'s seamless technologies without vertical infomediaries. Credibly disseminate fully tested processes before user friendly total linkage. Efficiently aggregate holistic potentialities after integrated processes. Competently extend goal-oriented total linkage and tactical channels. Interactively supply user-centric opportunities before flexible technologies.</b></p><p><br/></p><blockquote><p>Uniquely enhance 24/7 data vis-a-vis prospective products. Credibly incubate premium applications whereas parallel communities. Uniquely disintermediate out-of-the-box customer service via quality deliverables. Intrinsicly re-engineer focused processes after optimal niches. Appropriately engineer client-focused opportunities through one-to-one resources.</p></blockquote>',	'phonemes_1 (1).jpg',	1000.00,	'2017-04-18 12:43:32',	5,	5,	0,	NULL,	0,	0,	5,	'ACTIVE'),
+(24,	'SSS 3 - Mathematics - Term 2',	18,	2,	2,	'Continually benchmark holistic strategic theme areas vis-a-vis high-payoff niche markets. Objectively expedite robust imperatives.',	'<p><b><i><u>Uniquely network qual</u></i></b>ity convergence and adaptive scenarios. Collaboratively scale cross-platform technology whereas optimal imperatives. Uniquely maximize turnkey imperatives before strategic synergy. Credibly envisioneer one-to-one methodologies and multidisciplinary e-tailers. Uniquely envisioneer state of the art action items with cross-media applications.</p><p><br/></p><blockquote><p>Assertively implement efficient schemas after B2C customer service. Continually utilize top-line relationships and real-time synergy. Completely drive efficient testing procedures for multifunctional intellectual capital. Competently harness strategic applications via technically sound users. Holisticly parallel task covalent ROI before cross-media strategic theme areas.</p></blockquote>',	'trenova-maths3.jpg',	1000.00,	'2017-04-18 14:46:45',	5,	5,	1,	NULL,	0,	0,	5,	'ACTIVE'),
+(25,	'Basic Stage-Phonics-Section-2',	12,	1,	2,	'Synergistically network collaborative applications without frictionless channels. Quickly syndicate covalent process improvements without cross-media manufactured products. Monotonectally promote goal-oriented supply chains through distributed methods of empowerment. Dramatically.',	'<p>Synergistically network collaborative applications without frictionless channels. Quickly syndicate covalent process improvements without cross-media manufactured products. Monotonectally promote goal-oriented supply chains through distributed methods of empowerment. Dramatically.Synergistically network collaborative applications without frictionless channels. Quickly syndicate covalent process improvements without cross-media manufactured products. Monotonectally promote goal-oriented supply chains through distributed methods of empowerment. Dramatically.</p><p><br/></p><p>Synergistically network collaborative applications without frictionless channels. Quickly syndicate covalent process improvements without cross-media manufactured products. Monotonectally promote goal-oriented supply chains through distributed methods of empowerment. Dramatically.</p>',	'dsm-depot-ovevrlaid.jpg',	5000.00,	'2017-06-02 13:52:09',	5,	5,	1,	NULL,	0,	0,	15,	'ACTIVE');
+
+CREATE TABLE `course_bundle` (
+  `bdl_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bdl_name` varchar(100) NOT NULL,
+  `bdl_description` varchar(500) NOT NULL,
+  `bdl_type` enum('CUSTOM','TERM','CLASS','YEAR') NOT NULL,
+  `bdl_price` double(10,2) NOT NULL,
+  `bdl_created_by` int(11) NOT NULL DEFAULT '0',
+  `bdl_creator` varchar(50) NOT NULL,
+  `bdl_date_created` date NOT NULL,
+  `bdl_is_disabled` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`bdl_id`),
+  KEY `bdl_created_by` (`bdl_created_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `course_bundle_item` (
+  `cbi_bundle_id` int(11) NOT NULL,
+  `cbi_course_id` int(11) NOT NULL,
+  PRIMARY KEY (`cbi_bundle_id`,`cbi_course_id`),
+  KEY `cbi_course_id` (`cbi_course_id`),
+  CONSTRAINT `course_bundle_item_ibfk_1` FOREIGN KEY (`cbi_bundle_id`) REFERENCES `course_bundle` (`bdl_id`) ON DELETE CASCADE,
+  CONSTRAINT `course_bundle_item_ibfk_2` FOREIGN KEY (`cbi_course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `course_credit` (
   `cc_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -671,71 +741,74 @@ CREATE TABLE `course_lesson` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `course_lesson` (`less_id`, `less_number`, `less_title`, `less_course_id`, `less_content`, `less_video`, `less_image`, `less_audio`) VALUES
-(1,	1,	'Lesson 1',	2,	'Dynamically envisioneer team driven expertise before vertical products. Appropriately deploy extensive intellectual capital after client-centered e-services. Dramatically maximize client-based leadership whereas inexpensive testing procedures. Compellingly leverage.',	NULL,	NULL,	NULL),
-(4,	2,	'Lesson 2',	2,	'Conveniently incentivize inexpensive intellectual capital vis-a-vis empowered niche markets. Phosfluorescently morph client-centered processes for cross functional infrastructures.',	NULL,	NULL,	NULL),
-(5,	3,	'Lesson 3',	2,	'Appropriately matrix sticky imperatives with stand-alone growth strategies. Energistically deliver ubiquitous alignments whereas multidisciplinary portals. Energistically plagiarize.',	NULL,	NULL,	NULL),
-(6,	4,	'Lesson 4',	2,	'Dynamically generate enabled human capital rather than bleeding-edge \"outside the box\" thinking. Credibly pursue fully researched users.',	NULL,	NULL,	NULL),
-(7,	1,	'Lesson 1',	4,	'Lesson 1',	NULL,	NULL,	NULL),
-(8,	2,	'Lesson 2',	4,	'Lesson 2',	NULL,	NULL,	NULL),
-(9,	1,	'Lesson 1',	5,	'lesson 1',	NULL,	NULL,	NULL),
-(10,	2,	'Lesson 2',	5,	'lesson 2',	NULL,	NULL,	NULL),
-(11,	3,	'Lesson 3',	5,	'lesson 3',	NULL,	NULL,	NULL),
-(12,	1,	'Lesson 1',	3,	'lesson 1',	NULL,	NULL,	NULL),
-(13,	2,	'Lesson 2',	3,	'lesson 2',	NULL,	NULL,	NULL),
-(14,	1,	'Class 1',	1,	'class 1',	NULL,	NULL,	NULL),
-(15,	2,	'Class 2',	1,	'class 2 content',	NULL,	NULL,	NULL),
-(16,	1,	'Lesson 1',	6,	'lesson 1 content',	NULL,	NULL,	NULL),
-(17,	2,	'Lesson 2',	6,	'Lesson 2 content',	NULL,	NULL,	NULL),
-(18,	3,	'Lesson 3',	6,	'Lesson 3 content',	NULL,	NULL,	NULL),
-(19,	1,	'Lesson 1',	8,	'Lesson content',	NULL,	NULL,	NULL),
-(20,	2,	'Lesson 2',	8,	'Lesson Content',	NULL,	NULL,	NULL),
-(21,	3,	'Lesson 3',	8,	'Lesson Content',	NULL,	NULL,	NULL),
-(22,	3,	'Lesson 3',	3,	'Lesson Content',	NULL,	NULL,	NULL),
-(23,	1,	'Lesson 1',	7,	'Lesson Content',	NULL,	NULL,	NULL),
-(24,	2,	'Lesson 2',	7,	'Lesson Content',	NULL,	NULL,	NULL),
-(25,	3,	'Lesson 3',	7,	'Lesson Content',	NULL,	NULL,	NULL),
-(26,	1,	'Lesson 1',	9,	'Lesson 1 Content',	NULL,	NULL,	NULL),
-(27,	2,	'Lesson 2',	9,	'Lesson Content',	NULL,	NULL,	NULL),
-(28,	3,	'Lesson 3',	9,	'Lesson Content',	NULL,	NULL,	NULL),
-(29,	1,	'Lesson 1',	10,	'Lesson Content',	NULL,	NULL,	NULL),
-(30,	2,	'Lesson 2',	10,	'Lesson Content',	NULL,	NULL,	NULL),
-(31,	3,	'Lesson 3',	10,	'Lesson Content',	NULL,	NULL,	NULL),
-(32,	1,	'Lesson 1',	11,	'Lesson Content',	NULL,	NULL,	NULL),
-(33,	2,	'Lesson 2',	11,	'Lesson Content',	NULL,	NULL,	NULL),
-(34,	3,	'Lesson 3',	11,	'Lesson Content',	NULL,	NULL,	NULL),
-(35,	1,	'Lesson 1',	12,	'Lesson Content',	NULL,	NULL,	NULL),
-(36,	2,	'Lesson 2',	12,	'Lesson Content',	NULL,	NULL,	NULL),
-(37,	3,	'Lesson 3',	12,	'Lesson Content',	NULL,	NULL,	NULL),
-(38,	1,	'Lesson 1',	13,	'Lesson Content',	NULL,	NULL,	NULL),
-(39,	2,	'Lesson 2',	13,	'Lesson Content',	NULL,	NULL,	NULL),
-(40,	3,	'Lesson 3',	13,	'Lesson Content',	NULL,	NULL,	NULL),
-(41,	1,	'Lesson 2',	14,	'Lesson Content',	NULL,	NULL,	NULL),
-(42,	1,	'Lesson 1',	14,	'Lesson Content',	NULL,	NULL,	NULL),
-(43,	2,	'Lesson 3',	14,	'Lesson Content',	NULL,	NULL,	NULL),
-(44,	1,	'Lesson 1',	15,	'Lesson Content',	NULL,	NULL,	NULL),
-(45,	2,	'Lesson 2',	15,	'Lesson Content',	NULL,	NULL,	NULL),
-(46,	3,	'Lesson 3',	15,	'Lesson Content',	NULL,	NULL,	NULL),
-(47,	1,	'Lesson 1',	16,	'Lesson Content',	NULL,	NULL,	NULL),
-(48,	2,	'Lesson 2',	16,	'Lesson Content',	NULL,	NULL,	NULL),
-(49,	3,	'Lesson 3',	16,	'lesson Content',	NULL,	NULL,	NULL),
-(50,	1,	'Lesson 1',	17,	'Lesson Content',	NULL,	NULL,	NULL),
-(51,	2,	'Lesson 2',	17,	'Lesson Content',	NULL,	NULL,	NULL),
-(52,	3,	'Lesson 3',	17,	'Lesson Content',	NULL,	NULL,	NULL),
-(53,	1,	'Lesson 1',	18,	'Lesson Content',	NULL,	NULL,	NULL),
-(54,	2,	'Lesson 2',	18,	'Lesson Content',	NULL,	NULL,	NULL),
-(55,	3,	'Lesson 3',	18,	'Lesson Content',	NULL,	NULL,	NULL),
-(56,	1,	'Lesson 1',	19,	'Lesson Content',	NULL,	NULL,	NULL),
-(57,	2,	'Lesson 2',	19,	'Lesson Content',	NULL,	NULL,	NULL),
-(58,	3,	'Lesson 3',	19,	'Lesson Content',	NULL,	NULL,	NULL),
-(59,	1,	'Lesson 1',	20,	'Lesson Content',	NULL,	NULL,	NULL),
-(60,	2,	'Lesson 2',	20,	'Lesson Content',	NULL,	NULL,	NULL),
-(61,	3,	'Lesson 3',	20,	'Lesson Content',	NULL,	NULL,	NULL),
-(62,	1,	'Lesson 1',	21,	'Lesson Content',	NULL,	NULL,	NULL),
-(63,	2,	'Lesson 2',	21,	'Lesson Content',	NULL,	NULL,	NULL),
-(64,	3,	'Lesson 3',	21,	'Lesson Content',	NULL,	NULL,	NULL),
-(65,	1,	'Week 1 - Lesson 1',	24,	'lesson 1 content',	NULL,	NULL,	NULL),
-(66,	2,	'Week 1 - Lesson 2',	24,	'lesson 2 content',	NULL,	NULL,	NULL),
-(67,	3,	'Week 2 - Lesson 1',	24,	'Lesson content',	NULL,	NULL,	NULL);
+(1,	1,	'Lesson 1',	2,	'Dynamically envisioneer team driven expertise before vertical products. Appropriately deploy extensive intellectual capital after client-centered e-services. Dramatically maximize client-based leadership whereas inexpensive testing procedures. Compellingly leverage.',	'arole-test.mp4',	NULL,	NULL),
+(4,	2,	'Lesson 2',	2,	'Conveniently incentivize inexpensive intellectual capital vis-a-vis empowered niche markets. Phosfluorescently morph client-centered processes for cross functional infrastructures.',	'arole-test.mp4',	NULL,	NULL),
+(5,	3,	'Lesson 3',	2,	'Appropriately matrix sticky imperatives with stand-alone growth strategies. Energistically deliver ubiquitous alignments whereas multidisciplinary portals. Energistically plagiarize.',	'arole-test.mp4',	NULL,	NULL),
+(6,	4,	'Lesson 4',	2,	'Dynamically generate enabled human capital rather than bleeding-edge \"outside the box\" thinking. Credibly pursue fully researched users.',	'arole-test.mp4',	NULL,	NULL),
+(7,	1,	'Lesson 1',	4,	'Lesson 1',	'arole-test.mp4',	NULL,	NULL),
+(8,	2,	'Lesson 2',	4,	'Lesson 2',	'arole-test.mp4',	NULL,	NULL),
+(9,	1,	'Lesson 1',	5,	'lesson 1',	'arole-test.mp4',	NULL,	NULL),
+(10,	2,	'Lesson 2',	5,	'lesson 2',	'arole-test.mp4',	NULL,	NULL),
+(11,	3,	'Lesson 3',	5,	'lesson 3',	'arole-test.mp4',	NULL,	NULL),
+(12,	1,	'Lesson 1',	3,	'lesson 1',	'arole-test.mp4',	NULL,	NULL),
+(13,	2,	'Lesson 2',	3,	'lesson 2',	'arole-test.mp4',	NULL,	NULL),
+(14,	1,	'Class 1',	1,	'class 1',	'arole-test.mp4',	NULL,	NULL),
+(15,	2,	'Class 2',	1,	'class 2 content',	'arole-test.mp4',	NULL,	NULL),
+(16,	1,	'Lesson 1',	6,	'lesson 1 content',	'arole-test.mp4',	NULL,	NULL),
+(17,	2,	'Lesson 2',	6,	'Lesson 2 content',	'arole-test.mp4',	NULL,	NULL),
+(18,	3,	'Lesson 3',	6,	'Lesson 3 content',	'arole-test.mp4',	NULL,	NULL),
+(19,	1,	'Lesson 1',	8,	'Lesson content',	'arole-test.mp4',	NULL,	NULL),
+(20,	2,	'Lesson 2',	8,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(21,	3,	'Lesson 3',	8,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(22,	3,	'Lesson 3',	3,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(23,	1,	'Lesson 1',	7,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(24,	2,	'Lesson 2',	7,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(25,	3,	'Lesson 3',	7,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(26,	1,	'Lesson 1',	9,	'Lesson 1 Content',	'arole-test.mp4',	NULL,	NULL),
+(27,	2,	'Lesson 2',	9,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(28,	3,	'Lesson 3',	9,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(29,	1,	'Lesson 1',	10,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(30,	2,	'Lesson 2',	10,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(31,	3,	'Lesson 3',	10,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(32,	1,	'Lesson 1',	11,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(33,	2,	'Lesson 2',	11,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(34,	3,	'Lesson 3',	11,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(35,	1,	'Lesson 1',	12,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(36,	2,	'Lesson 2',	12,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(37,	3,	'Lesson 3',	12,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(38,	1,	'Lesson 1',	13,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(39,	2,	'Lesson 2',	13,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(40,	3,	'Lesson 3',	13,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(41,	1,	'Lesson 2',	14,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(42,	1,	'Lesson 1',	14,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(43,	2,	'Lesson 3',	14,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(44,	1,	'Lesson 1',	15,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(45,	2,	'Lesson 2',	15,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(46,	3,	'Lesson 3',	15,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(47,	1,	'Lesson 1',	16,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(48,	2,	'Lesson 2',	16,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(49,	3,	'Lesson 3',	16,	'lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(50,	1,	'Lesson 1',	17,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(51,	2,	'Lesson 2',	17,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(52,	3,	'Lesson 3',	17,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(53,	1,	'Lesson 1',	18,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(54,	2,	'Lesson 2',	18,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(55,	3,	'Lesson 3',	18,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(56,	1,	'Lesson 1',	19,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(57,	2,	'Lesson 2',	19,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(58,	3,	'Lesson 3',	19,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(59,	1,	'Lesson 1',	20,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(60,	2,	'Lesson 2',	20,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(61,	3,	'Lesson 3',	20,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(62,	1,	'Lesson 1',	21,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(63,	2,	'Lesson 2',	21,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(64,	3,	'Lesson 3',	21,	'Lesson Content',	'arole-test.mp4',	NULL,	NULL),
+(65,	1,	'Week 1 - Lesson 1',	24,	'lesson 1 content',	'arole-test.mp4',	NULL,	NULL),
+(66,	2,	'Week 1 - Lesson 2',	24,	'lesson 2 content',	'arole-test.mp4',	NULL,	NULL),
+(67,	3,	'Week 2 - Lesson 1',	24,	'Lesson content',	'arole-test.mp4',	NULL,	NULL),
+(68,	5,	'Iam Kess',	2,	'Kess Contents',	'Demo__Laravel___AngularJS.mp4',	NULL,	NULL),
+(69,	6,	'Video Test',	2,	'video test for video',	'Demo__Laravel___AngularJS.mp4',	NULL,	NULL),
+(70,	1,	'teccher sample',	25,	'ccontent for module',	'ðŸ˜‚At Ooni\'s Palace, Let us Open to the Book of His Royal Majesty, and Asiri saw a Royal Mosquito!.',	NULL,	NULL);
 
 CREATE TABLE `course_rating` (
   `cr_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -752,7 +825,11 @@ CREATE TABLE `course_rating` (
 
 INSERT INTO `course_rating` (`cr_id`, `cr_user_id`, `cr_course_id`, `cr_rating`, `cr_comment`) VALUES
 (1,	1,	1,	5,	'Perfect'),
-(2,	2,	2,	5,	'Impeccable');
+(2,	2,	2,	5,	'Impeccable'),
+(3,	14,	1,	4,	'Cool'),
+(4,	14,	4,	5,	''),
+(5,	14,	5,	4,	''),
+(6,	14,	2,	4,	'This is good');
 
 CREATE TABLE `discount_formula` (
   `df_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -782,7 +859,8 @@ INSERT INTO `feedback` (`fd_id`, `fd_user_id`, `fd_message`, `fd_topic`, `fd_dat
 (3,	4,	'Completely plagiarize wireless e-markets whereas principle-centered leadership. Proactively engineer one-to-one catalysts for change before premier infomediaries. Assertively strategize future-proof methodologies without principle-centered opportunities. Assertively transform user-centric partnerships after vertical niche markets. Continually streamline high-quality sources with user-centric architectures.',	'Collaboratively orchestrate installed base manufactured products with.',	'2017-03-29',	'SEEN'),
 (4,	3,	'Phosfluorescently productivate optimal partnerships and 24/7 materials. Intrinsicly productivate functionalized sources after plug-and-play mindshare. Holisticly build cross-media ideas and proactive e-tailers. Dramatically strategize timely data via enterprise data. Distinctively strategize multidisciplinary vortals after 24/365 e-tailers.',	'Dynamically network best-of-breed process improvements vis-a-vis.',	'2017-03-31',	'SEEN'),
 (5,	5,	'Phosfluorescently repurpose alternative internal or \"organic\" sources and emerging products. Authoritatively exploit backend mindshare via interactive vortals. Objectively build professional schemas whereas resource sucking manufactured products. Synergistically architect inexpensive communities with 2.0 growth strategies. Seamlessly implement technically sound collaboration and.',	'Intrinsicly repurpose user-centric convergence after.',	'2017-03-29',	'SEEN'),
-(6,	6,	'Appropriately morph error-free synergy whereas magnetic deliverables. Completely plagiarize synergistic materials after proactive e-tailers. Quickly mesh quality imperatives whereas tactical metrics. Progressively incentivize future-proof paradigms via tactical results. Rapidiously redefine client-based architectures before seamless ROI.\r\n\r\nAuthoritatively recaptiualize client-centric systems and enterprise internal or \"organic\" sources. Conveniently aggregate.',	'Assertively parallel task business.',	'2017-03-27',	'PENDING');
+(6,	6,	'Appropriately morph error-free synergy whereas magnetic deliverables. Completely plagiarize synergistic materials after proactive e-tailers. Quickly mesh quality imperatives whereas tactical metrics. Progressively incentivize future-proof paradigms via tactical results. Rapidiously redefine client-based architectures before seamless ROI.\r\n\r\nAuthoritatively recaptiualize client-centric systems and enterprise internal or \"organic\" sources. Conveniently aggregate.',	'Assertively parallel task business.',	'2017-03-27',	'PENDING'),
+(7,	14,	'This is a test message',	'Testing',	'2017-06-01',	'PENDING');
 
 CREATE TABLE `message` (
   `msg_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -834,7 +912,12 @@ CREATE TABLE `question` (
 INSERT INTO `question` (`q_id`, `q_course_id`, `q_number`, `q_question`, `q_type`, `q_is_disabled`) VALUES
 (2,	2,	0,	'Who is the president of Nigeria',	'COURSE',	NULL),
 (4,	2,	1,	'Who owns the $50m Ikoyi stash?',	'COURSE',	NULL),
-(5,	24,	1,	'Who is the President of Nigeria',	'COURSE',	NULL);
+(5,	24,	1,	'Who is the President of Nigeria',	'COURSE',	NULL),
+(6,	2,	2,	'Which year did Nigeria get independence',	'COURSE',	NULL),
+(7,	2,	3,	'Who is the current Governor of Lagos State?',	'COURSE',	NULL),
+(8,	2,	4,	'Who finishes the Skippy at the Office?',	'COURSE',	NULL),
+(9,	2,	5,	'Which of the following is NOT an MVC Framework?',	'COURSE',	NULL),
+(10,	25,	1,	'this is where questions are created',	'COURSE',	NULL);
 
 CREATE TABLE `question_option` (
   `qo_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -858,7 +941,27 @@ INSERT INTO `question_option` (`qo_id`, `qo_question_id`, `qo_option`, `qo_is_co
 (17,	5,	'OBJ',	NULL),
 (18,	5,	'GEJ',	1),
 (19,	5,	'PMB',	NULL),
-(20,	5,	'Yaradua',	NULL);
+(20,	5,	'Yaradua',	NULL),
+(21,	6,	'1999',	NULL),
+(22,	6,	'1914',	NULL),
+(23,	6,	'1960',	1),
+(24,	6,	'2015',	NULL),
+(25,	7,	'Akinwunmi Ambode',	1),
+(26,	7,	'Raji Fashola',	NULL),
+(27,	7,	'Bola Tinubu',	NULL),
+(28,	7,	'Rotimi Amaechi',	NULL),
+(29,	8,	'Yemi',	NULL),
+(30,	8,	'Deji',	NULL),
+(31,	8,	'Elijah',	NULL),
+(32,	8,	'Kess',	1),
+(33,	9,	'Laravel',	NULL),
+(34,	9,	'jQuery',	1),
+(35,	9,	'AngularJS',	NULL),
+(36,	9,	'SLIM PHP',	NULL),
+(37,	10,	'where',	NULL),
+(38,	10,	'here',	1),
+(39,	10,	'there',	NULL),
+(40,	10,	'somewher',	NULL);
 
 CREATE TABLE `reseller_commission` (
   `rc_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -866,7 +969,7 @@ CREATE TABLE `reseller_commission` (
   `rc_user_id` int(11) NOT NULL,
   `rc_reseller_id` int(11) NOT NULL,
   `rc_order_id` int(11) NOT NULL,
-  `rc_course_id` int(11) NOT NULL,
+  `rc_course_id` int(11) NOT NULL DEFAULT '0',
   `rc_commission` double(12,2) NOT NULL,
   `rc_status` enum('PENDING','PAID') NOT NULL DEFAULT 'PENDING',
   `rc_date_paid` date DEFAULT NULL,
@@ -880,21 +983,24 @@ INSERT INTO `reseller_commission` (`rc_id`, `rc_date`, `rc_user_id`, `rc_reselle
 (1,	'2017-02-08',	1,	4,	1,	0,	2000.00,	'PAID',	'2017-02-13'),
 (2,	'2017-02-20',	2,	4,	2,	0,	5000.00,	'PAID',	'2017-02-21'),
 (3,	'2017-02-14',	1,	14,	3,	0,	5000.00,	'PAID',	'2017-02-15'),
-(4,	'2017-02-20',	2,	14,	4,	0,	7000.00,	'PAID',	'2017-02-21');
+(4,	'2017-02-20',	2,	14,	4,	0,	7000.00,	'PAID',	'2017-02-21'),
+(5,	'2017-06-01',	14,	4,	24,	0,	50.00,	'PENDING',	NULL);
 
 CREATE TABLE `school` (
   `sch_id` int(11) NOT NULL AUTO_INCREMENT,
   `sch_name` varchar(100) NOT NULL,
   `sch_term_label` varchar(20) NOT NULL DEFAULT 'term',
+  `sch_term_count` int(1) NOT NULL DEFAULT '3',
   `sch_lesson_label` varchar(20) NOT NULL DEFAULT 'lesson',
   `sch_is_disabled` int(1) DEFAULT NULL,
   PRIMARY KEY (`sch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `school` (`sch_id`, `sch_name`, `sch_term_label`, `sch_lesson_label`, `sch_is_disabled`) VALUES
-(1,	'Primary School',	'term',	'lesson',	NULL),
-(2,	'Secondary School',	'term',	'lesson',	NULL),
-(3,	'Business Academy',	'section',	'module',	NULL);
+INSERT INTO `school` (`sch_id`, `sch_name`, `sch_term_label`, `sch_term_count`, `sch_lesson_label`, `sch_is_disabled`) VALUES
+(1,	'Primary School',	'Term',	3,	'Lesson',	NULL),
+(2,	'Secondary School',	'Term',	3,	'Lesson',	NULL),
+(3,	'Business Academy',	'Section',	3,	'Module',	NULL),
+(4,	'university',	'semester',	3,	'class',	NULL);
 
 CREATE TABLE `signup_token` (
   `token_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -915,7 +1021,8 @@ INSERT INTO `signup_token` (`token_id`, `token_user_id`, `token_code_full`, `tok
 (16,	18,	'425797042799',	'425797',	'042799',	'2017-04-18 10:51:17',	1),
 (17,	19,	'991088655144',	'991088',	'655144',	'2017-03-14 13:05:06',	1),
 (18,	20,	'077119654827',	'077119',	'654827',	'2017-03-14 13:11:09',	1),
-(19,	21,	'035268769332',	'035268',	'769332',	'2017-03-14 13:16:02',	1);
+(19,	21,	'035268769332',	'035268',	'769332',	'2017-03-14 13:16:02',	1),
+(25,	27,	'527512179996',	'527512',	'179996',	'2017-05-30 16:38:38',	1);
 
 CREATE TABLE `subject` (
   `sb_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -963,7 +1070,8 @@ INSERT INTO `subscription` (`sub_id`, `sub_user_id`, `sub_course_id`, `sub_date_
 (13,	18,	14,	'2017-04-18',	1,	'ACTIVE',	18),
 (14,	14,	1,	'2017-04-18',	1,	'ACTIVE',	23),
 (15,	14,	2,	'2017-04-18',	1,	'ACTIVE',	23),
-(16,	14,	4,	'2017-04-18',	1,	'ACTIVE',	23);
+(16,	14,	4,	'2017-04-18',	1,	'ACTIVE',	23),
+(17,	14,	15,	'2017-06-01',	1,	'ACTIVE',	24);
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -975,25 +1083,29 @@ CREATE TABLE `user` (
   `user_time_reg` datetime NOT NULL,
   `user_last_login` datetime DEFAULT NULL,
   `user_reg_type` enum('DEFAULT','FACEBOOK','GOOGLE') NOT NULL DEFAULT 'DEFAULT',
+  `user_last_auth` enum('DEFAULT','FACEBOOK','GOOGLE') DEFAULT NULL,
   `user_reg_status` enum('PENDING','VERIFIED') NOT NULL DEFAULT 'PENDING',
   `user_is_disabled` int(1) DEFAULT NULL,
   `user_reseller_id` int(11) DEFAULT NULL,
+  `user_facebook_id` varchar(100) DEFAULT NULL,
+  `user_google_id` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `user` (`user_id`, `user_email`, `user_phone`, `user_password`, `user_fullname`, `user_photo`, `user_time_reg`, `user_last_login`, `user_reg_type`, `user_reg_status`, `user_is_disabled`, `user_reseller_id`) VALUES
-(1,	'donkovah@yahoo.com',	'706536-169',	'test123',	'Vycthor Kess',	NULL,	'2017-02-19 00:00:00',	NULL,	'DEFAULT',	'VERIFIED',	NULL,	4),
-(2,	'kovahkess@yahoo.com',	'123123123',	'test123',	'Donkovah Shegs',	NULL,	'2017-02-18 00:00:00',	NULL,	'DEFAULT',	'VERIFIED',	NULL,	12),
-(3,	'femi@tulabyte.net',	'12345',	'test123',	'Femi Kay',	NULL,	'2017-03-20 12:59:00',	'2017-04-13 17:07:08',	'DEFAULT',	'VERIFIED',	NULL,	4),
-(4,	'elij@tulabyte.net',	'09080809808',	'test123',	'Elij Opel',	NULL,	'2017-02-28 22:44:20',	'2017-03-02 00:00:00',	'DEFAULT',	'VERIFIED',	NULL,	4),
-(5,	'olufemi@tulabyte.net',	'0903455645',	'test123',	'Olufemi Jay',	NULL,	'2017-02-20 12:59:00',	NULL,	'DEFAULT',	'VERIFIED',	NULL,	4),
-(6,	'nelly@tulabyte.net',	'0708809808',	'test123',	'Nelly Minaj',	NULL,	'2017-01-28 22:44:20',	'2017-03-03 00:00:00',	'DEFAULT',	'VERIFIED',	NULL,	4),
-(14,	'yemitula@gmail.com',	'08055811696',	'test123',	'Yemi Adetula',	NULL,	'2017-03-13 09:33:31',	'2017-04-18 13:58:50',	'DEFAULT',	'VERIFIED',	NULL,	0),
-(16,	'info@tulabyte.net',	'08055811697',	'test123',	'Gabriel Tulabyte',	NULL,	'2017-03-14 10:22:35',	'2017-03-14 10:23:11',	'DEFAULT',	'VERIFIED',	NULL,	0),
-(18,	'elijah@tulabyte.net',	'07085510130',	'EleHurtxNrrq',	'Ogunjole Elijah',	NULL,	'2017-03-14 11:13:00',	'2017-04-18 10:56:45',	'DEFAULT',	'VERIFIED',	NULL,	0),
-(19,	'yemgab@yahoo.com',	'07065350169',	'test123',	'Yemi Adetula',	NULL,	'2017-03-14 13:05:02',	'2017-03-14 13:07:24',	'DEFAULT',	'VERIFIED',	NULL,	0),
-(20,	'adeolusayo2@gmail.com',	'08099789569',	'Adeoluwa',	'Sam',	NULL,	'2017-03-14 13:11:08',	'2017-04-18 14:43:25',	'DEFAULT',	'VERIFIED',	NULL,	0),
-(21,	'brendasteve12@gmail.com',	'07030148694',	'brenda',	'Brenda steve',	NULL,	'2017-03-14 13:16:02',	'2017-03-14 13:17:14',	'DEFAULT',	'VERIFIED',	NULL,	0);
+INSERT INTO `user` (`user_id`, `user_email`, `user_phone`, `user_password`, `user_fullname`, `user_photo`, `user_time_reg`, `user_last_login`, `user_reg_type`, `user_last_auth`, `user_reg_status`, `user_is_disabled`, `user_reseller_id`, `user_facebook_id`, `user_google_id`) VALUES
+(1,	'donkovah@yahoo.com',	'706536-169',	'test123',	'Vycthor Kess',	NULL,	'2017-02-19 00:00:00',	'2017-06-01 14:03:54',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	4,	NULL,	NULL),
+(2,	'kovahkess@yahoo.com',	'123123123',	'test123',	'Donkovah Shegs',	NULL,	'2017-02-18 00:00:00',	NULL,	'DEFAULT',	NULL,	'VERIFIED',	NULL,	12,	NULL,	NULL),
+(3,	'femi@tulabyte.net',	'12345',	'test123',	'Femi Kay',	NULL,	'2017-03-20 12:59:00',	'2017-04-13 17:07:08',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	4,	NULL,	NULL),
+(4,	'elij@tulabyte.net',	'09080809808',	'test123',	'Elij Opel',	NULL,	'2017-02-28 22:44:20',	'2017-03-02 00:00:00',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	4,	NULL,	NULL),
+(5,	'olufemi@tulabyte.net',	'0903455645',	'test123',	'Olufemi Jay',	NULL,	'2017-02-20 12:59:00',	NULL,	'DEFAULT',	NULL,	'VERIFIED',	NULL,	4,	NULL,	NULL),
+(6,	'nelly@tulabyte.net',	'0708809808',	'test123',	'Nelly Minaj',	NULL,	'2017-01-28 22:44:20',	'2017-03-03 00:00:00',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	4,	NULL,	NULL),
+(14,	'yemitula@gmail.com',	'08055811699',	'test123',	'Yemi Gabriel Adetula',	NULL,	'2017-03-13 09:33:31',	'2017-06-08 07:21:39',	'DEFAULT',	'FACEBOOK',	'VERIFIED',	NULL,	4,	NULL,	NULL),
+(16,	'info@tulabyte.net',	'08055811698',	'test123',	'Gabriel Tulabyte',	NULL,	'2017-03-14 10:22:35',	'2017-03-14 10:23:11',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	0,	NULL,	NULL),
+(18,	'elijah@tulabyte.net',	'07085510130',	'EleHurtxNrrq',	'Ogunjole Elijah',	NULL,	'2017-03-14 11:13:00',	'2017-04-18 10:56:45',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	0,	NULL,	NULL),
+(19,	'yemgab@yahoo.com',	'07065350169',	'test123',	'Yemi Adetula',	NULL,	'2017-03-14 13:05:02',	'2017-03-14 13:07:24',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	0,	NULL,	NULL),
+(20,	'adeolusayo2@gmail.com',	'08099789569',	'Adeoluwa',	'Sam',	NULL,	'2017-03-14 13:11:08',	'2017-04-18 14:43:25',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	0,	NULL,	NULL),
+(21,	'brendasteve12@gmail.com',	'07030148694',	'brenda',	'Brenda steve',	NULL,	'2017-03-14 13:16:02',	'2017-03-14 13:17:14',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	0,	NULL,	NULL),
+(27,	'yemi@tulabyte.net',	'08055811697',	'test123',	'Tulabyte',	NULL,	'2017-05-30 16:38:38',	'2017-05-30 17:08:07',	'DEFAULT',	NULL,	'VERIFIED',	NULL,	0,	NULL,	NULL);
 
 CREATE TABLE `user_favourite` (
   `fav_user_id` int(11) NOT NULL,
@@ -1012,6 +1124,7 @@ INSERT INTO `user_favourite` (`fav_user_id`, `fav_course_id`, `fav_time_added`) 
 (3,	3,	'2017-04-13 17:24:14'),
 (14,	1,	'2017-04-13 11:49:15'),
 (14,	3,	'2017-04-13 11:49:15'),
+(14,	4,	'2017-05-31 07:46:03'),
 (14,	5,	'2017-04-18 05:46:10'),
 (18,	2,	'2017-04-18 11:19:55'),
 (18,	5,	'2017-04-18 11:19:42'),
@@ -1019,6 +1132,7 @@ INSERT INTO `user_favourite` (`fav_user_id`, `fav_course_id`, `fav_time_added`) 
 
 CREATE TABLE `user_order` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_type` enum('COURSE','BUNDLE') NOT NULL DEFAULT 'COURSE',
   `order_user_id` int(11) NOT NULL,
   `order_total` double(12,2) NOT NULL,
   `order_time_created` datetime NOT NULL,
@@ -1028,30 +1142,31 @@ CREATE TABLE `user_order` (
   CONSTRAINT `user_order_ibfk_1` FOREIGN KEY (`order_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `user_order` (`order_id`, `order_user_id`, `order_total`, `order_time_created`, `order_status`) VALUES
-(1,	1,	20000.00,	'2017-02-01 00:00:00',	'COMPLETED'),
-(2,	2,	15000.00,	'2017-02-02 00:00:00',	'COMPLETED'),
-(3,	1,	25000.00,	'2017-02-06 00:00:00',	'COMPLETED'),
-(4,	2,	30000.00,	'2017-02-01 00:00:00',	'COMPLETED'),
-(5,	3,	500.00,	'2017-04-05 12:25:17',	'PENDING'),
-(6,	3,	5000.00,	'2017-04-05 12:25:38',	'PENDING'),
-(7,	3,	5000.00,	'2017-04-05 12:26:48',	'PENDING'),
-(8,	3,	10000.00,	'2017-04-10 04:32:00',	'PENDING'),
-(9,	3,	10500.00,	'2017-04-11 08:19:42',	'PENDING'),
-(10,	3,	500.00,	'2017-04-13 06:03:52',	'PENDING'),
-(11,	14,	7000.00,	'2017-04-18 05:46:50',	'PENDING'),
-(12,	14,	5000.00,	'2017-04-18 06:02:13',	'PENDING'),
-(13,	18,	5000.00,	'2017-04-18 10:58:20',	'PENDING'),
-(14,	18,	500.00,	'2017-04-18 11:07:19',	'PENDING'),
-(15,	18,	17000.00,	'2017-04-18 11:08:45',	'PENDING'),
-(16,	14,	1000.00,	'2017-04-18 11:08:53',	'PENDING'),
-(17,	14,	1000.00,	'2017-04-18 11:09:49',	'PENDING'),
-(18,	18,	1000.00,	'2017-04-18 11:10:52',	'PENDING'),
-(19,	18,	1000.00,	'2017-04-18 11:12:53',	'PENDING'),
-(20,	14,	1000.00,	'2017-04-18 11:13:19',	'PENDING'),
-(21,	18,	3000.00,	'2017-04-18 11:14:37',	'PENDING'),
-(22,	18,	1000.00,	'2017-04-18 11:25:38',	'PENDING'),
-(23,	14,	12500.00,	'2017-04-18 03:10:11',	'PENDING');
+INSERT INTO `user_order` (`order_id`, `order_type`, `order_user_id`, `order_total`, `order_time_created`, `order_status`) VALUES
+(1,	'COURSE',	1,	20000.00,	'2017-02-01 00:00:00',	'COMPLETED'),
+(2,	'COURSE',	2,	15000.00,	'2017-02-02 00:00:00',	'COMPLETED'),
+(3,	'COURSE',	1,	25000.00,	'2017-02-06 00:00:00',	'COMPLETED'),
+(4,	'COURSE',	2,	30000.00,	'2017-02-01 00:00:00',	'COMPLETED'),
+(5,	'COURSE',	3,	500.00,	'2017-04-05 12:25:17',	'PENDING'),
+(6,	'COURSE',	3,	5000.00,	'2017-04-05 12:25:38',	'PENDING'),
+(7,	'COURSE',	3,	5000.00,	'2017-04-05 12:26:48',	'PENDING'),
+(8,	'COURSE',	3,	10000.00,	'2017-04-10 04:32:00',	'PENDING'),
+(9,	'COURSE',	3,	10500.00,	'2017-04-11 08:19:42',	'PENDING'),
+(10,	'COURSE',	3,	500.00,	'2017-04-13 06:03:52',	'PENDING'),
+(11,	'COURSE',	14,	7000.00,	'2017-04-18 05:46:50',	'PENDING'),
+(12,	'COURSE',	14,	5000.00,	'2017-04-18 06:02:13',	'PENDING'),
+(13,	'COURSE',	18,	5000.00,	'2017-04-18 10:58:20',	'PENDING'),
+(14,	'COURSE',	18,	500.00,	'2017-04-18 11:07:19',	'PENDING'),
+(15,	'COURSE',	18,	17000.00,	'2017-04-18 11:08:45',	'PENDING'),
+(16,	'COURSE',	14,	1000.00,	'2017-04-18 11:08:53',	'PENDING'),
+(17,	'COURSE',	14,	1000.00,	'2017-04-18 11:09:49',	'PENDING'),
+(18,	'COURSE',	18,	1000.00,	'2017-04-18 11:10:52',	'PENDING'),
+(19,	'COURSE',	18,	1000.00,	'2017-04-18 11:12:53',	'PENDING'),
+(20,	'COURSE',	14,	1000.00,	'2017-04-18 11:13:19',	'PENDING'),
+(21,	'COURSE',	18,	3000.00,	'2017-04-18 11:14:37',	'PENDING'),
+(22,	'COURSE',	18,	1000.00,	'2017-04-18 11:25:38',	'PENDING'),
+(23,	'COURSE',	14,	12500.00,	'2017-04-18 03:10:11',	'PENDING'),
+(24,	'COURSE',	14,	1000.00,	'2017-06-01 09:55:40',	'PENDING');
 
 CREATE TABLE `user_order_item` (
   `item_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1095,7 +1210,8 @@ INSERT INTO `user_order_item` (`item_id`, `item_order_id`, `item_course_id`, `it
 (27,	22,	6,	1),
 (28,	23,	1,	1),
 (29,	23,	2,	1),
-(30,	23,	4,	1);
+(30,	23,	4,	1),
+(31,	24,	15,	1);
 
 CREATE TABLE `user_payment` (
   `pay_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1133,35 +1249,125 @@ INSERT INTO `user_payment` (`pay_id`, `pay_amount`, `pay_method`, `pay_order_id`
 (14,	1000.00,	'BANK',	18,	18,	'SUCCESSFUL',	'2017-04-18 11:10:54',	'2017-04-18 11:20:08',	'00451189',	'2017-04-17',	NULL),
 (15,	1000.00,	'BANK',	19,	18,	'SUCCESSFUL',	'2017-04-18 11:13:00',	'2017-04-18 11:20:04',	'00543412',	'2017-04-17',	NULL),
 (16,	1000.00,	'BANK',	22,	18,	'PROCESSING',	'2017-04-18 11:25:40',	'2017-04-18 11:26:06',	'00345667',	'2017-04-12',	NULL),
-(17,	12500.00,	'BANK',	23,	14,	'SUCCESSFUL',	'2017-04-18 03:10:53',	'2017-04-18 03:14:40',	'2357890097532',	'2017-04-17',	NULL);
+(17,	12500.00,	'BANK',	23,	14,	'SUCCESSFUL',	'2017-04-18 03:10:53',	'2017-04-18 03:14:40',	'2357890097532',	'2017-04-17',	NULL),
+(18,	1000.00,	'BANK',	24,	14,	'SUCCESSFUL',	'2017-06-01 09:55:54',	'2017-06-01 09:57:37',	'123455565',	'2017-05-31',	NULL);
 
 CREATE TABLE `user_quiz` (
   `uq_id` int(11) NOT NULL AUTO_INCREMENT,
   `uq_user_id` int(11) NOT NULL,
   `uq_target_id` int(11) NOT NULL COMMENT 'uq_target_id points to either lesson or course depending on uq_type',
-  `uq_type` enum('LESSON','COURSE') NOT NULL,
+  `uq_type` enum('LESSON','COURSE') NOT NULL DEFAULT 'COURSE',
   `uq_date_taken` date NOT NULL,
-  `uq_score` int(11) NOT NULL,
+  `uq_endtime` datetime DEFAULT NULL,
+  `uq_score` int(11) DEFAULT NULL,
   PRIMARY KEY (`uq_id`),
   KEY `uq_user_id` (`uq_user_id`),
   CONSTRAINT `user_quiz_ibfk_1` FOREIGN KEY (`uq_user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `user_quiz` (`uq_id`, `uq_user_id`, `uq_target_id`, `uq_type`, `uq_date_taken`, `uq_endtime`, `uq_score`) VALUES
+(25,	14,	2,	'COURSE',	'2017-06-01',	NULL,	NULL),
+(26,	14,	2,	'COURSE',	'2017-06-01',	NULL,	NULL),
+(27,	14,	2,	'COURSE',	'2017-06-01',	NULL,	NULL),
+(28,	14,	2,	'COURSE',	'2017-06-01',	NULL,	NULL),
+(29,	14,	2,	'COURSE',	'2017-06-01',	NULL,	NULL),
+(30,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 01:50:27',	2),
+(31,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 01:56:36',	2),
+(32,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 01:59:17',	3),
+(33,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:02:34',	0),
+(34,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:04:38',	0),
+(35,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:08:09',	0),
+(36,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:10:25',	1),
+(37,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:10:54',	1),
+(38,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:14:02',	1),
+(39,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:18:40',	0),
+(40,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:19:05',	1),
+(41,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:22:20',	0),
+(42,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:24:00',	1),
+(43,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:39:37',	0),
+(44,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:42:22',	0),
+(45,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:47:23',	2),
+(46,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:47:39',	3),
+(47,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 02:47:55',	3),
+(48,	14,	2,	'COURSE',	'2017-06-01',	'2017-06-01 13:54:35',	2),
+(49,	1,	2,	'COURSE',	'2017-06-01',	'2017-06-01 14:05:25',	2),
+(50,	14,	2,	'COURSE',	'2017-06-02',	'2017-06-02 10:52:47',	1),
+(51,	14,	2,	'COURSE',	'2017-06-02',	'2017-06-02 13:40:21',	1);
 
 CREATE TABLE `user_quiz_answers` (
-  `uqa_id` int(11) NOT NULL,
+  `uqa_id` int(11) NOT NULL AUTO_INCREMENT,
   `uqa_quiz_id` int(11) NOT NULL,
   `uqa_question_id` int(11) NOT NULL,
-  `uqa_option_id` int(11) NOT NULL,
-  `uqa_position` int(11) NOT NULL,
+  `uqa_option_id` int(11) DEFAULT NULL,
   `uqa_is_correct` int(1) DEFAULT NULL,
+  PRIMARY KEY (`uqa_id`),
   KEY `uqa_quiz_id` (`uqa_quiz_id`),
   KEY `uqa_question_id` (`uqa_question_id`),
   KEY `uqa_option_id` (`uqa_option_id`),
   CONSTRAINT `user_quiz_answers_ibfk_1` FOREIGN KEY (`uqa_quiz_id`) REFERENCES `user_quiz` (`uq_id`) ON DELETE CASCADE,
-  CONSTRAINT `user_quiz_answers_ibfk_2` FOREIGN KEY (`uqa_question_id`) REFERENCES `question` (`q_id`),
-  CONSTRAINT `user_quiz_answers_ibfk_3` FOREIGN KEY (`uqa_option_id`) REFERENCES `question_option` (`qo_id`)
+  CONSTRAINT `user_quiz_answers_ibfk_2` FOREIGN KEY (`uqa_question_id`) REFERENCES `question` (`q_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `user_quiz_answers` (`uqa_id`, `uqa_quiz_id`, `uqa_question_id`, `uqa_option_id`, `uqa_is_correct`) VALUES
+(1,	30,	4,	14,	0),
+(2,	30,	7,	25,	1),
+(3,	30,	6,	23,	1),
+(4,	31,	8,	32,	1),
+(5,	31,	2,	7,	0),
+(6,	31,	7,	25,	1),
+(7,	32,	9,	34,	1),
+(8,	32,	2,	8,	1),
+(9,	32,	7,	25,	1),
+(10,	33,	2,	5,	0),
+(11,	33,	9,	33,	0),
+(12,	33,	6,	21,	0),
+(13,	34,	4,	13,	0),
+(14,	34,	9,	33,	0),
+(15,	34,	8,	29,	0),
+(16,	35,	9,	33,	0),
+(17,	35,	6,	21,	0),
+(18,	35,	8,	29,	0),
+(19,	36,	2,	6,	0),
+(20,	36,	4,	13,	0),
+(21,	36,	7,	25,	1),
+(22,	37,	6,	21,	0),
+(23,	37,	2,	5,	0),
+(24,	37,	7,	25,	1),
+(25,	38,	4,	14,	0),
+(26,	39,	8,	30,	0),
+(27,	39,	7,	28,	0),
+(28,	39,	4,	14,	0),
+(29,	40,	7,	25,	1),
+(31,	41,	8,	29,	0),
+(33,	42,	7,	25,	1),
+(34,	42,	4,	0,	0),
+(35,	42,	9,	0,	0),
+(36,	43,	7,	0,	0),
+(37,	43,	9,	36,	0),
+(38,	43,	6,	22,	0),
+(39,	44,	9,	33,	0),
+(40,	44,	8,	0,	0),
+(41,	44,	7,	0,	0),
+(42,	45,	8,	32,	1),
+(43,	45,	6,	0,	0),
+(44,	45,	4,	16,	1),
+(45,	46,	7,	25,	1),
+(46,	46,	4,	16,	1),
+(47,	46,	6,	23,	1),
+(48,	47,	8,	32,	1),
+(49,	47,	6,	23,	1),
+(50,	47,	7,	25,	1),
+(51,	48,	9,	34,	1),
+(52,	48,	8,	32,	1),
+(53,	48,	7,	26,	0),
+(54,	49,	8,	32,	1),
+(55,	49,	2,	8,	1),
+(56,	49,	4,	13,	0),
+(57,	50,	4,	13,	0),
+(58,	50,	6,	21,	0),
+(59,	50,	9,	34,	1),
+(60,	51,	2,	8,	1),
+(61,	51,	7,	0,	0),
+(62,	51,	9,	0,	0);
 
--- 2017-05-18 13:20:23
+-- 2017-06-13 16:01:43
