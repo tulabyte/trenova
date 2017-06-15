@@ -1,0 +1,71 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} 
+  <span class="pull-right"><button class="btn btn-rounded " ui-sref="app.course-list" tooltip="List of Courses">Back to Course List</button></span></h1>
+</div>
+<div class="wrapper-md" ng-controller="QuestionController">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-body">
+    <form role="form">
+        <label>Question</label>
+      <div class="input-group">
+        <input type="text" class="form-control" aria-label="..." ng-model="question.q_question" required>
+        <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" ng-click="editQuestionTitle(question)">
+        <strong> Update </strong></button>
+        </span>
+      </div> <br />
+      <h5><strong>Enter options and Mark only the correct option </strong></h5>
+      <div>
+      <p ng-show = "question.option"> You Selected <strong>{{question.option}}</strong> As The Correct Answer</p>
+      
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optiona}}" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optiona" required>
+      </div><br />
+
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optionb}} " aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optionb" required>
+      </div><br />
+
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optionc}}" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optionc" required>
+      </div><br />
+
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optiond}}" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optiond" required>
+        </div><br />
+      </div>
+
+      <div class="form-group col-md-3">
+        <label>Position/Priority</label>
+        <input type="number" class="form-control" ng-model="question.question_number">
+      </div>
+      <div class="checkbox m-t-lg">
+
+        <button type="button" class="btn btn-success pull-right text-uc m-t-n-xs" ng-click="editQuestionAndOptions(question)"><strong> Edit </strong></button>
+
+        <button type="button" class="btn pull-right text-uc m-t-n-xs" ui-sref="app.question-list({id:question.q_course_id})"><strong> Back To List </strong></button>       
+
+      </div>
+    </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+</div>

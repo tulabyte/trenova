@@ -1,0 +1,74 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="QuestionController">
+   <div class="col">
+       <div class="wrapper-lg bg-white-opacity">
+       <!-- begining of row -->
+        <div class="row m-t">
+   <button class="btn btn-info btn-rounded pull-right" ui-sref="app.question-edit({id:course.course_id})" tooltip="New Question">New Question</button>
+  <button class="btn btn-rounded pull-right" ui-sref="app.course-list" tooltip="List of Courses">Back to Course List</button>
+           <!-- begining og 1st column -->
+           <div class="col-sm-7">
+                 <div class="clear m-b">
+                     <div class="m-b m-t-sm">
+                          <span class="h3 text-black">{{course.course_title}}</span><br /><br />
+                     </div>
+                 </div>
+           </div>
+                      <!-- end of column 7 -->   
+         </div>
+<!--       end of row -->
+      </div>
+<!--       end of wrapper -->
+    <div class="wrapper bg-white b-b">
+
+<!-- add inline form for question time  -->
+          <form class="form-inline">
+            <div class="form-group">
+              <label for="Time">Time Duration <small><i>(in mins)</i></small></label>
+              <input type="text" class="form-control" ng-model ="course.course_quiz_minutes">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail2">Number of questions</label>
+              <input type="text" class="form-control" ng-model = "course.course_questions_per_quiz">
+            </div>
+            <button type="submit" class="btn btn-info" ng-click="updateQuizLimit(course)">Update</button>
+          </form>
+<!--end of question details-->
+   <!-- beginning of tab -->
+    <tabset class="nav-tabs-alt" justified="true">
+
+      <tab>
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show ="questions.length > 0">This Course Has {{questions.length}} Question</div>
+              <div class="panel-heading h4" style="height: 50px;" ng-hide ="questions.length > 0">This Course Has No Questions</div>              
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none" ng-show ="questions.length > 0">
+              <thead>
+                <tr>
+                <th width="90%">Question List</th>
+                <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="question in questions track by $index">
+                <td><span class="pull-left">{{$index+1}} - &nbsp; </span> {{question.q_question}}</td>
+                <td><span class="pull-right" >
+                      <a ui-sref="app.question-re-edit({id:question.q_id})" >
+                      <i class="fa fa-pencil fa-fw m-r-xs"></i></a>
+                      <a href ng-click="deleteQuestion(question.q_id)"><i class="fa fa-times fa-fw"></i></a>                
+                    </span>
+                </td>
+                </tr>
+              </tbody>                
+              </table>
+            </div>
+        </tab>      
+      
+
+    </tabset>
+ <!--    end of tab -->
+      </div>
+    </div>
+    </div>

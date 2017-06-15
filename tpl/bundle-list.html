@@ -1,0 +1,46 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.bundle-edit"><i class="fa fa-plus"></i>New Bundle</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="BundleController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Bundle Details
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" dt-options ="dtOptions" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="10%">Name</th>
+            <th width="10%">Price</th>
+            <th width="10%">Type</th>
+            <th width="45%">Description</th>
+            <th width="10%">Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="bundle in bundles">
+            <td> {{bundle.bdl_name}} </td>
+            <td> {{bundle.bdl_price}} </td>
+            <td> {{bundle.bdl_type}} </td>
+            <td> {{bundle.bdl_description}} </td>
+            <td> {{bundle.bdl_date_created | dateToISO | date:'mediumDate'}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-success" ui-sref="app.bundle-details({id:bundle.bdl_id})" tooltip="View Bundle Details"><i class="fa fa-info"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-info" ui-sref="app.bundle-edit({id:bundle.bdl_id})" tooltip="Edit Bundle"><i class="fa fa-edit"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteBundle(bundle.bdl_id)" tooltip="Delete Bundle" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

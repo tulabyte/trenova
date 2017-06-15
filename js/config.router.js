@@ -184,6 +184,86 @@ angular.module('app')
                   }
               })
 
+              //add question
+              .state('app.question-edit', {
+                  url: '/question-edit/:id',
+                  templateUrl: 'tpl/question-edit.html',
+                  data: {pageTitle: 'Create Question'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/QuestionController.js');
+                      }]
+                  }
+              })
+
+              //add question
+              .state('app.question-re-edit', {
+                  url: '/question-re-edit/:id/',
+                  templateUrl: 'tpl/question-re-edit.html',
+                  data: {pageTitle: 'Edit Question'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/QuestionController.js');
+                      }]
+                  }
+              })
+
+              //question list
+              .state('app.question-list', {
+                  url: '/question-list/:id',
+                  templateUrl: 'tpl/question-list.html',
+                  data: {pageTitle: 'Question List'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/QuestionController.js');
+                      }]
+                  }
+              })
+
+              //add bundle
+              .state('app.bundle-edit', {
+                  url: '/bundle-edit/:id',
+                  templateUrl: 'tpl/bundle-edit.html',
+                  data: {pageTitle: 'Create Bundle'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/BundleController.js');
+                      }]
+                  }
+              })
+
+              //add bundle
+              .state('app.bundle-details', {
+                  url: '/bundle-details/:id',
+                  templateUrl: 'tpl/bundle-details.html',
+                  data: {pageTitle: 'Bundle Details'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/BundleController.js');
+                      }]
+                  }
+              })
+
+
+              //bundle list
+              .state('app.bundle-list', {
+                  url: '/bundle-list/:id',
+                  templateUrl: 'tpl/bundle-list.html',
+                  data: {pageTitle: 'Bundle List'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/BundleController.js');
+                      }]
+                  }
+              })
+
+
                 .state('app.feedback-list', {
                   url: '/feedback-list',
                   data: {pageTitle: 'Feedback List'},

@@ -112,85 +112,66 @@
 
       <!--questions -->
       <h5 class="font-bold">Course Questions</h5>
-      <button class="btn btn-success btn-sm" ng-click="openQuestionModal()"><i class="fa fa-plus"></i> Add Question</button>
+      <button class="btn btn-success btn-sm" ui-sref="app.question-list({id:course.course_id})"><i class="fa fa-plus"></i> Manage Question</button>
       <button class="btn btn-success btn-sm" ui-sref="app.quiz-list({id:course.course_id})"><i class="fa fa-book"></i> Quiz Scores</button><br><br>
 
-      <script type="text/ng-template" id="myQuestionModalContent.html">
-      <div class="modal-body wrapper-lg">
-        <div class="row">
-          <h3 class="m-t-none m-b font-thin">{{question.q_course_id ? 'Edit' : 'Create'}} Question <small><i>check the correct answer</i></small></h3>
-          <p><strong>{{question.q_course_id ? 'Edit Question in' : 'Create new Question for'}} <u>{{course.course_title}}</u></strong></p>
-          <form role="form">
-            <div class="alert alert-danger" ng-hide="!error">{{error}}</div>
-            <div class="form-group">
-              <label>Question</label>
-              <input type="text" class="form-control" placeholder="Enter question" ng-model="question.q_question" required>
-            </div> <br />
-            <h5><strong>Enter options and Mark only the correct option </strong></h5>
-            <div>
-            <p ng-show = "question.option"> You Selected <strong>{{question.option}}</strong> As The Correct Answer</p>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="radio" ng-model="question.option" value="{{question.optiona}}" aria-label="...">
-              </span>
-              <input type="text" class="form-control" aria-label="..." ng-model="question.optiona" required>
-            </div><br />
+<!--       <script type="text/ng-template" id="myQuestionModalContent.html">
+<div class="modal-body wrapper-lg">
+  <div class="row">
+    <h3 class="m-t-none m-b font-thin">{{question.q_course_id ? 'Edit' : 'Create'}} Question <small><i>check the correct answer</i></small></h3>
+    <p><strong>{{question.q_course_id ? 'Edit Question in' : 'Create new Question for'}} <u>{{course.course_title}}</u></strong></p>
+    <form role="form">
+      <div class="alert alert-danger" ng-hide="!error">{{error}}</div>
+      <div class="form-group">
+        <label>Question</label>
+        <input type="text" class="form-control" placeholder="Enter question" ng-model="question.q_question" required>
+      </div> <br />
+      <h5><strong>Enter options and Mark only the correct option </strong></h5>
+      <div>
+      <p ng-show = "question.option"> You Selected <strong>{{question.option}}</strong> As The Correct Answer</p>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optiona}}" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optiona" required>
+      </div><br />
 
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="radio" ng-model="question.option" value="{{question.optionb}} " aria-label="...">
-              </span>
-              <input type="text" class="form-control" aria-label="..." ng-model="question.optionb" required>
-            </div><br />
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optionb}} " aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optionb" required>
+      </div><br />
 
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="radio" ng-model="question.option" value="{{question.optionc}}" aria-label="...">
-              </span>
-              <input type="text" class="form-control" aria-label="..." ng-model="question.optionc" required>
-            </div><br />
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optionc}}" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optionc" required>
+      </div><br />
 
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="radio" ng-model="question.option" value="{{question.optiond}}" aria-label="...">
-              </span>
-              <input type="text" class="form-control" aria-label="..." ng-model="question.optiond" required>
-            </div><br />
-            </div>
-
-            <div class="form-group col-md-3">
-              <label>Position/Priority</label>
-              <input type="number" class="form-control" ng-model="question.question_number">
-            </div>
-
-            <div class="checkbox m-t-lg">
-              <button type="button" class="btn btn-success pull-right text-uc m-t-n-xs" ng-click="editQuestionModule(question)"><strong>Save</strong></button>
-
-              <button type="button" class="btn pull-right text-uc m-t-n-xs" ng-click="cancel()"><strong>Cancel</strong></button>              
-            </div>
-          </form>
-        </div>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" ng-model="question.option" value="{{question.optiond}}" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." ng-model="question.optiond" required>
+      </div><br />
       </div>
-      </script>      
 
-      <div class="alert alert-danger" ng-hide="questions.length > 0">No Questions found!</div>
+      <div class="form-group col-md-3">
+        <label>Position/Priority</label>
+        <input type="number" class="form-control" ng-model="question.question_number">
+      </div>
 
-      <ul ui-jq="sortable" class="list-group gutter list-group-lg list-group-sp" ng-show="questions.length > 0" >
-        
-        <li class="list-group-item" ng-repeat="question in questions">
+      <div class="checkbox m-t-lg">
+        <button type="button" class="btn btn-success pull-right text-uc m-t-n-xs" ng-click="editQuestionModule(question)"><strong>Save</strong></button>
 
-          <span class="pull-right" >
-            <a href ng-click="openQuestionModal(question)"><i class="fa fa-pencil fa-fw m-r-xs"></i></a>
-            <a href ng-click="deleteQuestionModule(question.q_id)"><i class="fa fa-times fa-fw"></i></a>                  
-          </span>
-          <span class="pull-left">{{$index+1}} - &nbsp; </span>
-          <div class="clear">
-            <strong> {{question.q_question}} </strong>
-          </div>
-        </li>
-      </ul>
-
-      <!-- end of questions-->
+        <button type="button" class="btn pull-right text-uc m-t-n-xs" ng-click="cancel()"><strong>Cancel</strong></button>              
+      </div>
+    </form>
+  </div>
+</div>
+</script>       -->
 
     </div>
   </div>

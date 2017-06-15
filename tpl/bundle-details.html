@@ -1,0 +1,57 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="BundleController">
+   <div class="col">
+       <div class="wrapper-lg bg-white-opacity">
+       <!-- begining of row -->
+        <div class="row m-t">
+           <!-- begining og 1st column -->
+           <div class="col-sm-7">
+                 <div class="clear m-b">
+                     <div class="m-b m-t-sm">
+                          <span class="h3 text-black">Bundle Name : {{bundle.bdl_name}}</span><br /><br />
+                     </div>
+                     <span class="h5 text-black">Description : {{bundle.bdl_description}}</span>
+                 </div>
+           </div>
+           <span class="h3 text-black">Created By :{{bundle.bdl_creator}}</span>
+                      <!-- end of column 7 -->   
+         </div>
+<!--       end of row -->
+      </div>
+<!--       end of wrapper -->
+   <!-- beginning of tab -->
+    <div class="wrapper bg-white b-b">
+
+    <tabset class="nav-tabs-alt" justified="true">
+
+      <tab>
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading h4" style="height: 50px;" ng-show ="course_bundles.length > 0">Bundle Detail</div>
+
+              <!-- Table -->
+              <table class="table table-striped m-b-none"  ng-show ="course_bundles.length > 0">
+              <thead>
+                <tr>
+                <th width="90%">Courses</th>
+                <th width="10%"></th>                
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="course_bundle in course_bundles">
+                <td>{{course_bundle.course_title}}</td>
+                <td>
+                    <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteSingleCourseBundle(course_bundle.course_id, bundle.bdl_id)" tooltip="Delete Bundle" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-trash"></i></button>
+                </td>
+                </tr>
+              </tbody>                
+              </table>
+            </div>
+        </tab>      
+      
+
+    </tabset>
+ <!--    end of tab -->
+      </div>
+    </div>
+    </div>

@@ -51,6 +51,15 @@ class DbHandler {
         return $result = $this->conn->affected_rows;    
     }
     
+    public function deleteFromTableWhere($table, $idcol) {
+        foreach ($idcol as $key => $value) {
+            $col_name .= "`".$key."` = '".$value ."' AND";
+        }
+        $z = trim($col_name,'AND');
+        $r = $this->conn->query("DELETE FROM `$table` WHERE ($z) ") or die($this->conn->error.__LINE__);
+        return $result = $this->conn->affected_rows;    
+    }
+
     /**
      * Creating new record using array (instead of object)
      */

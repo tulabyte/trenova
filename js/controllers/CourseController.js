@@ -91,43 +91,6 @@ app.controller('ModalInstanceCtrl', ['$scope', 'Upload', '$rootScope', '$modalIn
     };
 
 
-    $scope.editQuestionModule = function(question) {
-    question.course_id = $scope.course.course_id;
-    /*console.log(question.course_id);*/
-    if(question.q_id) {
-      //edit question
-      Data.post('editQuestionModule', 
-        { question: question }
-      ).then(function(results) {
-        if(results.status = "success") {
-          $rootScope.toasterPop('success','Action Successful!',results.message);
-          $modalInstance.close("OK");
-        } else {
-          //error
-          $rootScope.toasterPop('error','Oops!',results.message);
-        }
-      }, function(error) {
-        console.log(error);
-      });
-    } else {
-      //create new question
-      Data.post('createQuestionModule', 
-        { question: question }
-      ).then(function(results) {
-        console.log(results);
-        if(results.status = "success") {
-          $rootScope.toasterPop('success','Action Successful!',results.message);
-          $modalInstance.close("OK");
-        } else {
-          //error
-          $rootScope.toasterPop('error','Oops!',results.message);
-        }
-      }, function(error) {
-        console.log(error);
-      });
-    }
-  };
-
   $scope.ok = function () {
     $modalInstance.close($scope.selected.item);
   };
@@ -498,6 +461,8 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
           }
         });
     };
+
+
 
 
 
