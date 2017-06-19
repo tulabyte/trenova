@@ -29,6 +29,12 @@
               </select>
             </div>
 
+        <div class="form-group" ng-if = "bundle.bdl_type == 'CUSTOM' ">
+          <label class="control-label">Select Courses</label>
+            <select class="form-control" ui-jq="chosen" multiple class="w-md" ng-options="course.course_id as course.course_title for course in courses" ng-model="bundle.selected_course">
+            </select>
+        </div>
+
             <div class="form-group" ng-if = "bundle.bdl_type == 'TERM' || bundle.bdl_type == 'CLASS' || bundle.bdl_type == 'YEAR' ">
               <label>School</label>
               <select class="form-control" ng-options="school.sch_id as school.sch_name for school in schools" ng-model="bundle.selected_school" required >
