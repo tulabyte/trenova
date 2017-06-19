@@ -92,8 +92,8 @@ $app->post('/editExistingBundle', function() use ($app) {
     $bdl_price = $db->purify($r->bundle->bdl_price);
     $bdl_type = $db->purify($r->bundle->bdl_type); 
 
-    $isQuestionExists = $db->getOneRecord("SELECT 1 FROM course_bundle WHERE bdl_id = '$bdl_id' ");
-    if($isQuestionExists){
+    $isbundleExists = $db->getOneRecord("SELECT 1 FROM course_bundle WHERE bdl_id = '$bdl_id' ");
+    if($isbundleExists){
         if ($bdl_type != 'CUSTOM') {
             //verify
             verifyRequiredParams(['selected_school', 'selected_subject'],$r->bundle);
@@ -185,7 +185,7 @@ $app->get('/getBundleDetails', function() use ($app) {
         echoResponse(200, $response);
     } else {
         $response['status'] = "error";
-        $response["message"] = "No Question found!";
+        $response["message"] = "No bundle found!";
         echoResponse(201, $response);
     }
 });
@@ -295,7 +295,6 @@ $app->get('/getBundleLists', function() use ($app) {
     }
 });
 
-// get course
 $app->get('/getCourseBundleList', function() use ($app) {
     $response = array();
 
@@ -311,6 +310,65 @@ $app->get('/getCourseBundleList', function() use ($app) {
     } else {
         $response['status'] = "error";
         $response["message"] = "Error loading course!";
+        echoResponse(201, $response);
+    }
+});
+
+$app->get('/getBundleList', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    
+    $bundles = $db->getRecordset("SELECT * FROM course_bundle LEFT JOIN subject ON bdl_subject_id = sb_id LEFT JOIN school ON bdl_school_id = sch_id LEFT JOIN class ON bdl_class_id = class_id ORDER BY bdl_name");
+    if($bundles) {
+        //bundles found
+        $response['bundles'] = $bundles;
+        $response['status'] = "success";
+        $response["message"] = "Bundles Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No bundle found!";
+        echoResponse(201, $response);
+    }
+});
+
+
+$app->get('/getBundleItems', function() use ($app) {
+
+    $response = array();
+
+    $db = new DbHandler();
+    $cbi_bundle_id = $db->purify($app->request->get('id'));
+    $bundle = $db->getOneRecord("SELECT * FROM course_bundle WHERE bdl_id='$cbi_bundle_id'");
+
+    switch ($bundle['bdl_type']) {
+        case 'CUSTOM':
+            $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course_bundle_item LEFT JOIN course ON cbi_course_id = course_id WHERE cbi_bundle_id = '$cbi_bundle_id'");
+            break;
+        
+        case 'TERM':
+            $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course LEFT JOIN class ON course_class_id = class_id WHERE class_school_id = '".$bundle['bdl_school_id']."' AND course_subject_id = '".$bundle['bdl_subject_id']."' AND course_term = '".$bundle['bdl_term']."' ");
+            break;
+
+        case 'CLASS':
+            $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course WHERE course_class_id = '".$bundle['bdl_class_id']."' AND course_subject_id = '".$bundle['bdl_subject_id']."' ORDER BY course_term ");
+            break;
+
+        case 'YEAR':
+            $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course LEFT JOIN class ON course_class_id = class_id WHERE class_school_id = '".$bundle['bdl_school_id']."' AND course_subject_id = '".$bundle['bdl_subject_id']."' ORDER BY course_class_id, course_term ");
+            break;
+    }
+
+    if($bundle_items) {
+       
+        $response['bundle_items'] = $bundle_items;        
+        $response['status'] = "success";
+        $response["message"] = "Bundle Items Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No item found in bundle!";
         echoResponse(201, $response);
     }
 });

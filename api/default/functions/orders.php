@@ -7,9 +7,13 @@ $app->get('/getOrder', function() use ($app) {
     $db = new DbHandler();
     $ord_id = $db->purify($app->request->get('id'));
     
-    $order = $db->getOneRecord("SELECT order_id, order_time_created, order_total, order_status, user_fullname FROM user_order LEFT JOIN user ON order_user_id = user_id WHERE order_id = '$ord_id' ");
+    $order = $db->getOneRecord("SELECT order_id, order_time_created, order_total, order_status, user_fullname, order_type FROM user_order LEFT JOIN user ON order_user_id = user_id WHERE order_id = '$ord_id' ");
 
-    $order_item = $db->getRecordset("SELECT course_title, item_qty, course_price FROM user_order_item LEFT JOIN course ON item_course_id = course_id  WHERE item_order_id = '$ord_id' ");
+    if ($order['order_type'] == 'COURSE') {
+        $order_item = $db->getRecordset("SELECT course_title, item_qty, course_price FROM user_order_item LEFT JOIN course ON item_course_id = course_id  WHERE item_order_id = '$ord_id' ");
+    } else {
+        $order_item = $db->getRecordset("SELECT bdl_name, item_qty, bdl_price FROM user_order_item LEFT JOIN course_bundle ON item_course_id = bdl_id  WHERE item_order_id = '$ord_id' ");
+    }
 
     if($order) {
         //found order, return success result
@@ -20,7 +24,7 @@ $app->get('/getOrder', function() use ($app) {
         echoResponse(200, $response);
     } else {
         $response['status'] = "error";
-        $response["message"] = "Errorrr loading order!";
+        $response["message"] = "Error loading order!";
         echoResponse(201, $response);
     }
 });
@@ -33,9 +37,6 @@ $app->get('/getOrderList', function() use ($app) {
     
     $orders = $db->getRecordset("SELECT order_id, order_time_created, order_total, order_status, user_fullname FROM user_order LEFT JOIN user ON order_user_id = user_id");
     if($orders) {
-        //users found
-        $user_count = count($users);
-
         $response['orders'] = $orders;
         $response['status'] = "success";
         $response["message"] = "Order List Loaded!";
@@ -246,4 +247,54 @@ $app->get('/getOrderDetails', function() use ($app) {
         $response["message"] = "Error loading order details!";
         echoResponse(201, $response);
     }
+});
+
+//create bundle order
+$app->post('/createBundleOrder', function() use ($app) {
+    
+    $response = array();
+    $db = new DbHandler();
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
+
+    // extract body of request
+    $r = json_decode($app->request->getBody());
+
+    // extract values needed from body of request
+    $bdl_price = $db->purify($r->bundle->bdl_price);
+    $bdl_id = $db->purify($r->bundle->bdl_id);
+
+    // generate other necessary values
+    $order_time_created = date("Y-m-d h:i:s");
+
+    // try a dummy select - makes no sense for now
+    $dummy = $db->getOneRecord("SELECT 1 FROM user");
+
+    if($dummy) {
+        // run query to insert new order
+        $table = "user_order";
+        $columns = ['order_user_id', 'order_total', 'order_time_created', 'order_status', 'order_type'];
+        $values = [$user_id, $bdl_price, $order_time_created, 'PENDING', 'BUNDLE'];
+        $ord_id = $db->insertToTable($values, $columns, $table);
+        
+        if($ord_id) {
+            //order creation complete
+            // create a single order item for the bundle
+            $table = "user_order_item";
+            $columns = ['item_order_id', 'item_course_id', 'item_qty'];
+            $values = [$ord_id, $bdl_id, 1];
+            $item_id = $db->insertToTable($values, $columns, $table);
+
+            $response['order_id'] = $ord_id;
+            $response['status'] = "success";
+            $response["message"] = "Order created successfully!";
+            echoResponse(200, $response);
+        } else {
+            $response['status'] = "error";
+            $response["message"] = "Error creating order!";
+            echoResponse(201, $response);
+        }  
+    }
+
 });
