@@ -225,6 +225,12 @@ $app->get('/confirmPayment', function() use ($app) {
         // get payment details
         $payment = $db->getOneRecord("SELECT * FROM user_payment LEFT JOIN user ON pay_user_id = user_id WHERE pay_id = '$pay_id' ");
 
+        // update order status to COMPLETED
+        $table = "user_order";
+        $columns = ['order_status'=>'COMPLETED'];
+        $where = ['order_id'=>$payment['pay_order_id']];
+        $update_result = $db->updateInTable($table, $columns, $where);
+
         // notify user of payment success
         $swiftmailer = new mySwiftMailer();
         $subject = "Your payment has been CONFIRMED";
@@ -242,6 +248,12 @@ $app->get('/confirmPayment', function() use ($app) {
     <p><br><strong>Trenova App</strong></p>";
         $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
 
+        /*// send push notification
+        $push = new pushHandler();
+        if($payment['user_device_token']) {
+            $pushresult = $push->createPushNotification([$payment['user_device_token']], "Your Payment #$pay_id has been confirmed!");    
+        }*/
+        
         // get order items
         $user_order_items = $db->getRecordset("SELECT * FROM user_order_item LEFT JOIN course ON item_course_id = course_id WHERE item_order_id = '". $payment['pay_order_id'] ."' ");
 
@@ -252,11 +264,11 @@ $app->get('/confirmPayment', function() use ($app) {
             // create subscription for order
             $table_name = "subscription";
             $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
-            $values = [$payment['pay_user_id'], $item['item_course_id'], date("Y-m-d h:i:s"), $item['item_qty'], 'ACTIVE', $payment['pay_order_id']];
+            $values = [$payment['pay_user_id'], $item['item_course_id'], date("Y-m-d h:i:s"), $item['item_qty']*4, 'ACTIVE', $payment['pay_order_id']];
             $itemresult = $db->insertToTable($values, $column_names, $table_name);
 
             // add course to course list
-            $course_list .= "<br>" . $item['course_title'] . " - ". $item['item_qty'] ." year(s)";
+            $course_list .= "<br>" . $item['course_title'] . " - ". $item['item_qty']*4 ." months";
         }
 
         // notify user of subscriptions
@@ -267,7 +279,7 @@ $app->get('/confirmPayment', function() use ($app) {
     <p>
     $course_list
     </p>
-    <p>To access your courses, please login to the Trenova Mobile App and go to My Courses in the menu.</p>
+    <p>To access your courses, please login to the Trenova Mobile App and go to My Subscriptions in the menu.</p>
     <p>Thank you for using Trenova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
     <p><br><strong>Trenova App</strong></p>";

@@ -219,7 +219,7 @@ $app->post('/buyAgentCourse', function() use ($app) {
 
             //generate course credit and courses
          for ($i=0; $i < $ao_qty ; $i++) {       
-            $cc_code = $db->randomPassword();
+            $cc_code = $db->generateVoucher();
             if ($cc_code) {
                 $table_name = "course_credit";
                 $column_names = ['cc_agent_id', 'cc_course_id', 'cc_code', 'cc_date_purchased', 'cc_order_id'];
@@ -259,6 +259,45 @@ $app->get('/getAgentCourse', function() use ($app) {
     } else {
         $response['status'] = "error";
         $response["message"] = "Error loading order!";
+        echoResponse(201, $response);
+    }
+});
+
+// check voucher code (course credit) for validity
+$app->get('/checkVoucher', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $voucher = $db->purify($app->request->get('voucher'));
+    $course_id = $db->purify($app->request->get('course_id'));
+    
+    $credit = $db->getOneRecord("SELECT cc_course_id, cc_code, cc_date_purchased, cc_status FROM course_credit WHERE cc_code = '$voucher'");
+
+    if($credit) {
+        //found voucher
+        if($credit['cc_course_id'] == $course_id) {
+            // correct course
+            if($credit['cc_status'] == 'UNUSED') {
+                // voucher unused, return success
+                $response['status'] = "success";
+                $response["message"] = "Voucher is Valid and UNUSED!";
+                echoResponse(200, $response);
+            } else {
+                // voucher has already been used
+                $response['status'] = "error";
+                $response["message"] = "Voucher has already been used! Please use another voucher";
+                echoResponse(201, $response);   
+            }
+        } else {
+            // incorrect course
+            $response['status'] = "error";
+            $response["message"] = "This voucher is NOT valid for this course! Please use another voucher";
+            echoResponse(201, $response);
+        }     
+        
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "INVALID Voucher!";
         echoResponse(201, $response);
     }
 });

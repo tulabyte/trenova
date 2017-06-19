@@ -8,9 +8,9 @@ ini_set('max_execution_time', 3600); //execution time in seconds
 
 //error_reporting(E_ALL); ini_set("display_errors", FALSE); 
 // apc_clear_cache();
-header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Origin, X-Auth-Token, X-Requested-With, Content-Type, Accept, Authorization");
+// header("Access-Control-Allow-Headers: Origin, X-Auth-Token, X-Requested-With, Content-Type, Accept, Authorization");
 
 if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
    header( "HTTP/1.1 200 OK" );
@@ -22,6 +22,7 @@ require_once 'dbHandler.php';
 require_once 'smsHandler.php';
 require_once 'passwordHash.php';
 require_once 'mySwiftMailer.php';
+require_once 'pushHandler.php';
 require '.././libs/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
