@@ -225,6 +225,12 @@ $app->get('/confirmPayment', function() use ($app) {
         // get payment details
         $payment = $db->getOneRecord("SELECT * FROM user_payment LEFT JOIN user ON pay_user_id = user_id WHERE pay_id = '$pay_id' ");
 
+        // update order status to COMPLETED
+        $table = "user_order";
+        $columns = ['order_status'=>'COMPLETED'];
+        $where = ['order_id'=>$payment['pay_order_id']];
+        $update_result = $db->updateInTable($table, $columns, $where);
+
         // notify user of payment success
         $swiftmailer = new mySwiftMailer();
         $subject = "Your payment has been CONFIRMED";
@@ -242,21 +248,75 @@ $app->get('/confirmPayment', function() use ($app) {
     <p><br><strong>Trenova App</strong></p>";
         $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
 
-        // get order items
-        $user_order_items = $db->getRecordset("SELECT * FROM user_order_item LEFT JOIN course ON item_course_id = course_id WHERE item_order_id = '". $payment['pay_order_id'] ."' ");
+        /*// send push notification
+        $push = new pushHandler();
+        if($payment['user_device_token']) {
+            $pushresult = $push->createPushNotification([$payment['user_device_token']], "Your Payment #$pay_id has been confirmed!");    
+        }*/
+
+        // get order details
+        $order = $db->getOneRecord("SELECT order_type FROM user_order WHERE order_id='".$payment['pay_order_id']."'");
 
         $course_list = "<strong></strong>";
 
-        // loop through order items
-        foreach ($user_order_items as $item) {
-            // create subscription for order
-            $table_name = "subscription";
-            $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
-            $values = [$payment['pay_user_id'], $item['item_course_id'], date("Y-m-d h:i:s"), $item['item_qty'], 'ACTIVE', $payment['pay_order_id']];
-            $itemresult = $db->insertToTable($values, $column_names, $table_name);
+        if($order['order_type'] == 'COURSE') {
+            // get order items
+            $user_order_items = $db->getRecordset("SELECT * FROM user_order_item LEFT JOIN course ON item_course_id = course_id WHERE item_order_id = '". $payment['pay_order_id'] ."' ");
 
-            // add course to course list
-            $course_list .= "<br>" . $item['course_title'] . " - ". $item['item_qty'] ." year(s)";
+            // loop through order items
+            foreach ($user_order_items as $item) {
+                // create subscription for order
+                $table_name = "subscription";
+                $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
+                $values = [$payment['pay_user_id'], $item['item_course_id'], date("Y-m-d h:i:s"), $item['item_qty']*4, 'ACTIVE', $payment['pay_order_id']];
+                $itemresult = $db->insertToTable($values, $column_names, $table_name);
+
+                // add course to course list
+                $course_list .= "<br>" . $item['course_title'] . " - ". $item['item_qty']*4 ." months";
+            }
+        } else {
+            // order is a bundle, get order item, which contains bundle id
+            $item = $db->getOneRecord("SELECT item_course_id FROM user_order_item WHERE item_order_id = '".$payment['pay_order_id']."'") ;
+            $bdl_id = $item['item_course_id'];
+
+            // get bundle details
+            $bundle = $db->getOneRecord("SELECT bdl_type, bdl_subject_id, bdl_school_id, bdl_term, bdl_class_id FROM course_bundle WHERE bdl_id = '$bdl_id'");
+
+            // 4 months by default
+            $months = 4;
+
+            // get the bundle items
+            switch ($bundle['bdl_type']) {
+                case 'CUSTOM':
+                    $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course_bundle_item LEFT JOIN course ON cbi_course_id = course_id WHERE cbi_bundle_id = '$bdl_id'");
+                    break;
+                
+                case 'TERM':
+                    $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course LEFT JOIN class ON course_class_id = class_id WHERE class_school_id = '".$bundle['bdl_school_id']."' AND course_subject_id = '".$bundle['bdl_subject_id']."' AND course_term = '".$bundle['bdl_term']."' ");
+                    break;
+
+                case 'CLASS':
+                    $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course WHERE course_class_id = '".$bundle['bdl_class_id']."' AND course_subject_id = '".$bundle['bdl_subject_id']."' ORDER BY course_term ");
+                    break;
+
+                case 'YEAR':
+                    $bundle_items = $db->getRecordset("SELECT course_title, course_id FROM course LEFT JOIN class ON course_class_id = class_id WHERE class_school_id = '".$bundle['bdl_school_id']."' AND course_subject_id = '".$bundle['bdl_subject_id']."' ORDER BY course_class_id, course_term ");
+                    $months = 12; //one year subscription
+                    break;
+            }
+
+            // loop through bundle items
+            foreach ($bundle_items as $item) {
+                // create subscription for order
+                $table_name = "subscription";
+                $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
+                $values = [$payment['pay_user_id'], $item['course_id'], date("Y-m-d h:i:s"), $months, 'ACTIVE', $payment['pay_order_id']];
+                $itemresult = $db->insertToTable($values, $column_names, $table_name);
+
+                // add course to course list
+                $course_list .= "<br>" . $item['course_title'] . " - ". $months ." months";
+            }
+
         }
 
         // notify user of subscriptions
@@ -267,7 +327,7 @@ $app->get('/confirmPayment', function() use ($app) {
     <p>
     $course_list
     </p>
-    <p>To access your courses, please login to the Trenova Mobile App and go to My Courses in the menu.</p>
+    <p>To access your courses, please login to the Trenova Mobile App and go to My Subscriptions in the menu.</p>
     <p>Thank you for using Trenova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
     <p><br><strong>Trenova App</strong></p>";

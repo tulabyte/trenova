@@ -148,6 +148,42 @@ $app->post('/updateUserProfile', function() use ($app) {
     }
 });
 
+$app->post('/updateUserAvatar', function() use ($app) {
+    // verify role
+    $response = array();
+
+    $r = json_decode($app->request->getBody());
+    verifyRequiredParams(['user_id', 'user_photo'],$r->user);
+
+    $db = new DbHandler();
+    $user_id = $db->purify($r->user->user_id);
+    $user_photo = $db->purify($r->user->user_photo);
+
+    $isUserExists = $db->getOneRecord("SELECT 1 FROM user WHERE user_id='$user_id'");
+    if($isUserExists){
+        //$r->user->password = passwordHash::hash($password);
+        $table_to_update = "user";
+        $columns_to_update = ['user_photo'=>$user_photo];
+        $where_clause = ['user_id'=>$user_id];
+        $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+        if ($result > 0) {
+            $response["status"] = "success";
+            $response["message"] = "User updated successfully";
+            echoResponse(200, $response);
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Failed to update user. Please try again";
+            echoResponse(201, $response);
+        }            
+    }else{
+        $response["status"] = "error";
+        //$response['message'] = $r->user;
+        $response["message"] = "ERROR: User does not exist!";
+        echoResponse(201, $response);
+    }
+});
+
 // get user
 $app->get('/getUser', function() use ($app) {
     $response = array();

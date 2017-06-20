@@ -93,3 +93,46 @@ $app->get('/toggleItem', function() use ($app) {
     }
 
 });
+
+// check if an image exists
+$app->get('/checkImage', function() use ($app) {
+   $response = array();
+
+    $db = new DbHandler();
+    
+    $filename = $db->purify($app->request->get('filename'));
+    $type = $db->purify($app->request->get('type'));
+
+    if(empty($filename)) {
+        $response['status'] = "error";
+        $response["message"] = "Filename missing!";
+        echoResponse(201, $response);
+        break;
+    }
+
+    switch ($type) {
+        case 'course':
+            $location = '../../img/course-images/';
+            break;
+        
+        case 'avatar':
+            $location = '../../img/user-avatars/';
+            break;
+
+        default:
+            $response['status'] = "error";
+            $response["message"] = "Location missing!";
+            echoResponse(201, $response);
+            break;
+    }
+
+    if(file_exists($location . $filename)) {
+        $response['status'] = "success";
+        $response['message'] = "Image exists!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Image not found!";
+        echoResponse(201, $response);
+    }
+});
