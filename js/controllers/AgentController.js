@@ -230,8 +230,8 @@ app.controller('AgentController', ['$scope', '$rootScope', 'FTAFunctions', '$sta
         }).then(function (results) {
             console.log(results);
             if(results.status == "success") {
-               $state.go('app.agent-unused-list');
-              $rootScope.toasterPop('success','Action Successful!',results.message);
+               $scope.agent_gen = results.agent_gen;
+               $rootScope.toasterPop('success','Action Successful!',results.message);
             } else {
               //problemo. show error
               $rootScope.toasterPop('error','Oops!',results.message);

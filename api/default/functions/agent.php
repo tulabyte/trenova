@@ -194,6 +194,7 @@ $app->post('/buyAgentCourse', function() use ($app) {
     $ao_discount = $db->purify($r->agent->discount);
     $ao_status = "COMPLETED";
     $ao_date =  date("Y-m-d");
+    $agent_gen = array();
     // get logged in user session details
     $session = $db->getSession(); 
     $ao_agent_id = $session['trenova_user']['ad_id'];
@@ -212,14 +213,10 @@ $app->post('/buyAgentCourse', function() use ($app) {
         
         if($agentorder) {
             //order creation complete
-            $response['agent_ord'] = $agentorder;
-            $response['status'] = "success";
-            $response["message"] = "Order created successfully!";
-            echoResponse(200, $response);
-
             //generate course credit and courses
          for ($i=0; $i < $ao_qty ; $i++) {       
             $cc_code = $db->randomPassword();
+            $agent_gen[] = $cc_code; 
             if ($cc_code) {
                 $table_name = "course_credit";
                 $column_names = ['cc_agent_id', 'cc_course_id', 'cc_code', 'cc_date_purchased', 'cc_order_id'];
@@ -232,6 +229,10 @@ $app->post('/buyAgentCourse', function() use ($app) {
                 echoResponse(201, $response);
             }
         }
+            $response['agent_gen'] = $agent_gen;
+            $response['status'] = "success";
+            $response["message"] = "Order created successfully!";
+            echoResponse(200, $response);
 
         } else {
             $response['status'] = "error";

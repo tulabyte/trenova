@@ -8,6 +8,7 @@ app.controller('BundleController', ['$scope', '$rootScope', 'FTAFunctions', '$st
     $scope.subjects = [];
     $scope.courses = [];
     $scope.schools = [];
+    $scope.classes = [];
 
 /* Load All Stuffs */
 
@@ -17,6 +18,19 @@ app.controller('BundleController', ['$scope', '$rootScope', 'FTAFunctions', '$st
         console.log(results);
         if(results.status == "success") {
           $scope.subjects = results.subjects;
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          $rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    };
+
+    // load subject list for class
+    $scope.loadClassList = function() {
+      Data.get('getClassList').then(function(results) {
+        console.log(results);
+        if(results.status == "success") {
+          $scope.classes = results.classes;
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);
@@ -84,6 +98,7 @@ $scope.loadBundleDetails = function(){
             if(results.status == "success") {
               $scope.bundle = results.bundle;
               $scope.bundle.bdl_price = parseInt(results.bundle.bdl_price);
+              $scope.bundle.bdl_term_id = parseInt(results.bundle.bdl_term_id);
 
               // $rootScope.toasterPop('success','Action Successful!',results.message);
             } else {
@@ -102,6 +117,7 @@ $scope.loadBundleDetails = function(){
       $scope.loadSubjectList();
       $scope.loadSchoolList();
       $scope.loadCourseList();
+      $scope.loadClassList();
     };
 
       if($state.current.name == 'app.bundle-list') {
@@ -143,7 +159,7 @@ $scope.editBundle = function(bundle){
             console.log(results);
             if(results.status = "success") {
               $rootScope.toasterPop('success','Action Successful!',results.message);
-              //$state.go('app.bundle-list',{id:$stateParams.id});
+              $state.go('app.bundle-list');
             } else {
               //error
               $rootScope.toasterPop('error','Oops!',results.message);

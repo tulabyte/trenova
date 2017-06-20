@@ -17,8 +17,34 @@ $app->post('/createNewBundle', function() use ($app) {
     $bdl_type = $db->purify($r->bundle->bdl_type);
     $bdl_date_created = date('Y-m-d');
     $table_name = "course_bundle";
+    //using switch to determine the case
 
-    if ($bdl_type != 'CUSTOM') {
+    switch ($bdl_type) {
+        case 'TERM':
+        //verify parameters for school and id
+        verifyRequiredParams(['selected_school', 'selected_subject'],$r->bundle);
+     
+        $bdl_school_id = $db->purify($r->bundle->selected_school);
+        $bdl_subject_id = $db->purify($r->bundle->selected_subject);
+        $bdl_term = $db->purify($r->bundle->bdl_term_id);     
+        //create bundle
+            $column_names = ['bdl_description', 'bdl_name', 'bdl_price', 'bdl_school_id', 'bdl_subject_id', 'bdl_type', 'bdl_creator', 'bdl_created_by','bdl_date_created', 'bdl_term'];
+            $values = [$bdl_description,$bdl_name,$bdl_price,$bdl_school_id,$bdl_subject_id,$bdl_type,$bdl_creator,$bdl_created_by, $bdl_date_created, $bdl_term];
+            $result = $db->insertToTable($values, $column_names, $table_name); 
+                   
+                    if ($result != NULL) {
+                        $response["status"] = "success";
+                        $response["message"] = "Bundle created successfully";
+                        $response["mod_id"] = $result;
+                        echoResponse(200, $response);
+                    }else{
+                        $response["status"] = "error";
+                        $response["message"] = "Failed to create bundle. Please try again";
+                        echoResponse(201, $response);
+                    }
+            break;
+        
+        case 'YEAR':
         //verify parameters for school and id
         verifyRequiredParams(['selected_school', 'selected_subject'],$r->bundle);
      
@@ -40,23 +66,48 @@ $app->post('/createNewBundle', function() use ($app) {
                         $response["message"] = "Failed to create bundle. Please try again";
                         echoResponse(201, $response);
                     }
-    } else {
+            break; 
+
+        case 'CLASS':
+        //verify parameters for school and id
+        verifyRequiredParams(['selected_school', 'selected_subject'],$r->bundle);
+     
+        $bdl_school_id = $db->purify($r->bundle->selected_school);
+        $bdl_subject_id = $db->purify($r->bundle->selected_subject);
+        $bdl_class_id = $db->purify($r->bundle->selected_class);
+
+        //create bundle
+            $column_names = ['bdl_description', 'bdl_name', 'bdl_price', 'bdl_school_id', 'bdl_subject_id', 'bdl_type', 'bdl_creator', 'bdl_created_by','bdl_date_created', 'bdl_class_id'];
+            $values = [$bdl_description,$bdl_name,$bdl_price,$bdl_school_id,$bdl_subject_id,$bdl_type,$bdl_creator,$bdl_created_by, $bdl_date_created, $bdl_class_id];
+            $result = $db->insertToTable($values, $column_names, $table_name); 
+                   
+                    if ($result != NULL) {
+                        $response["status"] = "success";
+                        $response["message"] = "Bundle created successfully";
+                        $response["mod_id"] = $result;
+                        echoResponse(200, $response);
+                    }else{
+                        $response["status"] = "error";
+                        $response["message"] = "Failed to create bundle. Please try again";
+                        echoResponse(201, $response);
+                    }
+            break;
+
+        case 'CUSTOM':
         $course_name = $r->bundle->selected_course;
         //create bundle
             $column_names = ['bdl_description', 'bdl_name', 'bdl_price', 'bdl_type', 'bdl_creator', 'bdl_created_by','bdl_date_created'];
             $values = [$bdl_description,$bdl_name,$bdl_price,$bdl_type,$bdl_creator,$bdl_created_by, $bdl_date_created];
             $result = $db->insertToTable($values, $column_names, $table_name); 
                     if ($result > 0) {
-                        $response["status"] = "success";
-                        $response["message"] = "Bundle created successfully";
-                            echoResponse(200, $response);
                         foreach ($course_name as $value) {
                                 $tbl_name = "course_bundle_item";
                                 $column_names = ['cbi_bundle_id', 'cbi_course_id'];
                                 $values = [$result,$value];
                                 $itm_result = $db->insertToTable($values, $column_names, $tbl_name); 
                                                 
-                                        if ($itm_result) {
+                               }
+                                        if ($itm_result >= 0) {
                                                 $response["status"] = "success";
                                                 $response["message"] = "Bundle created successfully";
                                                 echoResponse(200, $response);
@@ -64,15 +115,20 @@ $app->post('/createNewBundle', function() use ($app) {
                                                 $response["status"] = "error";
                                                 $response["message"] = "Failed to create bundle items. Please try again";
                                                 echoResponse(201, $response);
-                                        }
-                                        
-                                }
-                     }   else{
+                                        }       
+                     } else{
                                     $response["status"] = "error";
                                     $response["message"] = "Failed to create bundle. Please try again";
                                     echoResponse(201, $response);
                                 }
-                     
+            break;      
+
+        default:
+            //someone trying to be smart eh!!
+                    $response["status"] = "error";
+                    $response["message"] = "Bundle TYPE Not recognised. Please Select one from the options and again";
+                    echoResponse(201, $response);
+            break;
     }
     
 });
@@ -92,31 +148,95 @@ $app->post('/editExistingBundle', function() use ($app) {
     $bdl_price = $db->purify($r->bundle->bdl_price);
     $bdl_type = $db->purify($r->bundle->bdl_type); 
 
-    $isQuestionExists = $db->getOneRecord("SELECT 1 FROM course_bundle WHERE bdl_id = '$bdl_id' ");
-    if($isQuestionExists){
-        if ($bdl_type != 'CUSTOM') {
-            //verify
-            verifyRequiredParams(['selected_school', 'selected_subject'],$r->bundle);
-            $bdl_school_id = $db->purify($r->bundle->selected_school);
-            $bdl_subject_id = $db->purify($r->bundle->selected_subject);
-            
-            //update bundle 
-            $table_to_update = 'course_bundle';
-            $columns_to_update = ['bdl_description'=>$bdl_description, 'bdl_price'=>$bdl_price, 'bdl_school_id'=>$bdl_school_id, 'bdl_subject_id'=>$bdl_subject_id, 'bdl_type'=>$bdl_type, 'bdl_name'=>$bdl_name];
-            $where_clause = ['bdl_id'=>$bdl_id];
-            $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+    $isBundleExists = $db->getOneRecord("SELECT 1 FROM course_bundle WHERE bdl_id = '$bdl_id' ");
+    if($isBundleExists){
 
-            if ($result > 0 ) {
-                        $response["status"] = "success";
-                        $response["message"] = " Bundle updated successfully";
-                        echoResponse(200, $response);                
-            } else {
-                $response["status"] = "error";
-                $response["message"] = "Failed to update bundle. Please try again";
-                echoResponse(201, $response);
-            }
-        } else {
-/*codes to update bundle when it is a custom bundle...delete existing custom bundles, then re-insert the new ones.*/
+        switch ($bdl_type) {
+            case 'TERM':
+                    //verify
+                    verifyRequiredParams(['selected_school', 'selected_subject', 'bdl_term_id'],$r->bundle);
+                    $bdl_school_id = $db->purify($r->bundle->selected_school);
+                    $bdl_subject_id = $db->purify($r->bundle->selected_subject);
+                    $bdl_term_id = $db->purify($r->bundle->bdl_term_id);
+                    
+                    //update bundle 
+                    $table_to_update = 'course_bundle';
+                    $columns_to_update = ['bdl_description'=>$bdl_description, 'bdl_price'=>$bdl_price, 'bdl_school_id'=>$bdl_school_id, 'bdl_subject_id'=>$bdl_subject_id, 'bdl_type'=>$bdl_type, 'bdl_name'=>$bdl_name, 'bdl_term'=>$bdl_term_id];
+                    $where_clause = ['bdl_id'=>$bdl_id];
+                    $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+                    if ($result > 0 ) {
+                                $response["status"] = "success";
+                                $response["message"] = " Bundle updated successfully";
+                                echoResponse(200, $response);                
+                                        //just incase it was converted from a custom bundle to this type of bundle          
+                                        $table_name = 'course_bundle_item';
+                                        $col_name = ['cbi_bundle_id'=>$bdl_id];
+                                        $r = $db->deleteFromTableWhere($table_name, $col_name);
+                    } else {
+                        $response["status"] = "error";
+                        $response["message"] = "Failed to update bundle. Please try again";
+                        echoResponse(201, $response);
+                    }
+                break;
+           
+            case 'CLASS':
+                    //verify
+                    verifyRequiredParams(['selected_school', 'selected_subject', 'selected_class'],$r->bundle);
+                    $bdl_school_id = $db->purify($r->bundle->selected_school);
+                    $bdl_subject_id = $db->purify($r->bundle->selected_subject);
+                    $bdl_class_id = $db->purify($r->bundle->selected_class);
+                    
+                    //update bundle 
+                    $table_to_update = 'course_bundle';
+                    $columns_to_update = ['bdl_description'=>$bdl_description, 'bdl_price'=>$bdl_price, 'bdl_school_id'=>$bdl_school_id, 'bdl_subject_id'=>$bdl_subject_id, 'bdl_type'=>$bdl_type, 'bdl_name'=>$bdl_name, 'bdl_class_id'=>$bdl_class_id];
+                    $where_clause = ['bdl_id'=>$bdl_id];
+                    $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+                    if ($result > 0 ) {
+                                $response["status"] = "success";
+                                $response["message"] = " Bundle updated successfully";
+                                echoResponse(200, $response);                
+                                        //just incase it was converted from a custom bundle to this type of bundle          
+                                        $table_name = 'course_bundle_item';
+                                        $col_name = ['cbi_bundle_id'=>$bdl_id];
+                                        $r = $db->deleteFromTableWhere($table_name, $col_name);
+                    } else {
+                        $response["status"] = "error";
+                        $response["message"] = "Failed to update bundle. Please try again";
+                        echoResponse(201, $response);
+                    }
+                break;
+           
+            case 'YEAR':
+                    //verify
+                    verifyRequiredParams(['selected_school', 'selected_subject'],$r->bundle);
+                    $bdl_school_id = $db->purify($r->bundle->selected_school);
+                    $bdl_subject_id = $db->purify($r->bundle->selected_subject);
+                    
+                    //update bundle 
+                    $table_to_update = 'course_bundle';
+                    $columns_to_update = ['bdl_description'=>$bdl_description, 'bdl_price'=>$bdl_price, 'bdl_school_id'=>$bdl_school_id, 'bdl_subject_id'=>$bdl_subject_id, 'bdl_type'=>$bdl_type, 'bdl_name'=>$bdl_name];
+                    $where_clause = ['bdl_id'=>$bdl_id];
+                    $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
+
+                    if ($result > 0 ) {
+                                $response["status"] = "success";
+                                $response["message"] = " Bundle updated successfully";
+                                echoResponse(200, $response);
+                                        //just incase it was converted from a custom bundle to this type of bundle          
+                                        $table_name = 'course_bundle_item';
+                                        $col_name = ['cbi_bundle_id'=>$bdl_id];
+                                        $r = $db->deleteFromTableWhere($table_name, $col_name);   
+                    } else {
+                        $response["status"] = "error";
+                        $response["message"] = "Failed to update bundle. Please try again";
+                        echoResponse(201, $response);
+                    }
+                break;
+           
+            case 'CUSTOM':
+            /*delete existing custom bundles, then re-insert the new ones.*/
             $course_name = $r->bundle->selected_course;
             $table_to_update = 'course_bundle';
             $columns_to_update = ['bdl_description'=>$bdl_description, 'bdl_price'=>$bdl_price, 'bdl_type'=>$bdl_type, 'bdl_name'=>$bdl_name];
@@ -127,33 +247,44 @@ $app->post('/editExistingBundle', function() use ($app) {
                 $table_name = 'course_bundle_item';
                 $col_name = ['cbi_bundle_id'=>$bdl_id];
                 $r = $db->deleteFromTableWhere($table_name, $col_name);
-            if($r >0) {
-                //create updated bundle
-                    foreach ($course_name as $value) {
-                            $tbl_name = "course_bundle_item";
-                            $column_names = ['cbi_bundle_id', 'cbi_course_id'];
-                            $values = [$bdl_id,$value];
-                            $itm_result = $db->insertToTable($values, $column_names, $tbl_name);
-                                     }       
-                                    if ($itm_result >= 0) {
-                                            $response["status"] = "success";
-                                            $response["message"] = "Bundle created successfully";
-                                            echoResponse(200, $response);
-                                    } else {
-                                            $response["status"] = "error";
-                                            $response["message"] = "Failed to create bundle items. Please try again";
-                                            echoResponse(201, $response);
-                                    }
-                } else{
-                    $response["status"] = "success";
-                    $response["message"] = "Bundle update failed";
-                    echoResponse(201, $response);
-                }
+                    if($r >0) {
+                        //create updated bundle
+                            foreach ($course_name as $value) {
+                                    $tbl_name = "course_bundle_item";
+                                    $column_names = ['cbi_bundle_id', 'cbi_course_id'];
+                                    $values = [$bdl_id,$value];
+                                    $itm_result = $db->insertToTable($values, $column_names, $tbl_name);
+                                             }       
+                                            if ($itm_result >= 0) {
+                                                    $response["status"] = "success";
+                                                    $response["message"] = "Bundle updated successfully";
+                                                    echoResponse(200, $response);
+                                            } else {
+                                                    $response["status"] = "error";
+                                                    $response["message"] = "Failed to updated bundle items. Please try again";
+                                                    echoResponse(201, $response);
+                                            }
+                        } else{
+                            $response["status"] = "success";
+                            $response["message"] = "Bundle update failed";
+                            echoResponse(201, $response);
+                        }
             }else{
                     $response["status"] = "success";
                     $response["message"] = "Failed to update bundle";
                     echoResponse(201, $response);
                 }
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        if ($bdl_type != 'CUSTOM') {
+
+        } else {
+
         } 
     }else{
         $response["status"] = "error";
@@ -252,7 +383,7 @@ $app->get('/getBundle', function() use ($app) {
     $db = new DbHandler();
     $bundle_id = $db->purify($app->request->get('id'));
     
-    $bundle = $db->getOneRecord("SELECT bdl_subject_id AS selected_subject, bdl_school_id AS selected_school , bdl_id, bdl_name, bdl_description, bdl_type, bdl_price FROM course_bundle WHERE bdl_id = '$bundle_id' ");
+    $bundle = $db->getOneRecord("SELECT bdl_term AS bdl_term_id, bdl_class_id AS selected_class, bdl_subject_id AS selected_subject, bdl_school_id AS selected_school , bdl_id, bdl_name, bdl_description, bdl_type, bdl_price FROM course_bundle WHERE bdl_id = '$bundle_id' ");
 
     $bundle_select = $db->getRecordset("SELECT cbi_course_id  FROM course_bundle_item WHERE cbi_bundle_id = '$bundle_id' ");
     foreach ($bundle_select as $key => $value) {
