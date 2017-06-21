@@ -123,6 +123,18 @@ angular.module('app')
                   }
               })
 
+              .state('app.agent-purchase-list', {
+                  url: '/agent-purchase-list/:id',
+                  data: {pageTitle: 'Purchase List'},
+                  templateUrl: 'tpl/agent-purchase-list.html',
+                  resolve: {
+                    deps: ['$ocLazyLoad',
+                      function( $ocLazyLoad ){
+                        return $ocLazyLoad.load(['js/controllers/AgentController.js']);
+                    }]
+                  }
+              })
+
               .state('app.agent-course-list', {
                   url: '/agent-course-list',
                   data: {pageTitle: 'Course List'},

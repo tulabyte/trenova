@@ -10,12 +10,13 @@
     <div class="row">
       <div class="col-sm-4"><h3>Order ID : {{order.order_id}} </h3>
       <p>Status : <strong>{{order.order_status }}</strong> </p></div>
-      <div class="col-sm-4"><h3>{{order.user_fullname}}</h3></div>
+      <div class="col-sm-4"><h3>{{order.user_fullname}}</h3>
+      <p>Order Type : <strong>{{order.order_type}}</strong> </p></div>
       <div class="col-sm-4"><h3>Date : {{order.order_time_created | date }}</h3></div>
     </div>
     </div>
-    <div class="table-responsive">
-      <table class="table table-striped m-b-none">
+    <div class="table-responsive" ng-if = "order.order_type == 'COURSE' ">
+      <table class="table table-striped m-b-none" >
           <thead>
                 <tr>
                 <th width="60%">Name</th>
@@ -36,5 +37,31 @@
         </tbody>
       </table>
     </div>
+<!--table for Bundle Type-->
+    <div class="table-responsive" ng-if = "order.order_type == 'BUNDLE' ">
+      <table class="table table-striped m-b-none" >
+          <thead>
+                <tr>
+                <th width="55%">Name</th>
+                <th width="20%">Type</th>
+                <th width="20%">Amount</th> 
+                <th></th>               
+                </tr>
+          </thead>
+        <tbody>
+          <tr ng-repeat="orders in order_item">
+            <td><strong>{{orders.bdl_name}}</strong></td>
+            <td><strong>{{orders.bdl_type}}</strong></td>
+            <td><strong>N {{orders.bdl_price}}</strong></td>
+            <td><button class="btn btn-icon btn-sm btn-info" ui-sref="app.bundle-details({id:orders.bdl_id})" tooltip="View Course Details"><i class="fa fa-info"></i></button></td>
+          </tr>
+          <tr>
+            <td colspan="2"><strong><span style="float: right;">Total</span> </strong> </td>
+            <td><span style="float: left;"> <strong>N{{order.order_total }}</strong></span> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+<!--end of table-->    
   </div>
 </div>

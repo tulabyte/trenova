@@ -1,0 +1,32 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="AgentController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Used Courses
+    </div>
+    <h3 ng-hide ="agent_usg.length > 0"><span style="text-align: center;">Your Dont Have Any Used Course </span> </h3>
+    <div class="table-responsive" ng-show="agent_usg.length > 0">
+      <table datatable="ng" dt-options ="dtOptions" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+                <th width="45%">Course</th>                
+                <th width="35%">Code</th>
+                <th width="15%">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="agent_u in agent_usg | orderBy:'-agent_usg.cc_date_purchased' ">
+            <td>{{agent_u.course_title}}</td>
+            <td>{{agent_u.cc_code}}</td>
+            <td>{{agent_u.cc_date_purchased}}</td>
+           </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

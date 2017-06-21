@@ -113,6 +113,20 @@ app.controller('AgentController', ['$scope', '$rootScope', 'FTAFunctions', '$sta
       });
     }
 
+          //Agent's latest purchase
+    if($state.current.name == 'app.agent-purchase-list') {
+      console.log('iamkess');
+       //get the agent details
+      Data.get('getAgentPurchaseLists?id='+$stateParams.id).then(function(results) {
+        console.log(results);
+        if(results.status == "success") {
+          $scope.agent_usg = results.agent_usg;
+          // $rootScope.toasterPop('success','Action Successful!',results.message);
+        } else {
+          $rootScope.toasterPop('error','Oops!',results.message);
+        }
+      });
+    }
 
               //Agent's order
     if($state.current.name == 'app.agent-order-list') {
@@ -230,8 +244,9 @@ app.controller('AgentController', ['$scope', '$rootScope', 'FTAFunctions', '$sta
         }).then(function (results) {
             console.log(results);
             if(results.status == "success") {
-               $scope.agent_gen = results.agent_gen;
                $rootScope.toasterPop('success','Action Successful!',results.message);
+               $scope.agent_gen = results.agent_gen;
+               $state.go('app.agent-purchase-list',{id:results.count})
             } else {
               //problemo. show error
               $rootScope.toasterPop('error','Oops!',results.message);

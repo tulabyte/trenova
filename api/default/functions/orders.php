@@ -12,7 +12,7 @@ $app->get('/getOrder', function() use ($app) {
     if ($order['order_type'] == 'COURSE') {
         $order_item = $db->getRecordset("SELECT course_title, item_qty, course_price FROM user_order_item LEFT JOIN course ON item_course_id = course_id  WHERE item_order_id = '$ord_id' ");
     } else {
-        $order_item = $db->getRecordset("SELECT bdl_name, item_qty, bdl_price FROM user_order_item LEFT JOIN course_bundle ON item_course_id = bdl_id  WHERE item_order_id = '$ord_id' ");
+        $order_item = $db->getRecordset("SELECT bdl_id, bdl_name, bdl_type, bdl_price FROM user_order_item LEFT JOIN course_bundle ON item_course_id = bdl_id  WHERE item_order_id = '$ord_id' ");
     }
 
     if($order) {

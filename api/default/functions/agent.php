@@ -96,6 +96,31 @@ $app->get('/getAgentUnusedPurchase', function() use ($app) {
     }
 });
 
+//getAgentUnusedPurchase
+$app->get('/getAgentPurchaseLists', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+    $session = $db->getSession();
+
+    // get id of currently logged in agent
+    $agent_id = $session['trenova_user']['ad_id'];
+    $num = $db->purify($app->request->get('id'));
+    $agent_usg = $db->getRecordset("SELECT course_title, cc_code, cc_date_purchased FROM course_credit LEFT JOIN course ON cc_course_id = course_id WHERE cc_agent_id = '$agent_id' AND cc_status = 'UNUSED' ORDER BY cc_date_purchased DESC LIMIT $num ");
+    if($agent_id) {
+        //found agent, return success result
+
+        $response['agent_usg'] = $agent_usg;
+        $response['status'] = "success";
+        $response["message"] = "Course And Code Details Loaded!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "Error loading purchases!";
+        echoResponse(201, $response);
+    }
+});
+
 
 //getAgentPurchase
 
@@ -229,7 +254,7 @@ $app->post('/buyAgentCourse', function() use ($app) {
                 echoResponse(201, $response);
             }
         }
-            $response['agent_gen'] = $agent_gen;
+            $response['count'] = count($agent_gen);
             $response['status'] = "success";
             $response["message"] = "Order created successfully!";
             echoResponse(200, $response);
