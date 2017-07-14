@@ -196,6 +196,19 @@ angular.module('app')
                   }
               })
 
+              //add imports
+              .state('app.question-import', {
+                  url: '/question-import/:id',
+                  templateUrl: 'tpl/question-import.html',
+                  data: {pageTitle: 'Import Questions'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/QuestionController.js');
+                      }]
+                  }
+              })
+
               //add question
               .state('app.question-edit', {
                   url: '/question-edit/:id',
@@ -275,6 +288,31 @@ angular.module('app')
                   }
               })
 
+              //forum list
+              .state('app.forum-list', {
+                  url: '/forum-list/:id',
+                  templateUrl: 'tpl/forum-list.html',
+                  data: {pageTitle: 'Forum List'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/ForumController.js');
+                      }]
+                  }
+              })
+
+              //forum details
+              .state('app.forum-details', {
+                  url: '/forum-details/:id',
+                  templateUrl: 'tpl/forum-details.html',
+                  data: {pageTitle: 'Forum Details'},
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/controllers/ForumController.js');
+                      }]
+                  }
+              })
 
                 .state('app.feedback-list', {
                   url: '/feedback-list',

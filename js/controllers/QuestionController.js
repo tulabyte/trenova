@@ -3,6 +3,36 @@
 app.controller('QuestionController', ['$scope', '$rootScope', 'FTAFunctions', '$state', '$stateParams', '$http', 'Data', function($scope, $rootScope, FTAFunctions, $state, $stateParams, $http, Data/*, FileUploader*/) {
     
     //initialize stuff
+    $scope.csv ={
+      content:null,
+      header:true,
+      headerVisible:false,
+      separator:',',
+      separatorVisible:false,
+      result:null,
+      encoding:'ISO-8859-1',
+      encodingVisible:false,
+    };
+    $scope.createImportCsv = function(content, id){
+//      console.log(id);
+      console.log(content);
+      Data.post('createImportCsvQuestions', 
+        { question: content,
+          course: id
+        }
+      ).then(function(results) {
+        console.log(results);
+        if(results.status = "success") {
+          $rootScope.toasterPop('success','Action Successful!',results.message);
+          $state.go('app.question-edit',{id:$stateParams.id , reload: true});
+        } else {
+          //error
+          $rootScope.toasterPop('error','Oops!',results.message);
+        }
+      }, function(error) {
+        console.log(error);
+      });
+    }
     $scope.question = {};
     
         if($state.current.name == 'app.question-edit') {

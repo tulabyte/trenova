@@ -301,7 +301,10 @@ $app->get('/getBundleDetails', function() use ($app) {
     $course_bundles = $db->getRecordset("SELECT course_title, course_id FROM course_bundle_item
     LEFT JOIN course ON cbi_course_id = course_id WHERE cbi_bundle_id = '$cbi_bundle_id' ");
 
-    $bundle = $db->getOneRecord("SELECT * FROM course_bundle WHERE bdl_id = '$cbi_bundle_id' ");
+    $bundle = $db->getOneRecord("SELECT bdl_created_by, bdl_creator, bdl_id, sch_name, bdl_name, bdl_description, bdl_type, bdl_price, bdl_term,bdl_subject_id, bdl_school_id, sb_title, class_name FROM course_bundle 
+        LEFT JOIN subject ON bdl_subject_id = sb_id
+        LEFT JOIN class ON bdl_class_id = class_id
+        LEFT JOIN school ON bdl_school_id = sch_id WHERE bdl_id = '$cbi_bundle_id' ");
 
     if($bundle) {
        

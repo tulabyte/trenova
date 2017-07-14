@@ -1,0 +1,61 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="ForumController">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+    <div class="row">
+      <div class="col-sm-8"><h3>Course : {{course.course_title}} </h3>
+        <p><strong>View Count : {{course.course_view_count }}</strong> </p>
+      </div>
+      <div class="col-sm-4"><h3>Date : {{course.course_time_created | date }}</h3></div>
+    </div>
+    </div>
+  </div>
+<div class="wrapper-md" ng-hide = "forum_comments.length > 0">
+   <div class="row"> 
+    <h4 class="m-t-lg m-b">This Forum Has No Comments</h4>
+  </div>
+</div>
+
+<div class="wrapper-md" ng-show = "forum_comments.length > 0">
+   <div class="row"> 
+    <h4 class="m-t-lg m-b">{{forum_comments.length}} Comments</h4>
+      <div>
+      <div ng-repeat="comments in forum_comments">
+        <div>
+          <a class="pull-left thumb-sm">
+            <img src="img/a0.jpg" class="img-circle">
+          </a>
+          <div class="m-l-xxl m-b">
+              <a href><strong>{{comments.user_fullname}}</strong></a>
+              <!-- <label class="label bg-info m-l-xs">Editor</label> --> 
+              <span class="text-muted text-xs block m-t-xs">
+                {{comments.cfc_time_posted}}
+              </span>
+            </div>
+            <div class="m-t-sm">{{comments.cfc_comment}} <span><i class="fa fa-trash" tooltip="delete comment" ng-click ="deleleComment({{comments.cmt_id}})"></i></span> </div>
+            </div><br>
+        </div>
+      </div>
+      <!-- end of comment loop -->
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">Add a comment</div>
+        <div class="panel-body">
+        <form role="form" name="form">
+            <div class="form-group">
+              <label>Comment</label>
+              <input type="text" class="form-control" placeholder="Enter email" required ng-model="forum.comment">
+            </div>
+
+            <button type="submit" class="btn btn-success" ng-click="editForumComment(forum)" ng-disabled='form.$invalid'>Save </button>            
+          </form>
+          </div>
+          </div>
+    </div>
+  </div>
+
+</div>

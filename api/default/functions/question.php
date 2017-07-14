@@ -17,13 +17,10 @@ $app->post('/createQuestionModule', function() use ($app) {
     $q_number = isset($r->question->question_number) ? $db->purify($r->question->question_number) : '';
     $q_type = "COURSE";
     $course_id = $db->purify($r->question->course_id);
-
-    //if position is empty, derive new position
-    if ($q_number == '') {
-        $maxPos = $db->getOneRecord("SELECT MAX(q_number) AS max_pos FROM question WHERE q_course_id = '$course_id'");
-        $q_number = $maxPos['max_pos'] + 1;
-    }
-
+        if ($q_number == '') {
+            $maxPos = $db->getOneRecord("SELECT MAX(q_number) AS max_pos FROM question WHERE q_course_id = '$course_id'");
+            $q_number = $maxPos['max_pos'] + 1;
+        }
     $table_name = "question";
     $column_names = ['q_question', 'q_type', 'q_number', 'q_course_id'];
     $values = [$q_question, $q_type, $q_number, $course_id];
@@ -293,4 +290,84 @@ $app->get('/getQuestionLists', function() use ($app) {
         $response["message"] = "No Question found!";
         echoResponse(201, $response);
     }
+});
+
+
+// create import question
+$app->post('/createImportCsvQuestions', function() use ($app) {
+    
+    $response = array();
+
+    $r = json_decode($app->request->getBody());
+//    verifyRequiredParams(['optiona', 'optionb' , 'optionc', 'optiond', 'option'],$r->question);
+    $db = new DbHandler();
+
+      $q_question = $r->question;
+     foreach ($q_question as $key => $value) {
+               $import_question = $value->question;
+               $import_option = $value->option;
+               $import_option_correct = $value->iscorrect;
+
+                   if ($import_question != " " && $import_question != "") {
+                       //create  question and first option
+                            //get question number
+                            $maxPos = $db->getOneRecord("SELECT MAX(q_number) AS max_pos FROM question WHERE q_course_id = '$course_id'");
+                            $q_number = $maxPos['max_pos'] + 1;
+                            $q_type = "COURSE";
+                            $course_question = $import_question;
+                            $course_question_option = $import_option;
+                            $course_question_iscorrect = $import_option_correct;
+                            $course_id = $db->purify($r->course);
+
+                            $table_name = "question";
+                            $column_names = ['q_question', 'q_type', 'q_number', 'q_course_id'];
+                            $values = [$course_question, $q_type, $q_number, $course_id];
+                            $result = $db->insertToTable($values, $column_names, $table_name);
+                            $q_id = $result;
+
+                                if ($result != NULL) {
+                                    if ($course_question_iscorrect > 0) {
+                                       //create question options and correct 
+                                            $table_name = "question_option";
+                                            $column_names = ['qo_question_id', 'qo_option', 'qo_is_correct'];
+                                            $values = [$result, $course_question_option, $course_question_iscorrect];
+                                            $option_result = $db->insertToTable($values, $column_names, $table_name);       
+                                        }else{
+                                            $table_name = "question_option";
+                                            $column_names = ['qo_question_id', 'qo_option'];
+                                            $values = [$result, $course_question_option];
+                                            $option_result = $db->insertToTable($values, $column_names, $table_name);
+
+                                        }
+                                }
+
+                    } else {
+                        $course_question_option = $import_option;
+                        $course_question_iscorrect = $import_option_correct;
+
+                        if ($course_question_iscorrect != '0' ) {
+                               //create question options and correct 
+                                    $table_name = "question_option";
+                                    $column_names = ['qo_question_id', 'qo_option', 'qo_is_correct'];
+                                    $values = [$q_id, $course_question_option, $course_question_iscorrect];
+                                    $option_result = $db->insertToTable($values, $column_names, $table_name);       
+                            }else{
+                                    $table_name = "question_option";
+                                    $column_names = ['qo_question_id', 'qo_option'];
+                                    $values = [$q_id, $course_question_option];
+                                    $option_result = $db->insertToTable($values, $column_names, $table_name);
+                            }
+
+                    }
+        }      
+            if ($option_result != NULL) {
+            $response["status"] = "success";
+            $response["message"] = "Question And Options created successfully";
+            $response["mod_id"] = $result;
+            echoResponse(200, $response);
+        }else{
+            $response["status"] = "error";
+            $response["message"] = "Failed to create Question Options. Please try again";
+            echoResponse(201, $response);
+        }
 });

@@ -1,0 +1,36 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="pull-left">
+    <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} </h1>
+  </div>
+  <div class="pull-right" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'">
+    <button class="btn m-b-xs btn-success btn-addon" ui-sref="app.course-edit"><i class="fa fa-plus"></i>New Course</button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="wrapper-md" ng-controller="ForumController">
+  <div class="panel panel-default" style="width: 90%">
+    <div class="panel-heading">
+      Forum List
+    </div>
+    <div class="table-responsive">
+      <table datatable="ng" dt-options ="dtOptions" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th width="87%">Course Title</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="course in courses">
+            <td> {{course.course_title}} </td>
+            <td>
+              <button class="btn btn-icon btn-sm btn-success" ui-sref="app.forum-details({id:course.course_id})" tooltip="View Course Details"><i class="fa fa-info"></i></button>
+
+              <button class="btn btn-icon btn-sm btn-danger" ng-click="deleteCourse(course.course_id)" tooltip="Disable Forum" ng-if="trenova_user.ad_type == 'ADMIN' || trenova_user.ad_type == 'SUPER'"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

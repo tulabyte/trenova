@@ -1,0 +1,62 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3"> {{$state.current.data.pageTitle}} 
+  <span class="pull-right"><button class="btn btn-rounded " ui-sref="app.course-list" tooltip="List of Courses">Back to Course List</button></span></h1>
+</div>
+<div class="wrapper-md" ng-controller="QuestionController">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">{{course.course_title}}</div>
+        <div class="panel-body">
+        <h3>Download Question Import Sample<span>
+   <button class="btn btn-info btn-rounded" tooltip="Import Question"><a href="img/Learnova-Question-Import-Template.csv" target="_blank">Download Sample</a></button></span></h3>
+<form action=""></form>
+
+
+<div class="block row">
+  <div class="title"><h4>Select your CSV file: </h4></div>
+  <div class="block right">
+    <ng-csv-import 
+      class="import"
+      content="csv.content"
+      header="csv.header" 
+      header-visible="csv.headerVisible" 
+      separator="csv.separator"
+      separator-visible="csv.separatorVisible"
+      result="csv.result"
+      encoding="csv.encoding"
+      encoding-visible="csv.encodingVisible"></ng-csv-import>
+  </div>
+</div> 
+
+<div ng-if="progress">
+  <md-progress-linear md-mode="determinate" class="md-warn" value="{{progress}}"></md-progress-linear>
+</div>
+
+<div class="block row"  ng-if="csv.result"><h2>CSV1</h2>
+  <div class="content" hljs source="toPrettyJSON(preview, 2)"></div>
+</div>
+
+<div ng-if="csv.content" class="block left">
+  <h2>CSV</h2>
+  <div class="content"><pre>{{ csv.result }}</pre></div>
+</div>
+
+<button ng-click="createImportCsv(csv.result, $stateParams.id)">Submit</button>
+
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+</div>
+
+
+
+
+
+
+

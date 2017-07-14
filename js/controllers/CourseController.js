@@ -74,8 +74,11 @@ app.controller('ModalInstanceCtrl', ['$scope', 'Upload', '$rootScope', '$modalIn
      $scope.upload = function (file, video_name) {
         Upload.upload({
             url: uploadVideoUrl,
-            data: {file: file, 'video': video_name}
-        }).then(function (resp) { 
+            data: {file: file, 'video': video_name}/*
+            resumeSizeUrl: '/uploaded/size/url?file=' + file.name;
+            resumeSizeResponseReader: function(data) {return data.size;}
+            resumeSize: function() {return promise;} */
+}).then(function (resp) { 
 //            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
         }, function (resp) {
   //          console.log('Error status: ' + resp.status);

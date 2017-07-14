@@ -7,12 +7,18 @@
            <div class="col-sm-7">
                  <div class="clear m-b">
                      <div class="m-b m-t-sm">
-                          <span class="h3 text-black">Bundle Name : {{bundle.bdl_name}}</span><br /><br />
+                          <span class="h3 text-black">Bundle Name : {{bundle.bdl_name}}</span><br />
                      </div>
-                     <span class="h5 text-black">Description : {{bundle.bdl_description}}</span>
+                     <span class="h5 text-black">Description : {{bundle.bdl_description}}</span><br>
+                    <span class="h5 text-black">Price : N{{bundle.bdl_price}}</span><br>
                  </div>
            </div>
-           <span class="h3 text-black">Created By :{{bundle.bdl_creator}}</span>
+           <span class="h3 text-black">Created By :{{bundle.bdl_creator}}</span><br><br>
+                  <span class="h5 text-black">Subject : {{bundle.sb_title}}</span><br>
+                   <span class="h5 text-black">School : {{bundle.sch_name}}</span><br>
+                   <span class="h5 text-black" ng-if ="bundle.bdl_term">Term/Semester : {{bundle.bdl_term}}</span><br>
+                   <span class="h5 text-black" ng-if ="bundle.class_name">Term/Semester : {{bundle.class_name}}</span>
+
                       <!-- end of column 7 -->   
          </div>
 <!--       end of row -->
