@@ -85,7 +85,7 @@ $app->post('/createModule', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(['less_title', 'less_content', 'less_course_id'],$r->module);
+    verifyRequiredParams(['less_title', 'less_content', 'less_course_id', 'less_video'],$r->module);
     $db = new DbHandler();
 
     $less_title = $db->purify($r->module->less_title);
@@ -226,17 +226,18 @@ $app->post('/editModule', function() use ($app) {
     $response = array();
 
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(['less_id', 'less_title', 'less_content', 'less_number'],$r->module);
+    verifyRequiredParams(['less_id', 'less_title', 'less_content', 'less_number', 'less_video'],$r->module);
     $db = new DbHandler();
     $less_id = $db->purify($r->module->less_id);
     $less_title = $db->purify($r->module->less_title);
     $less_content = $db->purify($r->module->less_content);
     $less_number = $db->purify($r->module->less_number);
+    $less_video = $db->purify($r->module->less_video);
 
     $isModuleExists = $db->getOneRecord("SELECT 1 FROM course_lesson WHERE less_id='$less_id'");
     if($isModuleExists){
         $table_to_update = "course_lesson";
-        $columns_to_update = ['less_title'=>$less_title,'less_content'=>$less_content, 'less_number'=>$less_number];
+        $columns_to_update = ['less_title'=>$less_title,'less_content'=>$less_content, 'less_number'=>$less_number, 'less_video'=>$less_video];
         $where_clause = ['less_id'=>$less_id];
         $result = $db->updateInTable($table_to_update, $columns_to_update, $where_clause);
 

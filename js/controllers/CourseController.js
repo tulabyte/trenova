@@ -31,11 +31,9 @@ app.controller('ModalInstanceCtrl', ['$scope', 'Upload', '$rootScope', '$modalIn
   }
   $scope.error = undefined;
 
-  $scope.editModule = function(file, module) {
+  $scope.editModule = function(module) {
     module.less_course_id = $scope.course.course_id;
-    $scope.module.less_video = file.name;
     //console.log(module);
-//    console.log(file);
     if(module.less_id) {
       //edit module
       Data.post('editModule', 
@@ -56,8 +54,7 @@ app.controller('ModalInstanceCtrl', ['$scope', 'Upload', '$rootScope', '$modalIn
         { module: module }
       ).then(function(results) {
         if(results.status = "success") {
-          $scope.upload($scope.file, $scope.module.less_video);
-//          $modalInstance.close("OK");
+          $modalInstance.close("OK");
         } else {
           //error
           $scope.error = results.message;
@@ -67,8 +64,6 @@ app.controller('ModalInstanceCtrl', ['$scope', 'Upload', '$rootScope', '$modalIn
       });
     }
   };
-
-  
 
   /*code to upload the file via ngf*/
      $scope.upload = function (file, video_name) {
