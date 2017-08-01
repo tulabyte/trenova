@@ -15,6 +15,13 @@ app
   $scope.new_users = [];
   $scope.not_list = [];
 
+  $scope.vimeo_options = {
+    api: true,
+    byline: false,
+    portrait: false,
+    title: false
+  };
+
   // console.log('moment.js today - ' + $moment().format('MMM D'));
 
   // get box stats

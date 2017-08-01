@@ -33,19 +33,19 @@ $app->post('/createUser', function() use ($app) {
 
             //send email notification to new user
             $swiftmailer = new mySwiftMailer();
-            $subject = "Your new User Account on Trenova";
+            $subject = "Your new User Account on Learnnova";
             $body = "<p>Dear $user_firstname,</p>
-    <p>A user account has been created for you on Trenova. You can login using the following details:</p>
+    <p>A user account has been created for you on Learnnova. You can login using the following details:</p>
     <p>
     URL: http://tulabyte.net/trenova<br>
     Email: $user_email<br>
     Password: $user_password
     </p>
     <p>You are advised to change your password to something more personal once you login.</p>
-    <p>Thank you for using Trenova.</p>
+    <p>Thank you for using Learnnova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>Trenova App</strong></p>";
-            $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$user_email], $subject, $body);
+    <p><br><strong>Learnnova App</strong></p>";
+            $swiftmailer->sendmail('info@tulabyte.net', 'Learnnova', [$user_email], $subject, $body);
 
             //log action
             $log_details = "Created User: $user_firstname $user_surname (ID: $user_id)";

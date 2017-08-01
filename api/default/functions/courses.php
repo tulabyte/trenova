@@ -364,8 +364,42 @@ $app->get('/getCourseListForMobile', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
     
-    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course ORDER BY course_title");
+    $courses = $db->getRecordset("SELECT *, 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count ,
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active
+        FROM course ORDER BY course_title");
+    if($courses) {
+        //courses found
+        $count = count($courses);
+
+        $response['courses'] = $courses;
+        $response['status'] = "success";
+        $response["message"] = "$count Courses Found!";
+        echoResponse(200, $response);
+    } else {
+        $response['status'] = "error";
+        $response["message"] = "No course found!";
+        echoResponse(201, $response);
+    }
+});
+
+// get course list for forum on mobile
+$app->get('/getCourseListForForum', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
+    
+    $courses = $db->getRecordset("SELECT *, 
+        (SELECT COUNT(*) FROM course_forum_comment WHERE cfc_course_id = course_id) AS comment_count ,
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active
+        FROM course ORDER BY course_title");
     if($courses) {
         //courses found
         $count = count($courses);
@@ -386,8 +420,16 @@ $app->get('/getCourseListBySubject', function() use ($app) {
 
     $db = new DbHandler();
     $subject_id = $db->purify($app->request->get('id'));
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
     
-    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_subject_id = '$subject_id' ORDER BY course_title");
+    $courses = $db->getRecordset("SELECT *, 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count ,
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active
+        FROM course 
+        WHERE course_subject_id = '$subject_id'
+        ORDER BY course_title");
     if($courses) {
         //courses found
         $count = count($courses);
@@ -408,8 +450,15 @@ $app->get('/getCourseListByClass', function() use ($app) {
     $db = new DbHandler();
     $class_id = $db->purify($app->request->get('id'));
     $term = $db->purify($app->request->get('term'));
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
     
-    $courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count FROM course WHERE course_class_id = '$class_id' AND course_term = '$term' ORDER BY course_title");
+    $courses = $db->getRecordset("SELECT *,
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count,
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active
+        FROM course WHERE course_class_id = '$class_id' AND course_term = '$term'
+        ORDER BY course_title");
     if($courses) {
         //courses found
         $count = count($courses);
@@ -459,8 +508,9 @@ $app->get('/getCourseFavList', function() use ($app) {
     $user_id = $db->purify($app->request->get('id'));
     
     $courses = $db->getRecordset("SELECT *, 
-        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
-        FROM course 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count, 
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active
+        FROM course
         LEFT JOIN user_favourite ON course_id = fav_course_id 
         WHERE fav_user_id = '$user_id' 
         ORDER BY fav_time_added");
@@ -487,8 +537,9 @@ $app->get('/getCourseSubList', function() use ($app) {
     $session = $db->getSession();
     $user_id = $db->purify($app->request->get('id'));
     $courses = $db->getRecordset("SELECT *, 
-        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count 
-        FROM course 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id = course_id) AS lesson_count, 
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active
+        FROM course
         LEFT JOIN subscription ON course_id = sub_course_id 
         WHERE sub_user_id = '$user_id' 
         ORDER BY sub_date_started DESC");
@@ -721,9 +772,13 @@ $app->get('/getFeaturedCourseList', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
     
     $featured_courses = $db->getRecordset("SELECT *, 
-        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count  
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count ,
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active 
         FROM course WHERE course_is_featured > 0 ");
     if($featured_courses) {
         $response['featured_courses'] = $featured_courses;
@@ -742,8 +797,14 @@ $app->get('/getNewCourseList', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
     
-    $new_courses = $db->getRecordset("SELECT *, (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count FROM course ORDER BY course_time_created DESC LIMIT 10 ");
+    $new_courses = $db->getRecordset("SELECT *, 
+        (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count,
+        (SELECT COUNT(sub_id) FROM subscription WHERE sub_user_id = '$user_id' AND sub_course_id = course_id AND sub_status = 'ACTIVE') AS subs_active 
+        FROM course ORDER BY course_time_created DESC LIMIT 10 ");
     if($new_courses) {
         $response['new_courses'] = $new_courses;
         $response['status'] = "success";
@@ -834,8 +895,9 @@ $app->get('/getCourseDetails', function() use ($app) {
         $ratedbyme = $db->getOneRecord("SELECT * FROM course_rating WHERE cr_course_id='$course_id' AND cr_user_id = '$user_id' ");
         $response['course_ratedbyme'] = $ratedbyme ? true : false;
         // course in my subs
-        $inmysubs = $db->getOneRecord("SELECT * FROM subscription WHERE sub_course_id='$course_id' AND sub_user_id = '$user_id'");
+        $inmysubs = $db->getOneRecord("SELECT sub_date_started, sub_months, sub_status, DATE_ADD(sub_date_started, INTERVAL sub_months MONTH) AS sub_expiry_date FROM subscription WHERE sub_course_id='$course_id' AND sub_user_id = '$user_id' AND sub_status = 'ACTIVE' ORDER BY sub_date_started DESC");
         $response['course_inmysubs'] = $inmysubs ? true : false;
+        $response['course_active_sub'] = $inmysubs;
 
         // class details
         $class = $db->getOneRecord("SELECT class_id, class_name, sch_id, sch_name, sch_term_label, sch_term_count, sch_lesson_label FROM class LEFT JOIN school ON class_school_id = sch_id WHERE class_id = '".$course_details['course_class_id']."'");
@@ -858,8 +920,13 @@ $app->get('/getTrendingCourseList', function() use ($app) {
     $response = array();
 
     $db = new DbHandler();
+
+    $session = $db->getSession();
+    $user_id = $session['trenova_user']['user_id'];
     
-    $trending = $db->getRecordset("SELECT *, COUNT(sub_course_id) AS sub_count FROM subscription LEFT JOIN course ON sub_course_id=course_id GROUP BY sub_course_id HAVING sub_count > 0 ORDER BY sub_count DESC LIMIT 10 ");
+    $trending = $db->getRecordset("SELECT *, COUNT(sub_course_id) AS sub_count,
+        (SELECT COUNT(sub_id) FROM subscription s WHERE s.sub_user_id = '$user_id' AND s.sub_course_id = course_id AND s.sub_status = 'ACTIVE') AS subs_active
+        FROM subscription LEFT JOIN course ON sub_course_id=course_id GROUP BY sub_course_id HAVING sub_count > 0 ORDER BY sub_count DESC LIMIT 10 ");
 
     if($trending) {
         

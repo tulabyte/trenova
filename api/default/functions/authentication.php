@@ -50,15 +50,15 @@ $app->post('/adminSignUp', function() use ($app) {
 
             // Send  Email containing confirmation link to new admin
             $swiftmailer = new mySwiftMailer();
-            $subject = "Confirm your new Trenova Account";
+            $subject = "Confirm your new Learnnova Account";
             $body = "<p>Hello $ad_name,</p>
     <p>
-    <p>You just created a/an $ad_type account on Trenova using this email ($ad_email). To confirm that this is your email, please click on the following link:
+    <p>You just created a/an $ad_type account on Learnnova using this email ($ad_email). To confirm that this is your email, please click on the following link:
     </p>
     <p><strong><a href='$confirm_link'>$confirm_link</a></strong></p>
-    <p>Thank you for using Trenova.</p>
+    <p>Thank you for using Learnnova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>Trenova App</strong></p>";
+    <p><br><strong>Learnnova App</strong></p>";
             $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$ad_email], $subject, $body);
 
             // Prepare response
@@ -206,12 +206,12 @@ $app->get('/adminResetPassword', function() use ($app) {
         if($affected_rows > 0) {
             //send new password to admin
             $swiftmailer = new mySwiftMailer();
-            $subject = "Login Details RESET on Trenova";
+            $subject = "Login Details RESET on Learnnova";
             $body = "<p>Dear ".$admin['ad_name'].",</p>
-    <p>You requested a Password Reset on Trenova. Your request has been completed.</p>
+    <p>You requested a Password Reset on Learnnova. Your request has been completed.</p>
     <p>Your new Password is <strong>".$newPass."</strong></p>
-    <p>Thank you for using Trenova.</p>
-    <p><br><strong>Trenova App</strong></p>";
+    <p>Thank you for using Learnnova.</p>
+    <p><br><strong>Learnnova App</strong></p>";
             $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$admin['ad_email']], $subject, $body);
 
             //return response
@@ -481,12 +481,12 @@ $app->get('/userResetPassword', function() use ($app) {
         if($affected_rows > 0) {
             //send new password to user
             $swiftmailer = new mySwiftMailer();
-            $subject = "Login Details RESET on Trenova";
+            $subject = "Login Details RESET on Learnnova";
             $body = "<p>Dear ".$user['user_fullname'].",</p>
-    <p>You requested a Password Reset on Trenova. Your request has been completed.</p>
+    <p>You requested a Password Reset on Learnnova. Your request has been completed.</p>
     <p>Your new Password is <strong>".$newPass."</strong></p>
-    <p>Thank you for using Trenova.</p>
-    <p><br><strong>Trenova App</strong></p>";
+    <p>Thank you for using Learnnova.</p>
+    <p><br><strong>Learnnova App</strong></p>";
             $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$user['user_email']], $subject, $body);
 
             //return response
@@ -623,21 +623,21 @@ $app->post('/signUp', function() use ($app) {
             /*$sms = new smsHandler();
             //SMS The User token for confirmation.
             //SMS Token 'A' to the user
-            $msg_sms = $token_code_a.' is your Signup Token for Trenova App';
+            $msg_sms = $token_code_a.' is your Signup Token for Learnnova App';
             $sms->SendSMS($msg_sms, SHORTNAME, $user_phone, 0);*/
 
-            /*// Send Email containing SMS details
+            // Send Email containing SMS details
             $swiftmailer = new mySwiftMailer();
-            $subject = "SMS Token for your new account on Trenova";
+            $subject = "SMS Token for your new account on Learnnova";
             $body = "<p>Hello $user_fullname,</p>
     <p>
-    <p>You just created an account on the Trenova App using email ($user_email) and phone number ($user_phone). To complete your registration, please enter the following SMS Token in the mobile app:</p>
+    <p>You just created an account on the Learnnova App using email ($user_email) and phone number ($user_phone). To complete your registration, please enter the following SMS Token in the mobile app:</p>
     Token: $token_code_a<br>
     </p>
-    <p>Thank you for using Trenova App.</p>
+    <p>Thank you for using Learnnova App.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>Trenova App</strong></p>";
-            $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$user_email], $subject, $body);*/
+    <p><br><strong>Learnnova App</strong></p>";
+            $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$user_email], $subject, $body);
 
             // Prepare response
             $response['status'] = "success";
@@ -723,12 +723,12 @@ $app->post('/verifySignupToken', function() use ($app) {
 
             // Send Email to notify user
             $swiftmailer = new mySwiftMailer();
-            $subject = "Registration Completed on Trenova";
+            $subject = "Registration Completed on Learnnova";
             $body = "<p>Hello,</p>
-    <p>Your registration on Trenova is now complete. You have been automatically logged into the app. You can log into the app any time from any device using the Email and Password you provided when registering.</p>
-    <p>Thank you for using Trenova App.</p>
+    <p>Your registration on Learnnova is now complete. You have been automatically logged into the app. You can log into the app any time from any device using the Email and Password you provided when registering.</p>
+    <p>Thank you for using Learnnova App.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>Trenova App</strong></p>";
+    <p><br><strong>Learnnova App</strong></p>";
             $swiftmailer->sendmail(FROM_EMAIL, SHORTNAME, [$user['user_email']], $subject, $body);
 
             $response["status"] = "success";
@@ -765,10 +765,10 @@ $app->get('/GenerateSignUpToken', function() use ($app) {
         // set the usage status to null
         $token_status = $db->updateToNull($token_table_name, 'token_is_used', $token_where);
 
-         /*$sms = new smsHandler();
+        /*$sms = new smsHandler();
         //SMS The User token for confirmation.
         //SMS Token 'A' to the user
-        $msg_sms = $token_code_a.' is your Signup Token for Trenova App';
+        $msg_sms = $token_code_a.' is your Signup Token for Learnnova App';
         $smsresult = $sms->SendSMS($msg_sms, SHORTNAME, $user['user_phone'], 0);
         die($smsresult);*/
 

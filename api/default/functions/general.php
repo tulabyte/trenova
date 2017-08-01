@@ -136,3 +136,20 @@ $app->get('/checkImage', function() use ($app) {
         echoResponse(201, $response);
     }
 });
+
+$app->get('/testSMS', function() use ($app) {
+    $response = array();
+
+    $db = new DbHandler();
+
+    $sms = new smsHandler();
+    //SMS The User token for confirmation.
+    //SMS Token 'A' to the user
+    $msg_sms = 'Testing SMS from Learnnova App';
+    $sms->SendSMS($msg_sms, SHORTNAME, '08055811697', 0);
+
+    //test if this api is working. Return some params
+    $response['status'] = "success";
+    $response["message"] = "SMS sent successfully!";
+    echoResponse(200, $response);
+});
