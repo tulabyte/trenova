@@ -1,0 +1,66 @@
+[30-May-2017 15:11:36 Etc/GMT] PHP Warning:  Uncaught exception 'ErrorException' with message 'Assigning the return value of new by reference is deprecated' in /home/tulaborm/public_html/trenova/api/libs/smslive247/nusoap/nusoap.php:6499
+Stack trace:
+#0 /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php(3): Slim\Slim::handleErrors(8192, 'Assigning the r...', '/home/tulaborm/...', 6499, Array)
+#1 /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php(3): require_once()
+#2 /home/tulaborm/public_html/trenova/api/libs/smslive247/smsLive247.php(4): require_once('/home/tulaborm/...')
+#3 /home/tulaborm/public_html/trenova/api/default/smsHandler.php(10): require_once('/home/tulaborm/...')
+#4 /home/tulaborm/public_html/trenova/api/default/functions/authentication.php(634): smsHandler->__construct()
+#5 [internal function]: {closure}()
+#6 /home/tulaborm/public_html/trenova/api/libs/Slim/Route.php(436): call_user_func_array(Object(Closure), Array)
+#7 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1307): Slim\Route->dis in /home/tulaborm/public_html/trenova/api/libs/smslive247/nusoap/nusoap.php on line 6499
+[30-May-2017 15:11:36 Etc/GMT] PHP Fatal error:  Cannot redeclare class soapclient in /home/tulaborm/public_html/trenova/api/libs/smslive247/nusoap/nusoap.php on line 7241
+[30-May-2017 15:22:01 Etc/GMT] PHP Warning:  Uncaught exception 'ErrorException' with message 'Assigning the return value of new by reference is deprecated' in /home/tulaborm/public_html/trenova/api/libs/smslive247/nusoap/nusoap.php:6499
+Stack trace:
+#0 /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php(3): Slim\Slim::handleErrors(8192, 'Assigning the r...', '/home/tulaborm/...', 6499, Array)
+#1 /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php(3): require_once()
+#2 /home/tulaborm/public_html/trenova/api/default/smsHandler.php(12): require_once('/home/tulaborm/...')
+#3 /home/tulaborm/public_html/trenova/api/default/functions/authentication.php(634): smsHandler->__construct()
+#4 [internal function]: {closure}()
+#5 /home/tulaborm/public_html/trenova/api/libs/Slim/Route.php(436): call_user_func_array(Object(Closure), Array)
+#6 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1307): Slim\Route->dispatch()
+#7 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/Flash.php(85): Slim\Slim->call()
+#8 /home in /home/tulaborm/public_html/trenova/api/libs/smslive247/nusoap/nusoap.php on line 6499
+[30-May-2017 15:22:01 Etc/GMT] PHP Fatal error:  Cannot redeclare class soapclient in /home/tulaborm/public_html/trenova/api/libs/smslive247/nusoap/nusoap.php on line 7241
+[30-May-2017 15:46:01 Etc/GMT] PHP Fatal error:  SoapClient::SoapClient(): Invalid parameters in /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php on line 18
+[30-May-2017 15:50:46 Etc/GMT] PHP Fatal error:  SoapClient::SoapClient(): Invalid parameters in /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php on line 18
+[01-Jun-2017 13:45:29 Etc/GMT] PHP Warning:  move_uploaded_file(../../img/videos/Demo__Laravel___AngularJS.mp4): failed to open stream: No such file or directory in /home/tulaborm/public_html/trenova/api/default/uploadVideo.php on line 15
+[01-Jun-2017 13:45:29 Etc/GMT] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpWRh1C0' to '../../img/videos/Demo__Laravel___AngularJS.mp4' in /home/tulaborm/public_html/trenova/api/default/uploadVideo.php on line 15
+[20-Jul-2017 08:04:42 Etc/GMT] PHP Fatal error:  SoapClient::SoapClient(): Invalid parameters in /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php on line 18
+[20-Jul-2017 08:06:02 Etc/GMT] PHP Fatal error:  SoapClient::SoapClient(): Invalid parameters in /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php on line 18
+[20-Jul-2017 08:10:53 Etc/GMT] PHP Fatal error:  SoapClient::SoapClient(): Invalid parameters in /home/tulaborm/public_html/trenova/api/libs/smslive247/SMSSiteUser.php on line 18
+[01-Aug-2017 15:43:17 Etc/GMT] PHP Warning:  Uncaught exception 'ErrorException' with message 'Undefined variable: lib' in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php:10
+Stack trace:
+#0 /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php(10): Slim\Slim::handleErrors(8, 'Undefined varia...', '/home/tulaborm/...', 10, Array)
+#1 [internal function]: {closure}()
+#2 /home/tulaborm/public_html/trenova/api/libs/Slim/Route.php(436): call_user_func_array(Object(Closure), Array)
+#3 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1307): Slim\Route->dispatch()
+#4 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/Flash.php(85): Slim\Slim->call()
+#5 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/MethodOverride.php(92): Slim\Middleware\Flash->call()
+#6 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/PrettyExceptions.php(67): Slim\Middleware\MethodOverride->call()
+#7 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1254): Slim\Middleware\PrettyExceptions->call()
+#8 /home/tulabor in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php on line 10
+[01-Aug-2017 15:43:17 Etc/GMT] PHP Fatal error:  Call to a member function request() on a non-object in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php on line 10
+[01-Aug-2017 15:45:19 Etc/GMT] PHP Warning:  Uncaught exception 'ErrorException' with message 'Undefined variable: vimeo' in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php:10
+Stack trace:
+#0 /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php(10): Slim\Slim::handleErrors(8, 'Undefined varia...', '/home/tulaborm/...', 10, Array)
+#1 [internal function]: {closure}()
+#2 /home/tulaborm/public_html/trenova/api/libs/Slim/Route.php(436): call_user_func_array(Object(Closure), Array)
+#3 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1307): Slim\Route->dispatch()
+#4 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/Flash.php(85): Slim\Slim->call()
+#5 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/MethodOverride.php(92): Slim\Middleware\Flash->call()
+#6 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/PrettyExceptions.php(67): Slim\Middleware\MethodOverride->call()
+#7 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1254): Slim\Middleware\PrettyExceptions->call()
+#8 /home/tulab in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php on line 10
+[01-Aug-2017 15:45:19 Etc/GMT] PHP Fatal error:  Call to a member function request() on a non-object in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php on line 10
+[01-Aug-2017 15:46:21 Etc/GMT] PHP Warning:  Uncaught exception 'ErrorException' with message 'Undefined variable: vimeo' in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php:10
+Stack trace:
+#0 /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php(10): Slim\Slim::handleErrors(8, 'Undefined varia...', '/home/tulaborm/...', 10, Array)
+#1 [internal function]: {closure}()
+#2 /home/tulaborm/public_html/trenova/api/libs/Slim/Route.php(436): call_user_func_array(Object(Closure), Array)
+#3 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1307): Slim\Route->dispatch()
+#4 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/Flash.php(85): Slim\Slim->call()
+#5 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/MethodOverride.php(92): Slim\Middleware\Flash->call()
+#6 /home/tulaborm/public_html/trenova/api/libs/Slim/Middleware/PrettyExceptions.php(67): Slim\Middleware\MethodOverride->call()
+#7 /home/tulaborm/public_html/trenova/api/libs/Slim/Slim.php(1254): Slim\Middleware\PrettyExceptions->call()
+#8 /home/tulab in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php on line 10
+[01-Aug-2017 15:46:21 Etc/GMT] PHP Fatal error:  Call to a member function request() on a non-object in /home/tulaborm/public_html/trenova/api/default/functions/vimeo.php on line 10
