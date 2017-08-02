@@ -774,8 +774,7 @@ $app->get('/getFeaturedCourseList', function() use ($app) {
 
     $db = new DbHandler();
 
-    $session = $db->getSession();
-    $user_id = $session['trenova_user']['user_id'];
+    $user_id = $db->purify($app->request->get('uid'));
     
     $featured_courses = $db->getRecordset("SELECT *, 
         (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count ,
@@ -799,8 +798,7 @@ $app->get('/getNewCourseList', function() use ($app) {
 
     $db = new DbHandler();
 
-    $session = $db->getSession();
-    $user_id = $session['trenova_user']['user_id'];
+    $user_id = $db->purify($app->request->get('uid'));
     
     $new_courses = $db->getRecordset("SELECT *, 
         (SELECT COUNT(*) FROM course_lesson WHERE less_course_id=course_id) AS lesson_count,
@@ -922,9 +920,7 @@ $app->get('/getTrendingCourseList', function() use ($app) {
 
     $db = new DbHandler();
 
-    $session = $db->getSession();
-    var_dump($session); die;
-    $user_id = $session['trenova_user']['user_id'];
+    $user_id = $db->purify($app->request->get('uid'));
     
     $trending = $db->getRecordset("SELECT *, COUNT(sub_course_id) AS sub_count,
         (SELECT COUNT(sub_id) FROM subscription s WHERE s.sub_user_id = '$user_id' AND s.sub_course_id = course_id AND s.sub_status = 'ACTIVE') AS subs_active
