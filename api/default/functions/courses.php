@@ -10,6 +10,7 @@ $app->post('/createCourse', function() use ($app) {
     //require_once 'passwordHash.php';
     $db = new DbHandler();
     $session = $db->getSession();
+
     // get type of currently logged in admin
     $admin_type = $session['trenova_user']['ad_type'];
     $ad_id = $session['trenova_user']['ad_id'];
@@ -922,6 +923,7 @@ $app->get('/getTrendingCourseList', function() use ($app) {
     $db = new DbHandler();
 
     $session = $db->getSession();
+    var_dump($session); die;
     $user_id = $session['trenova_user']['user_id'];
     
     $trending = $db->getRecordset("SELECT *, COUNT(sub_course_id) AS sub_count,
@@ -937,76 +939,6 @@ $app->get('/getTrendingCourseList', function() use ($app) {
     } else {
         $response['status'] = "error";
         $response["message"] = "No Course Has Been Subscribed For!";
-        echoResponse(201, $response);
-    }
-});
-
-
-// get course list
-$app->get('/getForumComment', function() use ($app) {
-    $response = array();
-
-    $db = new DbHandler();
-    $cfc_id = $db->purify($app->request->get('id'));  
-    
-    $course = $db->getOneRecord("SELECT * FROM course  WHERE course_status = 'ACTIVE' AND course_id = '$cfc_id' ");
-
-    $forum_comments = $db->getRecordset("SELECT cfc_comment, cfc_user_id, cfc_time_posted, user_fullname FROM course_forum_comment LEFT JOIN user ON cfc_user_id = user_id  WHERE cfc_is_approved = '1' AND cfc_course_id = '$cfc_id' ");    
-                //course found
-            if($course) {
-                $response['course'] = $course;
-                $response['forum_comments'] = $forum_comments;
-                $response['status'] = "success";
-                $response["message"] = "Courses Found!";
-                echoResponse(200, $response);
-            } else {
-                $response['status'] = "error";
-                $response["message"] = "No course found!";
-                echoResponse(201, $response);
-            }
-});
-
-$app->post('/createForumComment', function() use ($app) {
-    
-    $response = array();
-
-    $r = json_decode($app->request->getBody());
-    verifyRequiredParams(['comment', 'course_id'],$r->forum);
-    $db = new DbHandler();
-
-    $cfc_comment = $db->purify($r->forum->comment);
-    $cfc_course_id = $db->purify($r->forum->course_id);
-    $cfc_user_id = 0;
-    $cfc_time_posted = date('Y-m-d h:i:s');
-    
-    //check if course exist
-    $isCourseExists = $db->getOneRecord("SELECT 1 FROM course WHERE course_id = '$cfc_course_id'");
-    if($isCourseExists){
-        
-        $table_name = "course_forum_comment";
-        $column_names = ['cfc_comment', 'cfc_course_id', 'cfc_user_id', 'cfc_time_posted'];
-        $values = [$cfc_comment, $cfc_course_id, $cfc_user_id, $cfc_time_posted];
-        $result = $db->insertToTable($values, $column_names, $table_name);
-
-        if ($result != NULL) {
-            $response["status"] = "success";
-            $response["message"] = "Comment created successfully";
-            $response["less_id"] = $result;
-
-            //log action
-/*            $log_details = "Created New Lesson: $less_title (ID: $result)";
-            $db->logAction($log_details);            */
-
-            echoResponse(200, $response);
-        } else {
-            $response["status"] = "error";
-            $response["message"] = "Failed to post comment. Please try again";
-            echoResponse(201, $response);
-        }            
-    }else{
-        $response["status"] = "error";
-        //$response['message'] = $r->module;
-        $response["message"] = "Course does not exist!";
         echoResponse(201, $response);
     }
 });
