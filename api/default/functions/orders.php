@@ -156,11 +156,11 @@ $app->post('/createOrderItem', function() use ($app) {
             <p>
             " . $course['course_title'] . " - ". $item_qty*4 ." months
             </p>
-            <p>To access your courses, please login to the Trenova Mobile App and go to My Subscription in the menu.</p>
-            <p>Thank you for using Trenova.</p>
+            <p>To access your courses, please login to the Learnnova Mobile App and go to My Subscription in the menu.</p>
+            <p>Thank you for using Learnnova.</p>
             <p>NOTE: please DO NOT REPLY to this email.</p>
-            <p><br><strong>Trenova App</strong></p>";
-                $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$session['trenova_user']['user_email']], $subject, $body);
+            <p><br><strong>Learnnova App</strong></p>";
+                $swiftmailer->sendmail('info@tulabyte.net', 'Learnnova', [$session['trenova_user']['user_email']], $subject, $body);
             }
 
             $response['item_id'] = $item_id;

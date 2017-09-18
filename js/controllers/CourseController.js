@@ -22,14 +22,20 @@ app.controller('ModalInstanceCtrl', ['$scope', 'Upload', '$rootScope', '$modalIn
  var uploadVideoUrl = 'api/default/uploadVideo.php';
 
   $scope.course = course;
+  $scope.vimeo = {};
   if(module) {
     $scope.module = module;
     $scope.module.less_number = parseInt($scope.module.less_number);
+    // $scope.vimeo.url = 'https://vimeo.com/' + $scope.module.less_video;
     console.log(module);
   } else {
     $scope.module = {};
   }
   $scope.error = undefined;
+
+  $scope.updateVimeo = function() {
+    // $scope.vimeo.url = 'https://vimeo.com/' + $scope.module.less_video;
+  };
 
   $scope.editModule = function(module) {
     module.less_course_id = $scope.course.course_id;
@@ -314,7 +320,7 @@ app.controller('CourseController', ['$scope', 'Upload', '$rootScope', '$modal', 
           $scope.course.course_price = parseFloat ($scope.course.course_price);
           $scope.course.course_term = parseInt ($scope.course.course_term);
           console.log($scope.course_class_id);
-          $scope.loadLessons($scope.course_class_id);
+          $scope.loadLessons($scope.course.course_id);
           // $rootScope.toasterPop('success','Action Successful!',results.message);
         } else {
           $rootScope.toasterPop('error','Oops!',results.message);

@@ -183,7 +183,7 @@ $app->get('/denyPayment', function() use ($app) {
         $swiftmailer = new mySwiftMailer();
         $subject = "Your payment has been DENIED";
         $body = "<p>Hello,</p>
-    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the Trenova Mobile App:</p>
+    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the Learnnova Mobile App:</p>
     <p>
     Date of Payment: ".$payment['pay_bank_date']."<br>
     Teller/Transaction Number: " . $payment['pay_bank_ref'] . "<br>
@@ -191,10 +191,10 @@ $app->get('/denyPayment', function() use ($app) {
     </p>
     <p>We are sorry to inform you that we could NOT find any records to verify your payment, therefore we had to DENY it.</p>
     <p>Please go to your Orders and try to make payment for it again, using the correct payment details this time around. If you have further issues, please send an email to training@trenova.com.</p>
-    <p>Thank you for using Trenova.</p>
+    <p>Thank you for using Learnnova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>Trenova App</strong></p>";
-        $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
+    <p><br><strong>Learnnova App</strong></p>";
+        $swiftmailer->sendmail('info@tulabyte.net', 'Learnnova', [$payment['user_email']], $subject, $body);
 
         //return success
         $response['status'] = "success";
@@ -235,7 +235,7 @@ $app->get('/confirmPayment', function() use ($app) {
         $swiftmailer = new mySwiftMailer();
         $subject = "Your payment has been CONFIRMED";
         $body = "<p>Hello,</p>
-    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the Trenova Mobile App:</p>
+    <p>You submitted the following bank payment details for Order ".$payment['pay_order_id']." via the Learnnova Mobile App:</p>
     <p>
     Date of Payment: ".$payment['pay_bank_date']."<br>
     Teller/Transaction Number: " . $payment['pay_bank_ref'] . "<br>
@@ -243,10 +243,10 @@ $app->get('/confirmPayment', function() use ($app) {
     </p>
     <p>We are pleased to inform you that your payment has been CONFIRMED.</p>
     <p>Your subscription is being activated at the moment. You will be notified once it is ready.</p>
-    <p>Thank you for using Trenova.</p>
+    <p>Thank you for using Learnnova.</p>
     <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>Trenova App</strong></p>";
-        $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
+    <p><br><strong>Learnnova App</strong></p>";
+        $swiftmailer->sendmail('info@tulabyte.net', 'Learnnova', [$payment['user_email']], $subject, $body);
 
         /*// send push notification
         $push = new pushHandler();
@@ -265,14 +265,29 @@ $app->get('/confirmPayment', function() use ($app) {
 
             // loop through order items
             foreach ($user_order_items as $item) {
-                // create subscription for order
-                $table_name = "subscription";
-                $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
-                $values = [$payment['pay_user_id'], $item['item_course_id'], date("Y-m-d h:i:s"), $item['item_qty']*4, 'ACTIVE', $payment['pay_order_id']];
-                $itemresult = $db->insertToTable($values, $column_names, $table_name);
+                // create subscription for order if it doesn't already exist
 
-                // add course to course list
-                $course_list .= "<br>" . $item['course_title'] . " - ". $item['item_qty']*4 ." months";
+                $sub = $db->getOneRecord("SELECT sub_id, sub_months FROM subscription WHERE sub_course_id='".$item['item_course_id']."' AND sub_user_id='".$payment['pay_user_id']."' AND sub_status='ACTIVE'");
+
+                if ($sub) {
+                    // user has active sub, add months
+                    $table = "subscription";
+                    $columns = ['sub_months'=> ($sub['sub_months'] + $item['item_qty']*4) ];
+                    $where = ['sub_id'=>$sub['sub_id']];
+                    $itemresult = $db->updateInTable($table, $columns, $where);
+
+                    // add course to course list printout
+                    $course_list .= "<br>" . $item['course_title'] . " - (extended by) ". $item['item_qty']*4 ." months";
+                } else {
+                    // no active sub, create new one
+                    $table_name = "subscription";
+                    $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
+                    $values = [$payment['pay_user_id'], $item['item_course_id'], date("Y-m-d h:i:s"), $item['item_qty']*4, 'ACTIVE', $payment['pay_order_id']];
+                    $itemresult = $db->insertToTable($values, $column_names, $table_name);
+
+                    // add course to course list printout
+                    $course_list .= "<br>" . $item['course_title'] . " - ". $item['item_qty']*4 ." months";
+                }
             }
         } else {
             // order is a bundle, get order item, which contains bundle id
@@ -305,43 +320,62 @@ $app->get('/confirmPayment', function() use ($app) {
                     break;
             }
 
-            // loop through bundle items
-            foreach ($bundle_items as $item) {
-                // create subscription for order
-                $table_name = "subscription";
-                $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
-                $values = [$payment['pay_user_id'], $item['course_id'], date("Y-m-d h:i:s"), $months, 'ACTIVE', $payment['pay_order_id']];
-                $itemresult = $db->insertToTable($values, $column_names, $table_name);
+            if($bundle_items) {
+                // loop through bundle items
+                foreach ($bundle_items as $item) {
+                    // create subscription for order if it doesn't exist
+                    $sub = $db->getOneRecord("SELECT sub_id, sub_months FROM subscription WHERE sub_course_id='".$item['course_id']."' AND sub_user_id='".$payment['pay_user_id']."' AND sub_status='ACTIVE'");
 
-                // add course to course list
-                $course_list .= "<br>" . $item['course_title'] . " - ". $months ." months";
-            }
+                    if($sub) {
+                        // user has active sub, add months
+                        $table = "subscription";
+                        $columns = ['sub_months'=> ($sub['sub_months'] + $months) ];
+                        $where = ['sub_id'=>$sub['sub_id']];
+                        $itemresult = $db->updateInTable($table, $columns, $where);
 
-        }
+                        // add course to course list printout
+                        $course_list .= "<br>" . $item['course_title'] . " - (extended by) ". $months ." months";
+                    } else {
+                        $table_name = "subscription";
+                        $column_names = ['sub_user_id', 'sub_course_id', 'sub_date_started', 'sub_months', 'sub_status', 'sub_order_id'];
+                        $values = [$payment['pay_user_id'], $item['course_id'], date("Y-m-d h:i:s"), $months, 'ACTIVE', $payment['pay_order_id']];
+                        $itemresult = $db->insertToTable($values, $column_names, $table_name);
 
-        // notify user of subscriptions
-        $swiftmailer = new mySwiftMailer();
-        $subject = "New Subscription(s) Activated";
-        $body = "<p>Hello,</p>
-    <p>The following subscription(s) have been activated for you:</p>
-    <p>
-    $course_list
-    </p>
-    <p>To access your courses, please login to the Trenova Mobile App and go to My Subscriptions in the menu.</p>
-    <p>Thank you for using Trenova.</p>
-    <p>NOTE: please DO NOT REPLY to this email.</p>
-    <p><br><strong>Trenova App</strong></p>";
-        $swiftmailer->sendmail('info@tulabyte.net', 'Trenova', [$payment['user_email']], $subject, $body);
-            
-        if($itemresult) {
-            //return success
-            $response['status'] = "success";
-            $response["message"] = "Payment confirmed successfully! Subscriptions have been activated and user has been notified";
-            echoResponse(200, $response);
-        } else {
-            $response['status'] = "error";
-            $response["message"] = "Payment confirmed BUT we ran into an issue while trying to activate subscriptions!";
-            echoResponse(201, $response);    
+                        // add course to course list
+                        $course_list .= "<br>" . $item['course_title'] . " - ". $months ." months";
+                    }
+                }
+
+                // notify user of subscriptions
+                $swiftmailer = new mySwiftMailer();
+                $subject = "New Subscription(s) Activated";
+                $body = "<p>Hello,</p>
+            <p>The following subscription(s) have been activated for you:</p>
+            <p>
+            $course_list
+            </p>
+            <p>To access your courses, please login to the Learnnova Mobile App and go to My Subscriptions in the menu.</p>
+            <p>Thank you for using Learnnova.</p>
+            <p>NOTE: please DO NOT REPLY to this email.</p>
+            <p><br><strong>Learnnova App</strong></p>";
+                $swiftmailer->sendmail('info@tulabyte.net', 'Learnnova', [$payment['user_email']], $subject, $body);
+                    
+                if($itemresult) {
+                    //return success
+                    $response['status'] = "success";
+                    $response["message"] = "Payment confirmed successfully! Subscriptions have been activated and user has been notified";
+                    echoResponse(200, $response);
+                } else {
+                    $response['status'] = "error";
+                    $response["message"] = "Payment confirmed BUT we ran into an issue while trying to activate subscriptions!";
+                    echoResponse(201, $response);    
+                }
+            } else {
+                $response['status'] = "error";
+                $response["message"] = "Payment confirmed BUT the bundle has no items to activate!";
+                echoResponse(201, $response); 
+            }   
+
         }
     } else {
         $response['status'] = "error";

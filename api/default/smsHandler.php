@@ -7,31 +7,6 @@ class smsHandler {
 	function __construct() {     
         // include config
         require_once '../config.php';
-
-        //webservice classes needed
-		require_once("../libs/smslive247/SMSSiteUser.php");
-
-	    /*  
-			YOUR SMSLIVE247.COM ACCOUNT INFORMATION
-	        Your Reseller Email is the email you registered with on SMSLive247.com. You should
-	        create a sub-account under "SMS Hosting" and assign the sub-account a password. See
-	        the Readme.doc on how this is done or call support on (234)08057076520.
-	    */
-		define('SMSLiveResellerEmail', "yemgab@yahoo.com", true);
-		define('SMSLiveSubAccountName', "TRENOVA", true);
-		define('SMSLiveSubAccountPassword', "trenova1720", true);
-
-	     /*  
-			YOUR PROXY SERVER SETTINGS
-	        Set ProxyHost to your proxy IP or Hostname *ONLY* if your webserver connects to 
-	        the Internet thru a proxy server. This is usually the case if you are running
-	        the webserver from your local computer. Please Set ProxyHost = "" if you host
-	        on a paid hosting company.
-	    */
-		define('ProxyHost', "", true);
-		define('ProxyPort', "", true);
-		define('ProxyUsername', "", true);
-		define('ProxyPassword', "", true);
     }
 
     // send an sms
@@ -39,27 +14,81 @@ class smsHandler {
 	SUBMIT A REQUEST TO SEND THE SMS VIA THE HTTP API
 	=====================================================*/
 	function SendSMS ($message, $sender, $sendto, $msgType) {
+
+		// submit these variables to the server
+		$data = array(	'cmd' => SMS_CMD, 
+						'owneremail' => SMS_OWNEREMAIL,
+						'subacct' => SMS_SUBACCT,
+						'subacctpwd' => SMS_SUBACCTPWD,
+						'message' => $message, 
+						'sender' => $sender, 
+						'sendto' => $sendto, 
+						'msgtype' => $msgType);
+						
+						//var_dump($data); die;				
 		
-		$UserObj = new SMSSiteUser; //create an SMS_User object
+		// send a request to the API url
+		list($header, $content) = $this->PostRequest("http://www.smslive247.com/http/index.aspx?", $data);
 
-		//call the login method
-		$res = $UserObj->Login(SMSLiveResellerEmail.":".SMSLiveSubAccountName, SMS_SUBACCT, SMS_SUBACCTPWD);
-
-		$auth_token = $res['LoginResult']['ExtraMessage'];
-
-		//create the SMS object
-		$newSMS = array('Message'=>$message,
-			'MessageType'=>'TEXT',			//TEXT or FLASH
-			'MessageID'=>0,					//0 = new message
-			'MessageFolder'=>'SENT_FOLDER',	//required
-			'DeliveryEmail'=>'',			//optional
-			'Destination'=>array('string'=>$sendto), // recipient
-			'CallBack'=>$sender);			//SenderID: max 11 chars
-
-		//call the SendSMS method
-		$res = $UserObj->SendSMS($auth_token, $newSMS);
-
-		return $res['SendSMSResult'];
+		 // var_dump($header);
+		 // echo "<br>";
+		 // var_dump ($content);
+		 // die;
 	}
+
+	/*=============================================================================================
+	** The function to post a HTTP Request to the provided url passing the $_data array to the API
+	===============================================================================================*/
+	 
+	function PostRequest($url, $_data) {
+	 
+	    // convert variables array to string:
+	    $data = array();    
+	    while(list($n,$v) = each($_data)){
+	        $data[] = "$n=$v";
+	    }    
+	    $data = implode('&', $data);
+	    // format --> test1=a&test2=b etc.
+	 
+	    // parse the given URL
+	    $url = parse_url($url);
+	    if ($url['scheme'] != 'http') { 
+	        die('Only HTTP request are supported !');
+	    }
+	 
+	    // extract host and path:
+	    $host = $url['host'];
+	    $path = $url['path'];
+	 
+	    // open a socket connection on port 80
+	    $fp = fsockopen($host, 80);
+	 
+	    // send the request headers:
+	    fputs($fp, "POST $path HTTP/1.1\r\n");
+	    fputs($fp, "Host: $host\r\n");
+	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
+	    fputs($fp, "Content-length: ". strlen($data) ."\r\n");
+	    fputs($fp, "Connection: close\r\n\r\n");
+	    fputs($fp, $data);
+	 
+	    $result = ''; 
+	    while(!feof($fp)) {
+	        // receive the results of the request
+	        $result .= fgets($fp, 128);
+	    }
+	 
+	    // close the socket connection:
+	    fclose($fp);
+	 
+	    // split the result header from the content
+	    $result = explode("\r\n\r\n", $result, 2);
+	 
+	    $header = isset($result[0]) ? $result[0] : '';
+	    $content = isset($result[1]) ? $result[1] : '';
+	 
+	    // return as array:
+	    return array($header, $content);
+	}
+
 
 }

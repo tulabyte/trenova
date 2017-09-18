@@ -22,5 +22,6 @@ angular.module('app', [
     'datatables',
     'ngFileUpload',
     'ngCsvImport',
-    "chart.js"
+    "chart.js",
+    'vimeoEmbed'
 ]);

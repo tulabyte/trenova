@@ -71,12 +71,13 @@
             </div>
           
             <div class="form-group">
-              <input type="checkbox" ng-model="previewVideo" id="previewVid">
-              <label for="previewVid" class="btn btn-primary">Preview Video </label>
+              <input type="checkbox" ng-model="previewVideo" id="previewVid" ng-click="updateVimeo()">
+              <label for="previewVid" class="btn btn-primary" ng-click="updateVimeo()">Preview Video {{module.less_video}} </label>
             </div>
 
             <div class="form-group" ng-if="previewVideo">
-              <iframe src="{{module.less_video}}" frameborder="1"></iframe>
+              <!-- <iframe src="{{module.less_video}}" frameborder="1"></iframe> -->
+              <vimeo-video player-id="video1" player-width="360" player-opts="vimeo" video-id="module.less_video"></vimeo-video>
             </div>
 
 

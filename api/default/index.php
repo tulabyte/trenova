@@ -24,6 +24,7 @@ require_once 'passwordHash.php';
 require_once 'mySwiftMailer.php';
 require_once 'pushHandler.php';
 require '.././libs/Slim/Slim.php';
+require '.././libs/vimeo.php/autoload.php';
 
 \Slim\Slim::registerAutoloader();
 
