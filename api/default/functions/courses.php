@@ -894,7 +894,7 @@ $app->get('/getCourseDetails', function() use ($app) {
         $ratedbyme = $db->getOneRecord("SELECT * FROM course_rating WHERE cr_course_id='$course_id' AND cr_user_id = '$user_id' ");
         $response['course_ratedbyme'] = $ratedbyme ? true : false;
         // course in my subs
-        $inmysubs = $db->getOneRecord("SELECT sub_date_started, sub_months, sub_status, DATE_ADD(sub_date_started, INTERVAL sub_months MONTH) AS sub_expiry_date FROM subscription WHERE sub_course_id='$course_id' AND sub_user_id = '$user_id' AND sub_status = 'ACTIVE' ORDER BY sub_date_started DESC");
+        $inmysubs = $db->getOneRecord("SELECT sub_course_id, sub_date_started, sub_months, sub_status, DATE_ADD(sub_date_started, INTERVAL sub_months MONTH) AS sub_expiry_date FROM subscription WHERE sub_course_id='$course_id' AND sub_user_id = '$user_id' AND sub_status = 'ACTIVE' ORDER BY sub_date_started DESC");
         $response['course_inmysubs'] = $inmysubs ? true : false;
         $response['course_active_sub'] = $inmysubs;
 
