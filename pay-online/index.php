@@ -33,8 +33,8 @@ if(!mysql_num_rows($payment_rs) || $payment['pay_online_ref'] != $_GET['ref']) {
         <div class="row">
             <!-- /.col-md-8 -->
             <div class="col-sm-12 col-xs-12" align="center">
-                <img src="img/fta-logo.png" alt="<?php echo $config['fullname']; ?>" width="150px">
-                <h3>Learnova</h3>
+                <img src="img/learnnova-logo.png" alt="<?php echo $config['fullname']; ?>" width="150px">
+                <h3>Learnnova</h3>
             </div>
             <!-- /.col-md-4 -->
         </div>
@@ -44,7 +44,7 @@ if(!mysql_num_rows($payment_rs) || $payment['pay_online_ref'] != $_GET['ref']) {
         <div class="row">
 
             <div class="panel panel-warning col-sm-12 col-xs-12">
-              <div class="panel-heading">
+              <div class="panel-heading" style="background-color: #1B5B81;">
                 <h3 class="panel-title">YOUR PAYMENT DETAILS</h3>
               </div>
               <div class="panel-body">

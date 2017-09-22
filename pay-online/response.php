@@ -50,11 +50,11 @@ if (isset($_GET['gtpay_tranx_id'])) {
     case 'G300':
     default: $pay_status = 'FAILED';
   }
-  $updateSQL = sprintf("UPDATE payment SET pay_status = '$pay_status' WHERE pay_id = %s", GetSQLValueString($transaction['gtpay_payment_id'], "int"));
+  $updateSQL = sprintf("UPDATE user_payment SET pay_status = '$pay_status' WHERE pay_id = %s", GetSQLValueString($transaction['gtpay_payment_id'], "int"));
   $Result3 = mysql_query($updateSQL, $dbconn) or die('Update Payment Query:'. mysql_error());
 
     // get payment details from db
-    $payment_sql = sprintf("SELECT pay_id, pay_amount, pay_order_id, pay_user_id, pay_online_ref, pay_time_initiated, user_fullname, user_email FROM payment LEFT JOIN user ON pay_user_id = user_id WHERE pay_id = %s ", GetSQLValueString($transaction['gtpay_payment_id'],"int"));
+    $payment_sql = sprintf("SELECT pay_id, pay_amount, pay_order_id, pay_user_id, pay_online_ref, pay_time_initiated, user_fullname, user_email FROM user_payment LEFT JOIN user ON pay_user_id = user_id WHERE pay_id = %s ", GetSQLValueString($transaction['gtpay_payment_id'],"int"));
     $payment_rs = mysql_query($payment_sql, $dbconn) or die(mysql_error());
     $payment = mysql_fetch_assoc($payment_rs);
     extract($payment);
@@ -134,8 +134,8 @@ if (isset($_GET['gtpay_tranx_id'])) {
         <div class="row">
             <!-- /.col-md-8 -->
             <div class="col-sm-12 col-xs-12" align="center">
-                <img src="img/fta-logo.png" alt="<?php echo $config['fullname']; ?>" width="150px">
-                <h3>FITC Training</h3>
+                <img src="img/learnnova-logo.png" alt="<?php echo $config['fullname']; ?>" width="150px">
+                <h3>Learnnova</h3>
             </div>
             <!-- /.col-md-4 -->
         </div>

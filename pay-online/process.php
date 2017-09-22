@@ -13,7 +13,7 @@ if(!mysql_num_rows($payment_rs) || $payment['pay_online_ref'] != $_GET['ref']) {
 }
 
 // parameters
-$gtpay_mert_id = '686';
+$gtpay_mert_id = '8682';
 $gtpay_tranx_id = $payment['pay_online_ref'];
 $gtpay_tranx_amt = $payment['pay_amount']*100;
 $gtpay_tranx_curr = '566';
@@ -21,16 +21,13 @@ $gtpay_user_id = $payment['pay_user_id'];
 $txn_date = date('Y-m-d h:i:s');
 $gtpay_cust_name = $payment['user_fullname'];
 $gtpay_tranx_memo = $gtpay_cust_name."(".$payment['pay_user_id']."):Course.Purchase.on.Learnova.Training.Mobile.($txn_date)";
-//$gtpay_tranx_noti_url = "https://www.fitc-ng.com/fitc-training/pay-online/response.php?gtpay_tranx_id=$gtpay_tranx_id";
-$gtpay_tranx_noti_url = "localhost/lenova/trenova/pay-online/response.php?gtpay_tranx_id=$gtpay_tranx_id";
-$gateway = 'https://ibank.gtbank.com/GTPay/Tranx.aspx';
+$gtpay_tranx_noti_url = "http://tulabyte.net/trenova-demo/pay-online/response.php?gtpay_tranx_id=$gtpay_tranx_id";
+//$gateway = 'https://ibank.gtbank.com/GTPay/Tranx.aspx';
+$gateway = 'http://gtweb2.gtbank.com/orangelocker/gtpaym/tranx.aspx';
 $gtpay_token = bin2hex(openssl_random_pseudo_bytes(25));
 
 // generate gt pay transaction hash
-$gtpay_fitc_hash = 'D3D1D05AFE42AD50818167EAC73C109168A0F108F32645C8B59E897FA930DA44F9230910DAC9E20641823799A107A02068F7BC0F4CC41D2952E249552255710F
-Add Comment
-
-';
+$gtpay_fitc_hash = 'D3D1D05AFE42AD50818167EAC73C109168A0F108F32645C8B59E897FA930DA44F9230910DAC9E20641823799A107A02068F7BC0F4CC41D2952E249552255710F';
 $hash_string = $gtpay_mert_id . $gtpay_tranx_id . $gtpay_tranx_amt . $gtpay_tranx_curr . $gtpay_user_id . $gtpay_tranx_noti_url . $gtpay_fitc_hash ;
 // echo $hash_string;
 $gtpay_tranx_hash = hash('sha512', $hash_string, false);

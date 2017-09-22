@@ -138,7 +138,7 @@ if (isset($_GET['gtpay_tranx_id'])) {
         <div class="row">
             <!-- /.col-md-8 -->
             <div class="col-sm-12 col-xs-12" align="center">
-                <img src="img/fta-logo.png" alt="<?php echo $config['fullname']; ?>" width="150px">
+                <img src="img/learnnova-logo.png" alt="<?php echo $config['fullname']; ?>" width="150px">
                 <h3>Learnova Training</h3>
             </div>
             <!-- /.col-md-4 -->

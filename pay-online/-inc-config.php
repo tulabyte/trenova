@@ -5,20 +5,20 @@
 $config = array();
 
 //Organization's Full name e.g. Alphamead Facilities & Management Services Ltd
-$config['fullname'] = 'Learnova';
+$config['fullname'] = 'Learnnova';
 
 //Website's Name/Title
 $config['title'] = 'Pay Online | Learnova Application';
 
 //Organization's Short name e.g. AMF
-$config['shortname'] = 'Learnova';
+$config['shortname'] = 'Learnnova';
 
 //Sender Email - email that will appear as sender email in outgoing notifications
 //This email must exist on the server
-$config['sender'] = 'info@learnova.com';
+$config['sender'] = 'info@learnnova.com';
 
 //Notification Email - email that will receive admin notifications
-$config['notify'] = 'info@learnova.com';
+$config['notify'] = 'info@learnnova.com';
 
 //Site Root URL - e.g. http://amfacilities.com/recruitment.
 //This is the URL for the website.
