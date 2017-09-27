@@ -21,7 +21,7 @@ $gtpay_user_id = $payment['pay_user_id'];
 $txn_date = date('Y-m-d h:i:s');
 $gtpay_cust_name = $payment['user_fullname'];
 $gtpay_tranx_memo = $gtpay_cust_name."(".$payment['pay_user_id']."):Course.Purchase.on.Learnova.Training.Mobile.($txn_date)";
-$gtpay_tranx_noti_url = "http://tulabyte.net/trenova-demo/pay-online/response.php?gtpay_tranx_id=$gtpay_tranx_id";
+$gtpay_tranx_noti_url = "http://tulabyte.net/trenova/pay-online/response.php?gtpay_tranx_id=$gtpay_tranx_id";
 //$gateway = 'https://ibank.gtbank.com/GTPay/Tranx.aspx';
 $gateway = 'http://gtweb2.gtbank.com/orangelocker/gtpaym/tranx.aspx';
 $gtpay_token = bin2hex(openssl_random_pseudo_bytes(25));

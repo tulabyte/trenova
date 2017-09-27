@@ -10,7 +10,7 @@ if (isset($_GET['gtpay_tranx_id'])) {
     //get transaction info from db
     $transactionSQL = sprintf("SELECT * FROM gtpay_transaction WHERE gtpay_tranx_id = %s", 
       GetSQLValueString($_GET['gtpay_tranx_id'], "text"));
-    //die($transactionSQL);
+    // die($transactionSQL);
     $transactionRS = mysql_query($transactionSQL, $dbconn) or die('Tranx Query:'. mysql_error());
     // found transaction?
     if(mysql_num_rows($transactionRS) < 1) {
